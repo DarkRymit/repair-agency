@@ -21,6 +21,9 @@ public class RepairWork {
     @JoinColumn(name = "repair_work_id")
     private RepairWork parentID;
 
+    @Column(nullable = false)
+    private String name;
+
     @Column(nullable = false, precision=19, scale=4)
     private BigDecimal priceAmount;
 
