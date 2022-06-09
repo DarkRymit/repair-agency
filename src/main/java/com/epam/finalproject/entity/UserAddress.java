@@ -32,4 +32,17 @@ public class UserAddress {
     private String localAddress;
 
     private String postalCode;
+
+    @Override
+    public String toString() {
+        return "UserAddress{" +
+                "id=" + id +
+                ", user=" + user.getId() +
+                ", country='" + country + '\'' +
+                ", state='" + state + '\'' +
+                ", city='" + city + '\'' +
+                ", localAddress='" + localAddress + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                '}';
+    }
 }
