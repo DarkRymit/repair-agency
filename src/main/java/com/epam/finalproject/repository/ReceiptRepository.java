@@ -4,10 +4,12 @@ import com.epam.finalproject.entity.Receipt;
 import com.epam.finalproject.entity.ReceiptStatus;
 import com.epam.finalproject.entity.ReceiptStatusEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Repository
 public interface ReceiptRepository extends JpaRepository<Receipt, Long> {
     List<Receipt> findAllByUser_Username(String username);
     List<Receipt> findAllByMaster_Username(String username);
