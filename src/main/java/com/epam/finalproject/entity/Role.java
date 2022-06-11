@@ -12,7 +12,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "roles")
 @Data
-public class Role implements GrantedAuthority {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,11 +32,6 @@ public class Role implements GrantedAuthority {
     public Role(final RoleEnum name) {
         super();
         this.name = name;
-    }
-
-    @Override
-    public String getAuthority() {
-        return name.name();
     }
 
     @Override
