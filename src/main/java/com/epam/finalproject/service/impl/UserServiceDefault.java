@@ -38,7 +38,7 @@ public class UserServiceDefault implements UserService {
                     .lastName(form.getLastName())
                     .phone(form.getPhone())
                     .build();
-            Role role = roleRepository.findByName(RoleEnum.ROLE_UNVERIFIED).orElseThrow();
+            Role role = roleRepository.findByName(RoleEnum.UNVERIFIED).orElseThrow();
             user.setRoles(Set.of(role));
             user.setWallets(new HashSet<>());
             userRepository.save(user);

@@ -53,7 +53,7 @@ class UserRepositoryTest {
                 .lastName("Strike")
                 .phone("+380 63 108 7167")
                 .build();
-        Role role = roleRepository.findByName(RoleEnum.ROLE_UNVERIFIED).orElseThrow();
+        Role role = roleRepository.findByName(RoleEnum.UNVERIFIED).orElseThrow();
         user.setRoles(Set.of(role));
         user.setWallets(new HashSet<>());
         userRepository.save(user);
@@ -93,7 +93,7 @@ class UserRepositoryTest {
 
     @Test
     void findALLByRoles_Name() {
-        List<User> users = userRepository.findALLByRoles_Name(RoleEnum.ROLE_UNVERIFIED);
+        List<User> users = userRepository.findALLByRoles_Name(RoleEnum.UNVERIFIED);
         assertFalse(users.isEmpty());
     }
 }

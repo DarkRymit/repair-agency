@@ -6,12 +6,12 @@ insert into wallets (money_amount, money_currency, name, user_id) values (100.0,
 insert into wallets (money_amount, money_currency, name, user_id) values (100.0,'USD','Defaut',2);
 insert into wallets (money_amount, money_currency, name, user_id) values (100.0,'USD','Special',1);
 
-insert into roles (name) values ('ROLE_UNVERIFIED');
-insert into roles (name) values ('ROLE_BLOCKED');
-insert into roles (name) values ('ROLE_CUSTOMER');
-insert into roles (name) values ('ROLE_MASTER');
-insert into roles (name) values ('ROLE_MANAGER');
-insert into roles (name) values ('ROLE_ADMIN');
+insert into roles (name) values ('UNVERIFIED');
+insert into roles (name) values ('BLOCKED');
+insert into roles (name) values ('CUSTOMER');
+insert into roles (name) values ('MASTER');
+insert into roles (name) values ('MANAGER');
+insert into roles (name) values ('ADMIN');
 
 insert into user_has_role (user_id, role_id) values (1,1);
 insert into user_has_role (user_id, role_id) values (1,3);

@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
+    public static final String SpringSecurityRoleMarker = "ROLE_";
     String username;
 
     String password;
@@ -28,7 +29,7 @@ public class UserDetailsImpl implements UserDetails {
     public static UserDetailsImpl of(User user) {
         Set<GrantedAuthority> authorities = user.getRoles()
                 .stream()
-                .map((Function<Role, GrantedAuthority>) role -> new SimpleGrantedAuthority(role.getName().name()))
+                .map((Function<Role, GrantedAuthority>) role -> new SimpleGrantedAuthority(SpringSecurityRoleMarker + role.getName().name()))
                 .collect(Collectors.toSet());
         return new UserDetailsImpl(user.getUsername(),user.getPassword(),authorities);
     }
@@ -45,7 +46,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;//roles.stream().map(Role::getName).noneMatch(roleEnum -> roleEnum.equals(RoleEnum.ROLE_BLOCKED));
+        return true;//roles.stream().map(Role::getName).noneMatch(roleEnum -> roleEnum.equals(RoleEnum.// BLOCKED));
     }
 
     @Override
