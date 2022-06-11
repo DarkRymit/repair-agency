@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Sign Up</title>
+
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="/css/animation.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-primary">
+    <div class="container">
+        <div class="card fadeIn shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 mb-4">Create an Account!</h1>
+                            </div>
+                            <form name="signup" method="post" th:action="@{/auth/signup}" th:object="${singUpForm}"
+                                  class="user text-center">
+                                <div class="form-floating mb-2">
+                                    <input type="text" th:field="*{username}" id="username" name="username"
+                                           class="form-control form-control-user mb-2" required placeholder="Username">
+                                    <label for="phone">Username</label>
+                                </div>
+                                <th:block th:if="${usernameError}">
+                                    <div class="alert alert-danger fadeIn" id="usernameError" role="alert">
+                                        Username already registered
+                                    </div>
+                                </th:block>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', () => {
+                                        setTimeout(() => {
+                                            const bsAlert = bootstrap.Alert.getOrCreateInstance('#usernameError');
+                                            bsAlert.close();
+                                        }, 3000);
+                                    });
+                                </script>
+                                <div class="row row-cols-2 gx-2 mb-2">
+                                    <div class="form-floating">
+                                        <input type="text" th:field="*{firstName}" id="firstName" name="firstName"
+                                               class="form-control form-control-user" required placeholder="First Name">
+                                        <label for="firstName">First Name</label>
+                                    </div>
+                                    <div class="form-floating">
+                                        <input type="text" th:field="*{lastName}" id="lastName" name="lastName"
+                                               class="form-control form-control-user" required placeholder="Last Name">
+                                        <label for="lastName">Last Name</label>
+                                    </div>
+                                </div>
+                                <div class="form-floating  mb-2">
+                                    <input type="email" th:field="*{email}" id="email" name="email"
+                                           class="form-control form-control-user mb-2" required placeholder="Email">
+                                    <label for="email">Email</label>
+                                </div>
+                                <th:block th:if="${emailError}">
+                                    <div class="alert alert-danger fadeIn" id="emailAlert" role="alert">
+                                        Email already registered
+                                    </div>
+                                </th:block>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', () => {
+                                        setTimeout(() => {
+                                            const bsAlert = bootstrap.Alert.getOrCreateInstance('#emailAlert');
+                                            bsAlert.close();
+                                        }, 3000);
+                                    });
+                                </script>
+                                <div class="form-floating mb-2">
+                                    <input type="tel" th:field="*{phone}" id="phone" name="phone"
+                                           class="form-control form-control-user mb-2" required placeholder="Phone">
+                                    <label for="phone">Phone</label>
+                                </div>
+                                <div class="row row-cols-2 gx-2 mb-2">
+                                    <div class="form-floating">
+                                        <input type="password" th:field="*{password}" id="password" name="password"
+                                               class="form-control form-control-user" required placeholder="Password">
+                                        <label for="password">Password</label>
+                                    </div>
+                                    <div class="form-floating">
+                                        <input type="password" id="repassword" name="repassword"
+                                               class="form-control form-control-user" required
+                                               placeholder="Repead Password">
+                                        <label for="repassword">Repead Password</label>
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn btn-primary btn-user btn-block" value="Sign Up">
+                            </form>
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="">Forgot Password?</a>
+                            </div>
+                            <div class="text-center">
+                                <a class="small" href="">Already have an account? Login!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+</body>
+
+</html>
