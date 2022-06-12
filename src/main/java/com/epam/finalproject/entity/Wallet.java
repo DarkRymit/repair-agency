@@ -33,7 +33,7 @@ public class Wallet {
 
     @Override
     public String toString() {
-        return "Wallet{" + "id=" + id + ", name='" + name + '\'' + ", moneyAmount=" + moneyAmount + ", moneyCurrency='" + moneyCurrency + '\'' + ", user=" + user.getId() + '}';
+        return "Wallet{" + "id=" + id + ", name='" + name + '\'' + ", moneyAmount=" + moneyAmount + ", moneyCurrency='" + moneyCurrency + '\'' + ", user=" + (user != null ? user.getId() : null) + '}';
     }
 
     @Override

@@ -39,7 +39,7 @@ public class UserAddress {
     public String toString() {
         return "UserAddress{" +
                 "id=" + id +
-                ", user=" + user.getId() +
+                ", user=" + (user != null ? user.getId() : null) +
                 ", country='" + country + '\'' +
                 ", state='" + state + '\'' +
                 ", city='" + city + '\'' +
