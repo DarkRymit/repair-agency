@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "token.verify.expiration",
+      "type": "java.lang.Integer",
+      "description": "Description for token.verify.expiration."
+    },
+    {
+      "name": "token.reset.password.expiration",
+      "type": "java.lang.Integer",
+      "description": "Description for token.reset.password.expiration."
+    }
+  ] }
