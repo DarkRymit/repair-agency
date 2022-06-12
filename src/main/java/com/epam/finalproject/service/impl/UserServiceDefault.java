@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -57,4 +58,16 @@ public class UserServiceDefault implements UserService {
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
+
+    @Override
+    public boolean isUserHaveRoleWithName(User user, RoleEnum roleName) {
+        return user.getRoles().stream().map(Role::getName).anyMatch(eRole -> eRole.equals(roleName));
+    }
+
+    @Override
+    public boolean isUserNotVerified(User user) {
+        return isUserHaveRoleWithName(user,RoleEnum.UNVERIFIED);
+    }
+
+
 }
