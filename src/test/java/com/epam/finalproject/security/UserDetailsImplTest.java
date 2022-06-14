@@ -28,8 +28,8 @@ class UserDetailsImplTest {
                 .password("secretPassword")
                 .lastName("Striker")
                 .phone("+380 63 108 7168")
+                .roles(Set.of(new Role(RoleEnum.UNVERIFIED), new Role(RoleEnum.MANAGER)))
                 .build();
-        user.setRoles(Set.of(new Role(RoleEnum.UNVERIFIED), new Role(RoleEnum.MANAGER)));
     }
 
     @Test

@@ -44,6 +44,7 @@ class UserRepositoryTest {
     @Test
     @Transactional
     void addUserWithRoleAndFindByUsername() {
+        Role role = roleRepository.findByName(RoleEnum.UNVERIFIED).orElseThrow();
         User user = User.builder()
                 .username("NoneStriker")
                 .email("nonestrike@gmail.com")
@@ -51,10 +52,9 @@ class UserRepositoryTest {
                 .firstName("None")
                 .lastName("Strike")
                 .phone("+380 63 108 7167")
+                .roles(Set.of(role))
+                .wallets(new HashSet<>())
                 .build();
-        Role role = roleRepository.findByName(RoleEnum.UNVERIFIED).orElseThrow();
-        user.setRoles(Set.of(role));
-        user.setWallets(new HashSet<>());
         userRepository.save(user);
         User createdUser = userRepository.findByUsername("NoneStriker").orElseThrow();
         assertNotNull(user.getWallets());

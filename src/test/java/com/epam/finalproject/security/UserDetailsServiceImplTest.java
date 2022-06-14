@@ -43,8 +43,8 @@ class UserDetailsServiceImplTest {
                 .password("secretPassword")
                 .lastName("Striker")
                 .phone("+380 63 108 7163")
+                .roles(Set.of(new Role(RoleEnum.UNVERIFIED), new Role(RoleEnum.MASTER)))
                 .build();
-        user.setRoles(Set.of(new Role(RoleEnum.UNVERIFIED), new Role(RoleEnum.MASTER)));
         when(userRepository.findByUsername("MockStriker")).thenReturn(Optional.of(user));
     }
 
