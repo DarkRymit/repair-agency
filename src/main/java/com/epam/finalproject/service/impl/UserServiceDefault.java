@@ -8,14 +8,15 @@ import com.epam.finalproject.exceptions.SingUpException;
 import com.epam.finalproject.repository.RoleRepository;
 import com.epam.finalproject.repository.UserRepository;
 import com.epam.finalproject.service.UserService;
+import com.epam.finalproject.util.UserUtil;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @Service
 @AllArgsConstructor
@@ -27,23 +28,18 @@ public class UserServiceDefault implements UserService {
 
     PasswordEncoder passwordEncoder;
 
+    ModelMapper modelMapper;
+
     @Override
     @Transactional
     public User signUpNewUserAccount(SignUpForm form) {
         try {
-            User user = User.builder()
-                    .username(form.getUsername())
-                    .email(form.getEmail())
-                    .password(passwordEncoder.encode(form.getPassword()))
-                    .firstName(form.getFirstName())
-                    .lastName(form.getLastName())
-                    .phone(form.getPhone())
-                    .build();
-            Role role = roleRepository.findByName(RoleEnum.UNVERIFIED).orElseThrow();
-            user.setRoles(Set.of(role));
-            user.setWallets(new HashSet<>());
-            userRepository.save(user);
-            return user;
+            return getSetUpAndSave(UserUtil::createWithInitializedContainers, user -> {
+                modelMapper.map(form, user);
+                user.chainer()
+                        .password(passwordEncoder.encode(form.getPassword()))
+                        .addRole(roleRepository.findByName(RoleEnum.UNVERIFIED).orElseThrow());
+            });
         } catch (Exception e) {
             throw new SingUpException(e);
         }
@@ -69,5 +65,10 @@ public class UserServiceDefault implements UserService {
         return isUserHaveRoleWithName(user,RoleEnum.UNVERIFIED);
     }
 
-
+    private User getSetUpAndSave(Supplier<User> userSupplier, Consumer<User> userConsumer) {
+        User user = userSupplier.get();
+        userConsumer.accept(user);
+        userRepository.save(user);
+        return user;
+    }
 }
