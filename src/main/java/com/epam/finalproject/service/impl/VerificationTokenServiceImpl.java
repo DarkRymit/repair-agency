@@ -8,29 +8,25 @@ import com.epam.finalproject.repository.RoleRepository;
 import com.epam.finalproject.repository.UserRepository;
 import com.epam.finalproject.repository.VerificationTokenRepository;
 import com.epam.finalproject.service.VerificationTokenService;
-import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 @Service
 @Slf4j
 public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Value("${token.verify.expiration}")
-    private Integer EXPIRATION;
-
-    public VerificationTokenServiceImpl(VerificationTokenRepository verificationTokenRepository, UserRepository userRepository, RoleRepository roleRepository) {
-        this.verificationTokenRepository = verificationTokenRepository;
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-    }
+    private Integer EXPIRATION = 1440;
 
     VerificationTokenRepository verificationTokenRepository;
 
@@ -38,8 +34,14 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     RoleRepository roleRepository;
 
+    public VerificationTokenServiceImpl(VerificationTokenRepository verificationTokenRepository, UserRepository userRepository, RoleRepository roleRepository) {
+        this.verificationTokenRepository = verificationTokenRepository;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+    }
+
     @Override
-    public String createTokenForUser(User user) {
+    public VerificationToken createTokenForUser(User user) {
         String token = UUID.randomUUID().toString();
         VerificationToken verificationToken = VerificationToken.builder()
                 .token(token)
@@ -48,7 +50,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
                 .build();
         verificationTokenRepository.save(verificationToken);
         log.info("Create token :" + verificationToken);
-        return token;
+        return verificationToken;
     }
 
     @Override
@@ -58,10 +60,12 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Override
     public boolean isExpired(VerificationToken verificationToken) {
-        final Calendar cal = Calendar.getInstance();
-        return (verificationToken.getExpiryDate()
-                .getTime() - cal.getTime()
-                .getTime()) <= 0;
+        return isExpired(verificationToken, LocalDateTime::now);
+    }
+
+    @Override
+    public boolean isExpired(VerificationToken verificationToken, Supplier<LocalDateTime> dateSupplier) {
+        return verificationToken.getExpiryDate().isBefore(dateSupplier.get());
     }
 
     @Override
@@ -74,11 +78,8 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         verificationTokenRepository.delete(token);
     }
 
-    private Date calculateExpiryDate() {
-        final Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(new Date().getTime());
-        cal.add(Calendar.MINUTE, EXPIRATION);
-        return new Date(cal.getTime().getTime());
+    private LocalDateTime calculateExpiryDate() {
+        return LocalDateTime.now().plusMinutes(EXPIRATION);
     }
     
 }
