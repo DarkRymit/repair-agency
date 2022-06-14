@@ -2,6 +2,7 @@ package com.epam.finalproject.registration.listener;
 
 
 import com.epam.finalproject.entity.User;
+import com.epam.finalproject.entity.VerificationToken;
 import com.epam.finalproject.registration.OnRegistrationCompleteEvent;
 import com.epam.finalproject.service.VerificationTokenService;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
     private void confirmRegistration(final OnRegistrationCompleteEvent event) {
         final User user = event.getUser();
-        String token = verificationTokenService.createTokenForUser(user);
+        VerificationToken token = verificationTokenService.createTokenForUser(user);
         log.info("Create for user " + user.getUsername() + " verifyToken : " + token);
     }
 
