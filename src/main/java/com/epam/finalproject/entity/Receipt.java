@@ -27,9 +27,12 @@ public class Receipt {
     @JoinColumn(name = "master_id")
     private User master;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private RepairCategory category;
+
     @Column(precision=19, scale=4)
     private BigDecimal priceAmount;
-
 
     @Column
     private String priceCurrency;

@@ -17,6 +17,10 @@ public class RepairWork {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private RepairCategory category;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RepairWorkName name;
