@@ -17,10 +17,6 @@ public class RepairWork {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "repair_work_id")
-    private RepairWork parentID;
-
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RepairWorkName name;
@@ -31,7 +27,7 @@ public class RepairWork {
     @Column(nullable = false)
     private String priceCurrency;
 
-    @ElementCollection(targetClass = RepairWorkStatus.class)
+    @ElementCollection(targetClass = RepairWorkStatus.class,fetch = FetchType.EAGER)
     @CollectionTable(name = "repair_work_has_status",joinColumns = @JoinColumn(name = "repair_work_id"))
     @Enumerated(EnumType.STRING)
     private Set<RepairWorkStatus> statuses;

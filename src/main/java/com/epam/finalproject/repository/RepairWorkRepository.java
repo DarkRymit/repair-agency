@@ -10,7 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface RepairWorkRepository extends JpaRepository<RepairWork, Long> {
-    List<RepairWork> findAllByParentID(RepairWork parentID);
     Optional<RepairWork> findByName(RepairWorkName name);
-    List<RepairWork> findByParentIDIsNull();
 }
