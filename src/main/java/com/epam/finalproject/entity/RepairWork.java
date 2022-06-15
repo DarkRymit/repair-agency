@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "repair_works")
@@ -22,7 +22,8 @@ public class RepairWork {
     private RepairWork parentID;
 
     @Column(nullable = false)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private RepairWorkName name;
 
     @Column(nullable = false, precision=19, scale=4)
     private BigDecimal priceAmount;
@@ -30,8 +31,9 @@ public class RepairWork {
     @Column(nullable = false)
     private String priceCurrency;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "repair_work_has_repair_work_status", joinColumns = @JoinColumn(name = "repair_work_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "repair_work_status_id", referencedColumnName = "id"))
-    private Collection<RepairWorkStatus> statuses;
+    @ElementCollection(targetClass = RepairWorkStatus.class)
+    @CollectionTable(name = "repair_work_has_repair_work_status",joinColumns = @JoinColumn(name = "repair_work_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<RepairWorkStatus> statuses;
 
 }
