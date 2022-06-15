@@ -32,7 +32,7 @@ public class RepairWork {
     private String priceCurrency;
 
     @ElementCollection(targetClass = RepairWorkStatus.class)
-    @CollectionTable(name = "repair_work_has_repair_work_status",joinColumns = @JoinColumn(name = "repair_work_id"))
+    @CollectionTable(name = "repair_work_has_status",joinColumns = @JoinColumn(name = "repair_work_id"))
     @Enumerated(EnumType.STRING)
     private Set<RepairWorkStatus> statuses;
 
