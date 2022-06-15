@@ -19,3 +19,9 @@ insert into user_has_role (user_id, role_id) values (2,4);
 
 insert into user_addresses (user_id, city, country, local_address) values (1,'Kyiv','Ukraine','some street');
 
+insert into repair_works (name, price_amount, price_currency) values ('BATTERY_REPLACE',20.40,'USD');
+insert into repair_works (name, price_amount, price_currency) values ('SCREEN_REPLACE',52.40,'USD');
+
+insert into REPAIR_WORK_HAS_STATUS (REPAIR_WORK_ID, STATUSES) values (1,'VIP');
+insert into REPAIR_WORK_HAS_STATUS (REPAIR_WORK_ID, STATUSES) values (2,'VIP');
+insert into REPAIR_WORK_HAS_STATUS (REPAIR_WORK_ID, STATUSES) values (2,'SUSPENDED');
