@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
-    public static final String SpringSecurityRoleMarker = "ROLE_";
+    public static final String SPRING_SECURITY_ROLE_MARKER = "ROLE_";
     String username;
 
     String password;
@@ -38,7 +38,7 @@ public class UserDetailsImpl implements UserDetails {
     private static Set<GrantedAuthority> constructSetAuthoritiesFrom(Supplier<Collection<Role>> roleCollectionSupplier) {
         return roleCollectionSupplier.get()
                 .stream()
-                .map(role -> new SimpleGrantedAuthority(SpringSecurityRoleMarker + role.getName().name()))
+                .map(role -> new SimpleGrantedAuthority(SPRING_SECURITY_ROLE_MARKER + role.getName().name()))
                 .collect(Collectors.toSet());
     }
 
@@ -55,7 +55,7 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isAccountNonLocked() {
         return authorities.stream()
-                .noneMatch(a -> a.getAuthority().equals(SpringSecurityRoleMarker + RoleEnum.BLOCKED));
+                .noneMatch(a -> a.getAuthority().equals(SPRING_SECURITY_ROLE_MARKER + RoleEnum.BLOCKED));
     }
 
     @Override
@@ -66,6 +66,6 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return authorities.stream()
-                .noneMatch(a -> a.getAuthority().equals(SpringSecurityRoleMarker + RoleEnum.UNVERIFIED));
+                .noneMatch(a -> a.getAuthority().equals(SPRING_SECURITY_ROLE_MARKER + RoleEnum.UNVERIFIED));
     }
 }

@@ -29,7 +29,7 @@ class RoleRepositoryTest {
     @Test
     void findByName() {
         Role role = roleRepository.findByName(RoleEnum.UNVERIFIED).orElseThrow();
-        assertEquals(role.getName(), RoleEnum.UNVERIFIED);
+        assertEquals(RoleEnum.UNVERIFIED, role.getName());
     }
 
 }
