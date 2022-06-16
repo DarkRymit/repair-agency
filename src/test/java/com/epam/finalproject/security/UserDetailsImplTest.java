@@ -72,7 +72,7 @@ class UserDetailsImplTest {
     @Test
     void isEnabled() {
         UserDetails userDetails = UserDetailsImpl.of(user);
-        assertTrue(userDetails.isEnabled());
+        assertFalse(userDetails.isEnabled());
     }
 
     @Test
