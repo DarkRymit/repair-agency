@@ -54,7 +54,8 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;//roles.stream().map(Role::getName).noneMatch(roleEnum -> roleEnum.equals(RoleEnum.// BLOCKED));
+        return authorities.stream()
+                .noneMatch(a -> a.getAuthority().equals(SpringSecurityRoleMarker + RoleEnum.BLOCKED));
     }
 
     @Override
@@ -64,6 +65,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;//roles.stream().map(Role::getName).noneMatch(eRole -> eRole.equals(RoleEnum.UNVERIFIED));
+        return authorities.stream()
+                .noneMatch(a -> a.getAuthority().equals(SpringSecurityRoleMarker + RoleEnum.UNVERIFIED));
     }
 }
