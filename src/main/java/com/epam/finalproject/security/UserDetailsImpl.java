@@ -1,6 +1,7 @@
 package com.epam.finalproject.security;
 
 import com.epam.finalproject.entity.Role;
+import com.epam.finalproject.entity.RoleEnum;
 import com.epam.finalproject.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Set;
-import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Data
@@ -27,11 +28,18 @@ public class UserDetailsImpl implements UserDetails {
     Set<GrantedAuthority> authorities;
 
     public static UserDetailsImpl of(User user) {
-        Set<GrantedAuthority> authorities = user.getRoles()
+        return new UserDetailsImpl(user.getUsername(), user.getPassword(), constructSetAuthoritiesFrom(user));
+    }
+
+    private static Set<GrantedAuthority> constructSetAuthoritiesFrom(User user) {
+        return constructSetAuthoritiesFrom(user::getRoles);
+    }
+
+    private static Set<GrantedAuthority> constructSetAuthoritiesFrom(Supplier<Collection<Role>> roleCollectionSupplier) {
+        return roleCollectionSupplier.get()
                 .stream()
-                .map((Function<Role, GrantedAuthority>) role -> new SimpleGrantedAuthority(SpringSecurityRoleMarker + role.getName().name()))
+                .map(role -> new SimpleGrantedAuthority(SpringSecurityRoleMarker + role.getName().name()))
                 .collect(Collectors.toSet());
-        return new UserDetailsImpl(user.getUsername(),user.getPassword(),authorities);
     }
 
     @Override
