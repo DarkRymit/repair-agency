@@ -10,8 +10,11 @@ import java.util.Date;
 @Service
 public class PasswordResetTokenServiceImpl implements PasswordResetTokenService {
 
-    @Value("${token.reset.password.expiration}")
-    private Integer EXPIRATION;
+    private final Integer expiration;
+
+    public PasswordResetTokenServiceImpl(@Value("${token.reset.password.expiration}") Integer expiration) {
+        this.expiration = expiration;
+    }
 
 
     private Date calculateExpiryDate(final int expiryTimeInMinutes) {

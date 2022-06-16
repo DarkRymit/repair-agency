@@ -13,7 +13,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -23,15 +26,17 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith({SpringExtension.class})
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
+@TestPropertySource(properties = { "token.verify.expiration = 1440" })
 class VerificationTokenServiceImplTest {
 
-    static VerificationToken verificationToken;
+    VerificationToken verificationToken;
 
-    static User user;
+    User user;
 
-    static Role role;
+    Role role;
 
     @Mock
     UserRepository userRepository;
@@ -42,12 +47,14 @@ class VerificationTokenServiceImplTest {
     @Mock
     VerificationTokenRepository verificationTokenRepository;
 
-    @InjectMocks
+    @Value("${token.verify.expiration}")
+    Integer expiration;
+
     VerificationTokenServiceImpl verificationTokenService;
 
     @BeforeEach
     void setMockOutput() {
-
+        verificationTokenService = new VerificationTokenServiceImpl(expiration,verificationTokenRepository,userRepository,roleRepository);
         role = new Role(RoleEnum.UNVERIFIED);
         user = User.builder()
                 .id(404L)
@@ -82,7 +89,7 @@ class VerificationTokenServiceImplTest {
         when(verificationTokenRepository.findByToken("token")).thenReturn(Optional.ofNullable(verificationToken));
         VerificationToken foundToken = verificationTokenService.findByToken(verificationToken.getToken()).orElseThrow();
         assertEquals(foundToken, verificationToken);
-        assertEquals(foundToken.getToken(),"token");
+        assertEquals("token", foundToken.getToken());
     }
 
     @Test

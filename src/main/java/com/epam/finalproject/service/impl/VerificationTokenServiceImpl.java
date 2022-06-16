@@ -22,8 +22,7 @@ import java.util.function.Supplier;
 @Slf4j
 public class VerificationTokenServiceImpl implements VerificationTokenService {
 
-    @Value("${token.verify.expiration}")
-    private Integer EXPIRATION = 1440;
+    private final Integer expiration;
 
     VerificationTokenRepository verificationTokenRepository;
 
@@ -31,7 +30,8 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     RoleRepository roleRepository;
 
-    public VerificationTokenServiceImpl(VerificationTokenRepository verificationTokenRepository, UserRepository userRepository, RoleRepository roleRepository) {
+    public VerificationTokenServiceImpl(@Value("${token.verify.expiration}")Integer expiration,VerificationTokenRepository verificationTokenRepository, UserRepository userRepository, RoleRepository roleRepository) {
+        this.expiration = expiration;
         this.verificationTokenRepository = verificationTokenRepository;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -76,7 +76,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     }
 
     private LocalDateTime calculateExpiryDate() {
-        return LocalDateTime.now().plusMinutes(EXPIRATION);
+        return LocalDateTime.now().plusMinutes(expiration);
     }
     
 }
