@@ -4,7 +4,6 @@ package com.epam.finalproject.task;
 import com.epam.finalproject.repository.PasswordResetTokenRepository;
 import com.epam.finalproject.repository.VerificationTokenRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

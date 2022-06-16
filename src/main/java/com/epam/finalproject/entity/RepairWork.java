@@ -1,9 +1,9 @@
 package com.epam.finalproject.entity;
 
-import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;
 

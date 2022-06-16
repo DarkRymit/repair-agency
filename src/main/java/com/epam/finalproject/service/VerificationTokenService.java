@@ -4,7 +4,6 @@ import com.epam.finalproject.entity.User;
 import com.epam.finalproject.entity.VerificationToken;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 import java.util.function.Supplier;
 

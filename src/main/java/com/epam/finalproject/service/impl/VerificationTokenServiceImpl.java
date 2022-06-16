@@ -8,15 +8,12 @@ import com.epam.finalproject.repository.RoleRepository;
 import com.epam.finalproject.repository.UserRepository;
 import com.epam.finalproject.repository.VerificationTokenRepository;
 import com.epam.finalproject.service.VerificationTokenService;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Supplier;

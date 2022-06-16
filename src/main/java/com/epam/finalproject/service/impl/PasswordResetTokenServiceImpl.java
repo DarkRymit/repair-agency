@@ -1,7 +1,6 @@
 package com.epam.finalproject.service.impl;
 
 import com.epam.finalproject.service.PasswordResetTokenService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
