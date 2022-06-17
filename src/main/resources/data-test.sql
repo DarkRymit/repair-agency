@@ -32,3 +32,9 @@ insert into repair_works (name, price_amount, price_currency,category_id) values
 insert into REPAIR_WORK_HAS_STATUS (REPAIR_WORK_ID, STATUSES) values (1,'VIP');
 insert into REPAIR_WORK_HAS_STATUS (REPAIR_WORK_ID, STATUSES) values (2,'VIP');
 insert into REPAIR_WORK_HAS_STATUS (REPAIR_WORK_ID, STATUSES) values (2,'SUSPENDED');
+
+insert into receipt_statuses (name) values ('WAIT_FOR_PAYMENT');
+insert into receipt_statuses (name) values ('PAID');
+insert into receipt_statuses (name) values ('IN_WORK');
+insert into receipt_statuses (name) values ('DONE');
+insert into receipt_statuses (name) values ('CANCELED');
