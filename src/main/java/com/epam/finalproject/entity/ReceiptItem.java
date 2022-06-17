@@ -29,8 +29,4 @@ public class ReceiptItem {
     @Column
     private String priceCurrency;
 
-    private Integer position;
-
-    private String note;
-
 }
