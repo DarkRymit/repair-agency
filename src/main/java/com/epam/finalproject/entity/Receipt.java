@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "receipts")
@@ -26,6 +27,13 @@ public class Receipt {
     @ManyToOne
     @JoinColumn(name = "master_id")
     private User master;
+
+    @OneToMany(mappedBy = "receipt",cascade = CascadeType.ALL)
+    private Set<ReceiptItem> receiptItems;
+
+    @OneToOne(mappedBy = "receipt", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn()
+    private ReceiptDelivery receiptDelivery;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
