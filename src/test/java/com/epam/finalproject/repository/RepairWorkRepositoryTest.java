@@ -1,5 +1,6 @@
 package com.epam.finalproject.repository;
 
+import com.epam.finalproject.entity.RepairCategoryName;
 import com.epam.finalproject.entity.RepairWork;
 import com.epam.finalproject.entity.RepairWorkName;
 import com.epam.finalproject.entity.RepairWorkStatus;
@@ -22,8 +23,16 @@ class RepairWorkRepositoryTest {
 
     @Test
     void findByName() {
-        RepairWork repairWork = repairWorkRepository.findByName(RepairWorkName.BATTERY_REPLACE).orElseThrow();
+        List<RepairWork> repairWorks = repairWorkRepository.findByName(RepairWorkName.BATTERY_REPLACE);
+        assertFalse(repairWorks.isEmpty());
+    }
+
+    @Test
+    void findByNameAndCategory() {
+        RepairWork repairWork = repairWorkRepository.findByNameAndCategory_Name(RepairWorkName.BATTERY_REPLACE, RepairCategoryName.NOTEBOOK)
+                .orElseThrow();
         assertEquals(RepairWorkName.BATTERY_REPLACE, repairWork.getName());
+        assertEquals(RepairCategoryName.NOTEBOOK, repairWork.getCategory().getName());
         assertTrue(repairWork.getStatuses().contains(RepairWorkStatus.VIP));
     }
 

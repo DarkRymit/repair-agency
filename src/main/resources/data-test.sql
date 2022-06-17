@@ -19,8 +19,15 @@ insert into user_has_role (user_id, role_id) values (2,4);
 
 insert into user_addresses (user_id, city, country, local_address) values (1,'Kyiv','Ukraine','some street');
 
-insert into repair_works (name, price_amount, price_currency) values ('BATTERY_REPLACE',20.40,'USD');
-insert into repair_works (name, price_amount, price_currency) values ('SCREEN_REPLACE',52.40,'USD');
+insert into repair_categories (name) values ('NOTEBOOK');
+insert into repair_categories (name) values ('PC');
+insert into repair_categories (name) values ('MOBILE');
+
+insert into repair_works (name, price_amount, price_currency,category_id) values ('BATTERY_REPLACE',20.40,'USD',1);
+insert into repair_works (name, price_amount, price_currency,category_id) values ('SCREEN_REPLACE',52.40,'USD',1);
+insert into repair_works (name, price_amount, price_currency,category_id) values ('DATA_RECOVERY',12.10,'USD',1);
+insert into repair_works (name, price_amount, price_currency,category_id) values ('DATA_RECOVERY',10.50,'USD',2);
+insert into repair_works (name, price_amount, price_currency,category_id) values ('BATTERY_REPLACE',22.40,'USD',3);
 
 insert into REPAIR_WORK_HAS_STATUS (REPAIR_WORK_ID, STATUSES) values (1,'VIP');
 insert into REPAIR_WORK_HAS_STATUS (REPAIR_WORK_ID, STATUSES) values (2,'VIP');
