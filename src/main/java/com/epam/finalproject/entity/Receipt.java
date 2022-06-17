@@ -46,7 +46,7 @@ public class Receipt {
     private String priceCurrency;
 
     @Column(nullable = false)
-    private LocalDateTime time;
+    private LocalDateTime creationTime;
 
     private String note;
 }
