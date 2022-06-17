@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -36,4 +37,30 @@ public class RepairWork {
     @Enumerated(EnumType.STRING)
     private Set<RepairWorkStatus> statuses;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RepairWork that = (RepairWork) o;
+
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(category, that.category)) return false;
+        if (name != that.name) return false;
+        if (!Objects.equals(priceAmount, that.priceAmount)) return false;
+        if (!Objects.equals(priceCurrency, that.priceCurrency))
+            return false;
+        return Objects.equals(statuses, that.statuses);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (priceAmount != null ? priceAmount.hashCode() : 0);
+        result = 31 * result + (priceCurrency != null ? priceCurrency.hashCode() : 0);
+        result = 31 * result + (statuses != null ? statuses.hashCode() : 0);
+        return result;
+    }
 }

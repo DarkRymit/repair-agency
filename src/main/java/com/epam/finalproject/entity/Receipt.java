@@ -1,6 +1,8 @@
 package com.epam.finalproject.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -28,7 +30,8 @@ public class Receipt {
     @JoinColumn(name = "master_id")
     private User master;
 
-    @OneToMany(mappedBy = "receipt",cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "receipt",cascade = CascadeType.ALL)
+    @Fetch(value = FetchMode.SUBSELECT)
     private Set<ReceiptItem> receiptItems;
 
     @OneToOne(mappedBy = "receipt", cascade = CascadeType.ALL)
