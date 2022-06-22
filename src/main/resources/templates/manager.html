@@ -127,17 +127,13 @@
         </div>
     </nav>
     <main>
-        <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                <svg class="bi me-2" width="40" height="32">
-                    <use xlink:href="#bootstrap"/>
-                </svg>
-                <span class="fs-4">Sidebar</span>
-            </a>
+        <div class="d-flex sticky-top flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+            <div class="mb-5"></div>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="home" class="nav-link text-white" th:classappend="${#strings.equals(active,'home')} ? active"
+                    <a href="home" class="nav-link text-white"
+                       th:classappend="${#strings.equals(active,'home')} ? active"
                        aria-current="page">
                         <svg class="bi me-2" width="16" height="16">
                             <use xlink:href="#home"/>
@@ -236,57 +232,142 @@
                 </ul>
             </div>
         </div>
-        <div class="b-example-divider"></div>
+        <div class="b-example-divider sticky-top"></div>
         <div class="flex-shrink-0 customContent p-3 bg-white">
             <th:block th:if="${active} == 'orders'">
-                <table class="table table-bordered border-primary">
-                    <thead class="table-dark">
-                    <tr>
-                        <th scope="col">User</th>
-                        <th scope="col">
-                            <a href="?order=status" class="text-light text-decoration-none">Status</a>
-                        </th>
-                        <th scope="col">Master</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">
-                            <a href="?order=price" class="text-light text-decoration-none">Price</a>
-                        </th>
-                        <th scope="col">Currency</th>
-                        <th scope="col">
-                            <a href="?order=create-time" class="text-light text-decoration-none">Creation time</a>
-                        </th>
-                        <th scope="col">Delivery country</th>
-                        <th scope="col">Delivery city</th>
-                    </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                    <tr class="table-light" th:each="receipt:${receipts}">
-                        <td>
-                            <a th:href="'/user/'+${receipt.user.id}+'/profile'" class=" text-dark text-decoration-none"
-                               th:text="'@'+${receipt.user.username}"></a>
-                        </td>
-                        <td>
-                            <th:block th:switch="${receipt.receiptStatus.name.name()}">
-                                <span th:case="'WAIT_FOR_PAYMENT'">Wait for payment</span>
-                                <span th:case="'PAID'">Paid</span>
-                                <span th:case="'IN_WORK'">In_work</span>
-                                <span th:case="'DONE'">Done</span>
-                                <span th:case="'CANCELED'">Canceled</span>
-                            </th:block>
-                        </td>
-                        <td>
-                            <a th:href="'/user/'+${receipt.master.id}+'/profile'"
-                               class=" text-dark text-decoration-none" th:text="'@'+${receipt.master.username}"></a>
-                        </td>
-                        <td th:text="${receipt.category.name}">notebook</td>
-                        <td th:text="${receipt.priceAmount}">20.40</td>
-                        <td th:text="${receipt.priceCurrency}">USD</td>
-                        <td th:text="${receipt.creationTime}">14-01-2003</td>
-                        <td th:text="${receipt.receiptDelivery.country}">Ukraine</td>
-                        <td th:text="${receipt.receiptDelivery.city}">Kyiv</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-2">
+                            <ul class="list-group text-center">
+                                <li class="list-group-item">
+                                    <div class="dropdown ms-auto text-center">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                            Sort by
+                                        </button>
+                                        <ul class="dropdown-menu  dropdown-menu-center text-center"
+                                            aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="?order=status">status</a></li>
+                                            <li><a class="dropdown-item" href="?order=price">price and currency</a></li>
+                                            <li><a class="dropdown-item" href="?order=create-time">creation time</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="list-group-item list-group-item-secondary">
+                                    <button>Filter by</button>
+                                </li>
+                                <li class="list-group-item">
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseStatus">
+                                        Status
+                                    </button>
+                                    <div class="collapse px-auto" id="collapseStatus">
+                                        <div class="list-group">
+                                            <div class="form-check list-group-item list-group-item-action">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                       id="flexCheckWaitForPayment">
+                                                <label class="form-check-label" for="flexCheckWaitForPayment">
+                                                    Wait for payment
+                                                </label>
+                                            </div>
+                                            <div class="form-check list-group-item list-group-item-action">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                       id="flexCheckPaid">
+                                                <label class="form-check-label" for="flexCheckPaid">
+                                                    Paid
+                                                </label>
+                                            </div>
+                                            <div class="form-check list-group-item list-group-item-action">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                       id="flexCheckInWork">
+                                                <label class="form-check-label" for="flexCheckInWork">
+                                                    In work
+                                                </label>
+                                            </div>
+                                            <div class="form-check list-group-item list-group-item-action">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                       id="flexCheckDone">
+                                                <label class="form-check-label" for="flexCheckDone">
+                                                    Done
+                                                </label>
+                                            </div>
+                                            <div class="form-check list-group-item list-group-item-action">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                       id="flexCheckCanceled">
+                                                <label class="form-check-label" for="flexCheckCanceled">
+                                                    Canceled
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseMaster">
+                                        Master
+                                    </button>
+                                    <div class="collapse px-auto" id="collapseMaster">
+                                        <div class="list-group">
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1">@</span>
+                                                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-10">
+                            <table class="table table-bordered border-primary">
+                                <thead class="table-dark align-middle">
+                                <tr>
+                                    <th scope="col">User</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Master</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Currency</th>
+                                    <th scope="col">Creation time</th>
+                                    <th scope="col">Delivery country</th>
+                                    <th scope="col">Delivery city</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-group-divider">
+                                <tr class="table-light" th:each="receipt:${receipts}">
+                                    <td>
+                                        <a th:href="'/user/'+${receipt.user.id}+'/profile'"
+                                           class=" text-dark text-decoration-none"
+                                           th:text="'@'+${receipt.user.username}"></a>
+                                    </td>
+                                    <td>
+                                        <th:block th:switch="${receipt.receiptStatus.name.name()}">
+                                            <span th:case="'WAIT_FOR_PAYMENT'">Wait for payment</span>
+                                            <span th:case="'PAID'">Paid</span>
+                                            <span th:case="'IN_WORK'">In work</span>
+                                            <span th:case="'DONE'">Done</span>
+                                            <span th:case="'CANCELED'">Canceled</span>
+                                        </th:block>
+                                    </td>
+                                    <td>
+                                        <a th:href="'/user/'+${receipt.master.id}+'/profile'"
+                                           class=" text-dark text-decoration-none"
+                                           th:text="'@'+${receipt.master.username}"></a>
+                                    </td>
+                                    <td th:text="${receipt.category.name}">notebook</td>
+                                    <td th:text="${receipt.priceAmount}">20.40</td>
+                                    <td th:text="${receipt.priceCurrency}">USD</td>
+                                    <td th:text="${receipt.creationTime}">14-01-2003</td>
+                                    <td th:text="${receipt.receiptDelivery.country}">Ukraine</td>
+                                    <td th:text="${receipt.receiptDelivery.city}">Kyiv</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
             </th:block>
         </div>
     </main>

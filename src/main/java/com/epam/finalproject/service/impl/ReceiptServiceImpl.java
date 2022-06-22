@@ -5,7 +5,6 @@ import com.epam.finalproject.repository.ReceiptRepository;
 import com.epam.finalproject.service.ReceiptService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -24,22 +23,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
-    public Page<Receipt> findAllPage(Pageable pageable) {
+    public Page<Receipt> findAll(Pageable pageable) {
         return receiptRepository.findAll(pageable);
-    }
-
-    @Override
-    public Page<Receipt> findAllPage(int page, int size) {
-        return receiptRepository.findAll(PageRequest.of(page,size,Sort.by("creationTime")));
-    }
-
-    @Override
-    public Page<Receipt> findAllPage(int page, int size, String sort) {
-        return receiptRepository.findAll(PageRequest.of(page,size,Sort.by(sort)));
-    }
-
-    @Override
-    public Page<Receipt> findAllPage(int page, int size, Sort sort) {
-        return receiptRepository.findAll(PageRequest.of(page,size,sort));
     }
 }
