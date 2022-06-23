@@ -1,21 +1,18 @@
 package com.epam.finalproject.controller;
 
 import com.epam.finalproject.entity.Receipt;
+import com.epam.finalproject.search.ReceiptSearchDTO;
 import com.epam.finalproject.service.ReceiptService;
+import com.epam.finalproject.service.SearchService;
 import com.epam.finalproject.service.UserService;
+import com.epam.finalproject.util.SearchDTOResolver;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/manager")
@@ -27,21 +24,24 @@ public class ManagerController {
 
     public static final String MANAGER_VIEW = "manager";
 
-    static final Map<String, Sort> receiptSort = Map.of("price", Sort.by("priceAmount"), "create-time", Sort.by("creationTime"), "status", Sort.by("receiptStatus"), "", Sort.by("creationTime"));
+    SearchService searchService;
 
     ReceiptService receiptService;
 
     UserService userService;
 
+    SearchDTOResolver searchDTOResolver;
+
     @GetMapping("/home")
     String homePage(Model model) {
-        model.addAttribute(ACTIVE,"home");
+        model.addAttribute(ACTIVE, "home");
         return MANAGER_VIEW;
     }
 
     @GetMapping("/orders")
-    String ordersPage(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("count") Optional<Integer> count, @RequestParam("order") Optional<String> order) {
-        Page<Receipt> receipts = receiptService.findAll(getPageRequest(page, count, order));
+    String ordersPage(Model model, ReceiptSearchDTO receiptSearchDTO) {
+        Page<Receipt> receipts = searchService.findBySearch(searchDTOResolver.resolve(receiptSearchDTO));
+        model.addAttribute("search",receiptSearchDTO);
         model.addAttribute("receipts", receipts);
         model.addAttribute(ACTIVE, "orders");
         return MANAGER_VIEW;
@@ -57,18 +57,5 @@ public class ManagerController {
     String mastersPage(Model model) {
         model.addAttribute(ACTIVE, "masters");
         return MANAGER_VIEW;
-    }
-
-    private PageRequest getPageRequest(Optional<Integer> page, Optional<Integer> count, Optional<String> order) {
-        int pageValue = page.orElse(0);
-        int countValue = count.orElse(10);
-        String orderValue = order.orElse("");
-        Sort sort = receiptSort.entrySet()
-                .stream()
-                .filter(e -> e.getKey().equals(orderValue))
-                .map(Map.Entry::getValue)
-                .findFirst()
-                .orElse(receiptSort.get(""));
-        return PageRequest.of(pageValue, countValue, sort);
     }
 }
