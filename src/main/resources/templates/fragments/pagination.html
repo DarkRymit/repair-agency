@@ -1,0 +1,45 @@
+<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="pagination (page)">
+    <nav th:if="${page.totalPages > 0 && !(page.isLast() && page.isFirst())}">
+        <ul class="pagination">
+            <li class="page-item" th:if="${!page.isFirst()}">
+                <a class="page-link"
+                   th:href="${@thymeleafUtil.replaceOrAddParam('page', page.getNumber()-1)}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:if="${page.getNumber()>=2}"><a class="page-link"
+                                                                    th:href="${@thymeleafUtil.replaceOrAddParam('page', '0')}"
+                                                                    th:text="${1}"></a></li>
+
+            <li class="page-item" th:if="${page.getNumber()>=3}"><a class="page-link"
+                                                                    th:href="${@thymeleafUtil.replaceOrAddParam('page', page.getNumber()-2)}">...</a>
+            </li>
+            <li class="page-item" th:if="${!page.isFirst()}"><a class="page-link"
+                                                                th:href="${@thymeleafUtil.replaceOrAddParam('page', page.getNumber()-1)}"
+                                                                th:text="${page.getNumber()}"></a>
+            </li>
+            <li class="page-item active"><a class="page-link"
+                                            th:text="${page.getNumber()+1}"></a></li>
+
+            <li class="page-item" th:if="${!page.isLast()}"><a class="page-link"
+                                                               th:href="${@thymeleafUtil.replaceOrAddParam('page', page.getNumber()+1)}"
+                                                               th:text="${page.getNumber()+2}"></a>
+            </li>
+            <li class="page-item" th:if="${page.getTotalPages()-page.getNumber()>=4}"><a
+                    class="page-link"
+                    th:href="${@thymeleafUtil.replaceOrAddParam('page', page.getNumber()+2)}" }>...</a>
+            </li>
+            <li class="page-item"
+                th:if=" ${page.getTotalPages()-page.getNumber()>=3}"><a
+                    class="page-link"
+                    th:href="${@thymeleafUtil.replaceOrAddParam('page', page.getTotalPages()-1)}"
+                    th:text="${page.getTotalPages()}"></a></li>
+            <li class="page-item" th:if="${!page.isLast()}">
+                <a class="page-link"
+                   th:href="${@thymeleafUtil.replaceOrAddParam('page', page.getNumber()+1)}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</th:block>

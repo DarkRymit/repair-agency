@@ -5,33 +5,34 @@
     <!--FavIcon-->
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet">
     <link href="/css/manager.css" rel="stylesheet">
     <title>Title</title>
 </head>
 <body>
-    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
         <symbol id="bootstrap" viewBox="0 0 118 94">
             <title>Bootstrap</title>
-            <path fill-rule="evenodd" clip-rule="evenodd"
-                  d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"></path>
+            <path clip-rule="evenodd"
+                  d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"
+                  fill-rule="evenodd"></path>
         </symbol>
         <symbol id="home" viewBox="0 0 16 16">
             <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
         </symbol>
         <symbol id="speedometer2" viewBox="0 0 16 16">
             <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
-            <path fill-rule="evenodd"
-                  d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"/>
+            <path d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"
+                  fill-rule="evenodd"/>
         </symbol>
         <symbol id="table" viewBox="0 0 16 16">
             <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
         </symbol>
         <symbol id="people-circle" viewBox="0 0 16 16">
             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-            <path fill-rule="evenodd"
-                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+            <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
+                  fill-rule="evenodd"/>
         </symbol>
         <symbol id="grid" viewBox="0 0 16 16">
             <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z"/>
@@ -55,8 +56,8 @@
         </symbol>
         <symbol id="speedometer" viewBox="0 0 16 16">
             <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2zM3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
-            <path fill-rule="evenodd"
-                  d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.945 11.945 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0z"/>
+            <path d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.945 11.945 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0z"
+                  fill-rule="evenodd"/>
         </symbol>
         <symbol id="toggles2" viewBox="0 0 16 16">
             <path d="M9.465 10H12a2 2 0 1 1 0 4H9.465c.34-.588.535-1.271.535-2 0-.729-.195-1.412-.535-2z"/>
@@ -67,19 +68,20 @@
             <path d="M1 0L0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.356 3.356a1 1 0 0 0 1.414 0l1.586-1.586a1 1 0 0 0 0-1.414l-3.356-3.356a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814L1 0zm9.646 10.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708zM3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026L3 11z"/>
         </symbol>
         <symbol id="chevron-right" viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            <path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                  fill-rule="evenodd"/>
         </symbol>
         <symbol id="geo-fill" viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-                  d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.319 1.319 0 0 0-.37.265.301.301 0 0 0-.057.09V14l.002.008a.147.147 0 0 0 .016.033.617.617 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.619.619 0 0 0 .146-.15.148.148 0 0 0 .015-.033L12 14v-.004a.301.301 0 0 0-.057-.09 1.318 1.318 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465-1.281 0-2.462-.172-3.34-.465-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411z"/>
+            <path d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.319 1.319 0 0 0-.37.265.301.301 0 0 0-.057.09V14l.002.008a.147.147 0 0 0 .016.033.617.617 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.619.619 0 0 0 .146-.15.148.148 0 0 0 .015-.033L12 14v-.004a.301.301 0 0 0-.057-.09 1.318 1.318 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465-1.281 0-2.462-.172-3.34-.465-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411z"
+                  fill-rule="evenodd"/>
         </symbol>
     </svg>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
         <div class="container-fluid ">
             <a class="navbar-brand" href="#">Navbar w/ text</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <button aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"
+                    class="navbar-toggler"
+                    data-bs-target="#navbarText" data-bs-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
@@ -93,26 +95,26 @@
                 </ul>
                 <ul class="navbar-nav ms-auto nav-justified">
                     <li class="nav-item  dropdown py-lg-0 pb-1">
-                        <a class="nav-link " href="#" id="navbarDropdownMenu1Link" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
+                        <a aria-expanded="false" class="nav-link " data-bs-toggle="dropdown" href="#"
+                           id="navbarDropdownMenu1Link" role="button">
                             Lang
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-lg-end bg-secondary text-center"
-                            aria-labelledby="navbarDropdownMenu1Link">
+                        <ul aria-labelledby="navbarDropdownMenu1Link"
+                            class="dropdown-menu dropdown-menu-lg-end bg-secondary text-center">
                             <li><a class="dropdown-item" href="#">Lang 1</a></li>
                             <li><a class="dropdown-item" href="#">Lang 2</a></li>
                             <li><a class="dropdown-item" href="#">Lang 3</a></li>
                         </ul>
                     </li>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link d-lg-flex text-white " role="button"
-                           id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="" width="32" height="32"
-                                 class="rounded-circle me-2">
+                        <a aria-expanded="false" class="nav-link d-lg-flex text-white " data-bs-toggle="dropdown"
+                           href="#" id="dropdownUser1" role="button">
+                            <img alt="" class="rounded-circle me-2" height="32" src="https://github.com/mdo.png"
+                                 width="32">
                             <strong>mdo</strong>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-lg-end dropdown-menu-dark text-small shadow"
-                            aria-labelledby="dropdownUser1">
+                        <ul aria-labelledby="dropdownUser1"
+                            class="dropdown-menu dropdown-menu-lg-end dropdown-menu-dark text-small shadow">
                             <li><a class="dropdown-item" href="#">New project...</a></li>
                             <li><a class="dropdown-item" href="#">Settings</a></li>
                             <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -132,96 +134,101 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="home" class="nav-link text-white"
-                       th:classappend="${#strings.equals(active,'home')} ? active"
-                       aria-current="page">
-                        <svg class="bi me-2" width="16" height="16">
+                    <a aria-current="page" class="nav-link text-white"
+                       href="home"
+                       th:classappend="${#strings.equals(active,'home')} ? active">
+                        <svg class="bi me-2" height="16" width="16">
                             <use xlink:href="#home"/>
                         </svg>
                         Home
                     </a>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link text-white align-items-center rounded collapsed"
-                            th:classappend="${#strings.equals(active,'orders')} ? active" data-bs-toggle="collapse"
-                            data-bs-target="#orders-collapse" aria-expanded="false">
-                        <svg class="bi me-2" width="16" height="16">
+                    <button aria-expanded="false"
+                            class="nav-link text-white align-items-center rounded collapsed"
+                            data-bs-target="#orders-collapse"
+                            data-bs-toggle="collapse" th:classappend="${#strings.equals(active,'orders')} ? active">
+                        <svg class="bi me-2" height="16" width="16">
                             <use xlink:href="#table"/>
                         </svg>
                         Orders
                     </button>
                     <div class="collapse" id="orders-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="orders" class="link-light rounded">Overview</a></li>
-                            <li><a href="#" class="link-light rounded">New</a></li>
-                            <li><a href="#" class="link-light rounded">Wait for payment</a></li>
-                            <li><a href="#" class="link-light rounded">Payment completed</a></li>
-                            <li><a href="#" class="link-light rounded">Completed</a></li>
-                            <li><a href="#" class="link-light rounded">Canceled</a></li>
+                            <li><a class="link-light rounded" href="orders">Overview</a></li>
+                            <li><a class="link-light rounded" href="#">New</a></li>
+                            <li><a class="link-light rounded" href="#">Wait for payment</a></li>
+                            <li><a class="link-light rounded" href="#">Payment completed</a></li>
+                            <li><a class="link-light rounded" href="#">Completed</a></li>
+                            <li><a class="link-light rounded" href="#">Canceled</a></li>
                         </ul>
                     </div>
                 </li>
                 <li>
-                    <button class="nav-link text-white align-items-center rounded collapsed"
-                            th:classappend="${#strings.equals(active,'users')} ? active" data-bs-toggle="collapse"
-                            data-bs-target="#users-collapse" aria-expanded="false">
-                        <svg class="bi me-2" width="16" height="16">
+                    <button aria-expanded="false"
+                            class="nav-link text-white align-items-center rounded collapsed"
+                            data-bs-target="#users-collapse"
+                            data-bs-toggle="collapse" th:classappend="${#strings.equals(active,'users')} ? active">
+                        <svg class="bi me-2" height="16" width="16">
                             <use xlink:href="#people-circle"/>
                         </svg>
                         Users
                     </button>
                     <div class="collapse" id="users-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="users" class="link-light rounded">Overview</a></li>
-                            <li><a href="#" class="link-light rounded">Unverified</a></li>
-                            <li><a href="#" class="link-light rounded">Blocked</a></li>
+                            <li><a class="link-light rounded" href="users">Overview</a></li>
+                            <li><a class="link-light rounded" href="#">Unverified</a></li>
+                            <li><a class="link-light rounded" href="#">Blocked</a></li>
                         </ul>
                     </div>
 
                 </li>
                 <li>
-                    <button class="nav-link text-white align-items-center rounded collapsed"
-                            th:classappend="${#strings.equals(active,'masters')} ? active" data-bs-toggle="collapse"
-                            data-bs-target="#masters-collapse" aria-expanded="false">
-                        <svg class="bi me-2" width="16" height="16">
+                    <button aria-expanded="false"
+                            class="nav-link text-white align-items-center rounded collapsed"
+                            data-bs-target="#masters-collapse"
+                            data-bs-toggle="collapse" th:classappend="${#strings.equals(active,'masters')} ? active">
+                        <svg class="bi me-2" height="16" width="16">
                             <use xlink:href="#grid"/>
                         </svg>
                         Masters
                     </button>
                     <div class="collapse" id="masters-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="masters" class="link-light rounded">Overview</a></li>
-                            <li><a href="#" class="link-light rounded">Unverified</a></li>
-                            <li><a href="#" class="link-light rounded">Blocked</a></li>
+                            <li><a class="link-light rounded" href="masters">Overview</a></li>
+                            <li><a class="link-light rounded" href="#">Unverified</a></li>
+                            <li><a class="link-light rounded" href="#">Blocked</a></li>
                         </ul>
                     </div>
 
                 </li>
                 <li>
-                    <button class="nav-link text-white align-items-center rounded collapsed"
-                            th:classappend="${#strings.equals(active,'responses')} ? active" data-bs-toggle="collapse"
-                            data-bs-target="#responses-collapse" aria-expanded="false">
-                        <svg class="bi me-2" width="16" height="16">
+                    <button aria-expanded="false"
+                            class="nav-link text-white align-items-center rounded collapsed"
+                            data-bs-target="#responses-collapse"
+                            data-bs-toggle="collapse" th:classappend="${#strings.equals(active,'responses')} ? active">
+                        <svg class="bi me-2" height="16" width="16">
                             <use xlink:href="#people-circle"/>
                         </svg>
                         Responses
                     </button>
                     <div class="collapse" id="responses-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="responces" class="link-light rounded">Overview</a></li>
-                            <li><a href="#" class="link-light rounded">Unverified</a></li>
-                            <li><a href="#" class="link-light rounded">Verified</a></li>
+                            <li><a class="link-light rounded" href="responses">Overview</a></li>
+                            <li><a class="link-light rounded" href="#">Unverified</a></li>
+                            <li><a class="link-light rounded" href="#">Verified</a></li>
                         </ul>
                     </div>
                 </li>
             </ul>
             <div class="dropdown">
-                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                   id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                <a aria-expanded="false"
+                   class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                   data-bs-toggle="dropdown" href="#" id="dropdownUser2">
+                    <img alt="" class="rounded-circle me-2" height="32" src="https://github.com/mdo.png" width="32">
                     <strong>mdo</strong>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser2">
+                <ul aria-labelledby="dropdownUser2" class="dropdown-menu dropdown-menu-dark text-small shadow">
                     <li><a class="dropdown-item" href="#">New project...</a></li>
                     <li><a class="dropdown-item" href="#">Settings</a></li>
                     <li><a class="dropdown-item" href="#">Profile</a></li>
@@ -238,71 +245,80 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-2">
-                            <form method="get" th:action="@{/manager/orders}" id="search-form">
+                            <form id="search-form" method="get" th:action="@{/manager/orders}">
                                 <ul class="list-group text-center">
                                     <li class="list-group-item">
-                                        <input type="submit" class="btn btn-primary btn-user btn-block search-submit"
+                                        <input class="btn btn-primary btn-user btn-block search-submit" type="submit"
                                                value="Apply">
                                     </li>
                                     <li class="list-group-item">
                                         <label for="sort_select"> Sort by </label>
                                         <select class="form-select" id="sort_select" name="sort">
-                                            <option value="create-time" th:selected="${search.sort=='create-time'&&search.sort==''}">creation time</option>
-                                            <option value="status" th:selected="${search.sort=='status'}">status</option>
-                                            <option value="price" th:selected="${search.sort=='price'}">price and currency</option>
+                                            <option th:selected="${search.sort=='create-time'&&search.sort==''}"
+                                                    value="create-time">
+                                                creation time
+                                            </option>
+                                            <option th:selected="${search.sort=='status'}" value="status">status
+                                            </option>
+                                            <option th:selected="${search.sort=='price'}" value="price">price and
+                                                currency
+                                            </option>
                                         </select>
                                     </li>
                                     <li class="list-group-item list-group-item-secondary">
                                         Filter by
                                     </li>
                                     <li class="list-group-item">
-                                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseStatus">
+                                        <button class="btn btn-primary" data-bs-target="#collapseStatus"
+                                                data-bs-toggle="collapse"
+                                                type="button">
                                             Status
                                         </button>
-                                        <div class="collapse px-auto" id="collapseStatus" th:classappend="${search?.status!= null && !search.status.isEmpty()} ? show">
+                                        <div class="collapse px-auto" id="collapseStatus"
+                                             th:classappend="${search?.status!= null && !search.status.isEmpty()} ? show">
                                             <div class="list-group">
                                                 <div class="form-check list-group-item list-group-item-action">
-                                                    <input class="form-check-input" type="checkbox" name="status"
-                                                           value="wait"
+                                                    <input class="form-check-input" id="flexCheckWaitForPayment"
+                                                           name="status"
                                                            th:checked="${search?.status?.contains('wait')}"
-                                                           id="flexCheckWaitForPayment">
+                                                           type="checkbox"
+                                                           value="wait">
                                                     <label class="form-check-label" for="flexCheckWaitForPayment">
                                                         Wait for payment
                                                     </label>
                                                 </div>
                                                 <div class="form-check list-group-item list-group-item-action">
-                                                    <input class="form-check-input" type="checkbox" name="status"
-                                                           value="paid"
+                                                    <input class="form-check-input" id="flexCheckPaid" name="status"
                                                            th:checked="${search?.status?.contains('paid')}"
-                                                           id="flexCheckPaid">
+                                                           type="checkbox"
+                                                           value="paid">
                                                     <label class="form-check-label" for="flexCheckPaid">
                                                         Paid
                                                     </label>
                                                 </div>
                                                 <div class="form-check list-group-item list-group-item-action">
-                                                    <input class="form-check-input" type="checkbox" name="status"
-                                                           value="work"
+                                                    <input class="form-check-input" id="flexCheckInWork" name="status"
                                                            th:checked="${search?.status?.contains('work')}"
-                                                           id="flexCheckInWork">
+                                                           type="checkbox"
+                                                           value="work">
                                                     <label class="form-check-label" for="flexCheckInWork">
                                                         In work
                                                     </label>
                                                 </div>
                                                 <div class="form-check list-group-item list-group-item-action">
-                                                    <input class="form-check-input" type="checkbox" name="status"
-                                                           value="done"
+                                                    <input class="form-check-input" id="flexCheckDone" name="status"
                                                            th:checked="${search?.status?.contains('done')}"
-                                                           id="flexCheckDone">
+                                                           type="checkbox"
+                                                           value="done">
                                                     <label class="form-check-label" for="flexCheckDone">
                                                         Done
                                                     </label>
                                                 </div>
                                                 <div class="form-check list-group-item list-group-item-action">
-                                                    <input class="form-check-input" type="checkbox" name="status"
-                                                           value="cancel"
+                                                    <input class="form-check-input" id="flexCheckCanceled" name="status"
                                                            th:checked="${search?.status?.contains('cancel')}"
-                                                           id="flexCheckCanceled">
+                                                           type="checkbox"
+                                                           value="cancel">
                                                     <label class="form-check-label" for="flexCheckCanceled">
                                                         Canceled
                                                     </label>
@@ -311,17 +327,19 @@
                                         </div>
                                     </li>
                                     <li class="list-group-item">
-                                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
-                                                data-bs-target="#collapseMaster">
+                                        <button class="btn btn-primary" data-bs-target="#collapseMaster"
+                                                data-bs-toggle="collapse"
+                                                type="button">
                                             Master
                                         </button>
-                                        <div class="collapse px-auto" id="collapseMaster"  th:classappend="${search?.master!= null && !search.master.isBlank()} ? show">
+                                        <div class="collapse px-auto" id="collapseMaster"
+                                             th:classappend="${search?.master!= null && !search.master.isBlank()} ? show">
                                             <div class="list-group">
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text" id="basic-addon1">@</span>
-                                                    <input type="text" class="form-control" placeholder="Username"
+                                                    <input class="form-control" name="master" placeholder="Username"
                                                            th:value="${search?.master}"
-                                                           name="master">
+                                                           type="text">
                                                 </div>
                                             </div>
                                         </div>
@@ -347,8 +365,8 @@
                                 <tbody class="table-group-divider">
                                 <tr class="table-light" th:each="receipt:${receipts}">
                                     <td>
-                                        <a th:href="'/user/'+${receipt.user.id}+'/profile'"
-                                           class=" text-dark text-decoration-none"
+                                        <a class=" text-dark text-decoration-none"
+                                           th:href="'/user/'+${receipt.user.id}+'/profile'"
                                            th:text="'@'+${receipt.user.username}"></a>
                                     </td>
                                     <td>
@@ -361,8 +379,8 @@
                                         </th:block>
                                     </td>
                                     <td>
-                                        <a th:href="'/user/'+${receipt.master.id}+'/profile'"
-                                           class=" text-dark text-decoration-none"
+                                        <a class=" text-dark text-decoration-none"
+                                           th:href="'/user/'+${receipt.master.id}+'/profile'"
                                            th:text="'@'+${receipt.master.username}"></a>
                                     </td>
                                     <td th:text="${receipt.category.name}">notebook</td>
@@ -374,6 +392,7 @@
                                 </tr>
                                 </tbody>
                             </table>
+                            <div th:insert="~{fragments/pagination.html :: pagination(${receipts})}"></div>
                         </div>
                     </div>
                 </div>
@@ -383,9 +402,9 @@
     </main>
     <!-- JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    <script crossorigin="anonymous"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         $(document).ready(function () {
             $('form[method="get"]').submit(function () {
