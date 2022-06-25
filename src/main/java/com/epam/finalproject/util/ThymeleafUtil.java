@@ -6,7 +6,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @Component
 public class ThymeleafUtil {
 
-    public static String replaceOrAddParam(String key,String value) {
+    private ThymeleafUtil() {
+    }
+
+    public static String replaceOrAddParam(String key, String value) {
 
         return ServletUriComponentsBuilder.fromCurrentRequest()
                 .replaceQueryParam(key, value)
