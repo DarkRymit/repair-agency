@@ -1,11 +1,11 @@
 package com.epam.finalproject.controller;
 
 import com.epam.finalproject.entity.Receipt;
-import com.epam.finalproject.search.ReceiptSearchDTO;
+import com.epam.finalproject.search.ReceiptSearchRequest;
 import com.epam.finalproject.service.ReceiptService;
 import com.epam.finalproject.service.SearchService;
 import com.epam.finalproject.service.UserService;
-import com.epam.finalproject.util.SearchDTOResolver;
+import com.epam.finalproject.util.SearchRequestResolver;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,7 +30,7 @@ public class ManagerController {
 
     UserService userService;
 
-    SearchDTOResolver searchDTOResolver;
+    SearchRequestResolver searchDTOResolver;
 
     @GetMapping("/home")
     String homePage(Model model) {
@@ -39,7 +39,7 @@ public class ManagerController {
     }
 
     @GetMapping("/orders")
-    String ordersPage(Model model, ReceiptSearchDTO receiptSearchDTO) {
+    String ordersPage(Model model, ReceiptSearchRequest receiptSearchDTO) {
         Page<Receipt> receipts = searchService.findBySearch(searchDTOResolver.resolve(receiptSearchDTO));
         model.addAttribute("search",receiptSearchDTO);
         model.addAttribute("receipts", receipts);
@@ -56,6 +56,11 @@ public class ManagerController {
     @GetMapping("/masters")
     String mastersPage(Model model) {
         model.addAttribute(ACTIVE, "masters");
+        return MANAGER_VIEW;
+    }
+    @GetMapping("/responses")
+    String responsesPage(Model model) {
+        model.addAttribute(ACTIVE, "responses");
         return MANAGER_VIEW;
     }
 }

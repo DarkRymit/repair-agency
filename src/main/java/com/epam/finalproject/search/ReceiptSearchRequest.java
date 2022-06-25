@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Data
 @AllArgsConstructor
-public class ReceiptSearchDTO {
+public class ReceiptSearchRequest {
     String sort;
     Set<String> status;
     String user;

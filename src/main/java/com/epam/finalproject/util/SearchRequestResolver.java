@@ -2,7 +2,7 @@ package com.epam.finalproject.util;
 
 import com.epam.finalproject.entity.ReceiptStatusEnum;
 import com.epam.finalproject.search.ReceiptSearch;
-import com.epam.finalproject.search.ReceiptSearchDTO;
+import com.epam.finalproject.search.ReceiptSearchRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -15,18 +15,18 @@ import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
-public class SearchDTOResolver {
+public class SearchRequestResolver {
 
     Map<String, Sort> receiptSort;
 
     Map<String, ReceiptStatusEnum> receiptStatus;
 
-    public ReceiptSearch resolve(ReceiptSearchDTO receiptSearchDTO) {
-        int pageValue = Optional.ofNullable(receiptSearchDTO.getPage()).orElse(0);
+    public ReceiptSearch resolve(ReceiptSearchRequest receiptSearchRequest) {
+        int pageValue = Optional.ofNullable(receiptSearchRequest.getPage()).orElse(0);
 
-        int countValue = Optional.ofNullable(receiptSearchDTO.getCount()).orElse(10);
+        int countValue = Optional.ofNullable(receiptSearchRequest.getCount()).orElse(10);
 
-        String sortValue = Optional.ofNullable(receiptSearchDTO.getSort()).orElse("");
+        String sortValue = Optional.ofNullable(receiptSearchRequest.getSort()).orElse("");
 
         Sort sort = receiptSort.entrySet()
                 .stream()
@@ -35,7 +35,7 @@ public class SearchDTOResolver {
                 .findFirst()
                 .orElseThrow();
 
-        Set<ReceiptStatusEnum> receiptStatuses = Optional.ofNullable(receiptSearchDTO.getStatus())
+        Set<ReceiptStatusEnum> receiptStatuses = Optional.ofNullable(receiptSearchRequest.getStatus())
                 .orElse(Set.of())
                 .stream()
                 .map(e -> Optional.ofNullable(receiptStatus.get(e)).orElseThrow())
@@ -43,8 +43,8 @@ public class SearchDTOResolver {
 
         return ReceiptSearch.builder()
                 .receiptStatuses(receiptStatuses)
-                .userUsername(receiptSearchDTO.getUser())
-                .masterUsername(receiptSearchDTO.getMaster())
+                .userUsername(receiptSearchRequest.getUser())
+                .masterUsername(receiptSearchRequest.getMaster())
                 .pageRequest(PageRequest.of(pageValue, countValue, sort))
                 .build();
     }
