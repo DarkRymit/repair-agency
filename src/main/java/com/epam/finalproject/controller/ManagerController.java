@@ -1,11 +1,12 @@
 package com.epam.finalproject.controller;
 
 import com.epam.finalproject.entity.Receipt;
+import com.epam.finalproject.entity.User;
 import com.epam.finalproject.search.ReceiptSearchRequest;
+import com.epam.finalproject.search.UserSearchRequest;
 import com.epam.finalproject.service.ReceiptService;
 import com.epam.finalproject.service.SearchService;
 import com.epam.finalproject.service.UserService;
-import com.epam.finalproject.util.SearchRequestResolver;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,7 +31,6 @@ public class ManagerController {
 
     UserService userService;
 
-    SearchRequestResolver searchDTOResolver;
 
     @GetMapping("/home")
     String homePage(Model model) {
@@ -39,18 +39,21 @@ public class ManagerController {
     }
 
     @GetMapping("/orders")
-    String ordersPage(Model model, ReceiptSearchRequest receiptSearchDTO) {
-        Page<Receipt> receipts = searchService.findBySearch(searchDTOResolver.resolve(receiptSearchDTO));
-        model.addAttribute("search",receiptSearchDTO);
+    String ordersPage(Model model, ReceiptSearchRequest receiptSearchRequest) {
+        Page<Receipt> receipts = searchService.findBySearch(receiptSearchRequest);
+        model.addAttribute("search",receiptSearchRequest);
         model.addAttribute("receipts", receipts);
         model.addAttribute(ACTIVE, "orders");
         return MANAGER_VIEW;
     }
 
     @GetMapping("/users")
-    String usersPage(Model model) {
+    String usersPage(Model model, UserSearchRequest userSearchRequest) {
+        Page<User> users = searchService.findBySearch(userSearchRequest);
+        model.addAttribute("search",userSearchRequest);
+        model.addAttribute("users", users);
         model.addAttribute(ACTIVE, "users");
-        return MANAGER_VIEW;
+        return "manager-users";
     }
 
     @GetMapping("/masters")

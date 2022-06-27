@@ -15,8 +15,8 @@ import java.util.Map;
 public class SearchConfig {
 
     @Bean
-    Map<String, Sort> receiptSort(){
-        HashMap<String, Sort>  hashMap = new HashMap<>();
+    Map<String, Sort> receiptSort() {
+        HashMap<String, Sort> hashMap = new HashMap<>();
 
         Sort sortByTime = Sort.by("creationTime");
 
@@ -29,8 +29,8 @@ public class SearchConfig {
     }
 
     @Bean
-    Map<String, ReceiptStatusEnum> receiptStatus(){
-        HashMap<String, ReceiptStatusEnum>  hashMap = new HashMap<>();
+    Map<String, ReceiptStatusEnum> receiptStatus() {
+        HashMap<String, ReceiptStatusEnum> hashMap = new HashMap<>();
 
         hashMap.put("done", ReceiptStatusEnum.DONE);
         hashMap.put("paid", ReceiptStatusEnum.PAID);
@@ -40,4 +40,17 @@ public class SearchConfig {
 
         return Collections.unmodifiableMap(hashMap);
     }
+
+    @Bean
+    Map<String, Sort> userSort() {
+        HashMap<String, Sort> hashMap = new HashMap<>();
+
+        Sort sortByUsername = Sort.by("username");
+        hashMap.put("username", sortByUsername);
+        hashMap.put("name", Sort.by("firstName").and(Sort.by("lastName").and(sortByUsername)));
+        hashMap.put("", sortByUsername);
+
+        return Collections.unmodifiableMap(hashMap);
+    }
+
 }
