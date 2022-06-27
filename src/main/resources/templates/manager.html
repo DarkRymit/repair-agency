@@ -371,6 +371,7 @@
                                     </td>
                                     <td>
                                         <th:block th:switch="${receipt.receiptStatus.name.name()}">
+                                            <span th:case="'CREATED'">Created</span>
                                             <span th:case="'WAIT_FOR_PAYMENT'">Wait for payment</span>
                                             <span th:case="'PAID'">Paid</span>
                                             <span th:case="'IN_WORK'">In work</span>
@@ -378,8 +379,16 @@
                                             <span th:case="'CANCELED'">Canceled</span>
                                         </th:block>
                                     </td>
-                                    <td>
+                                    <td th:switch="${receipt.master} == null">
+
+
+                                        <i class=" text-dark text-decoration-none"
+                                           th:case="true">
+                                            Not assigned
+                                        </i>
+
                                         <a class=" text-dark text-decoration-none"
+                                           th:case="*"
                                            th:href="'/user/'+${receipt.master.id}+'/profile'"
                                            th:text="'@'+${receipt.master.username}"></a>
                                     </td>
