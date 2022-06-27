@@ -1,5 +1,6 @@
 package com.epam.finalproject.service;
 
+import com.epam.finalproject.payload.request.ReceiptCreateRequest;
 import com.epam.finalproject.entity.Receipt;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,4 +12,5 @@ public interface ReceiptService {
 
     Page<Receipt> findAll(Pageable pageable);
 
+    Receipt createNew(ReceiptCreateRequest createRequest);
 }
