@@ -41,16 +41,17 @@ insert into repair_work_has_status (repair_work_id, statuses) values (1,'VIP');
 insert into repair_work_has_status (repair_work_id, statuses) values (2,'VIP');
 insert into repair_work_has_status (repair_work_id, statuses) values (2,'SUSPENDED');
 
+insert into receipt_statuses (name) values ('CREATED');
 insert into receipt_statuses (name) values ('WAIT_FOR_PAYMENT');
 insert into receipt_statuses (name) values ('PAID');
 insert into receipt_statuses (name) values ('IN_WORK');
 insert into receipt_statuses (name) values ('DONE');
 insert into receipt_statuses (name) values ('CANCELED');
 
-insert into receipts (user_id,receipt_status_id,category_id,master_id,price_amount, price_currency,note,creation_time) values (4,2,1,3,84.9,'USD','Typical note','2022-01-10 14:23:22');
-insert into receipts (user_id,receipt_status_id,category_id,master_id,price_amount, price_currency,note,creation_time) values (5,1,1,3,40.3,'USD','Typical note','2022-12-14 16:00:40');
-insert into receipts (user_id,receipt_status_id,category_id,master_id,price_amount, price_currency,note,creation_time) values (5,5,1,6,40.3,'USD','Typical note','2022-10-14 17:00:40');
-insert into receipts (user_id,receipt_status_id,category_id,master_id,price_amount, price_currency,note,creation_time) values (4,4,1,6,78.9,'USD','Typical note','2022-02-10 17:34:31');
+insert into receipts (user_id,receipt_status_id,category_id,master_id,price_amount, price_currency,note,creation_time) values (4,3,1,3,84.9,'USD','Typical note','2022-01-10 14:23:22');
+insert into receipts (user_id,receipt_status_id,category_id,master_id,price_amount, price_currency,note,creation_time) values (5,2,1,3,40.3,'USD','Typical note','2022-12-14 16:00:40');
+insert into receipts (user_id,receipt_status_id,category_id,master_id,price_amount, price_currency,note,creation_time) values (5,6,1,6,40.3,'USD','Typical note','2022-10-14 17:00:40');
+insert into receipts (user_id,receipt_status_id,category_id,master_id,price_amount, price_currency,note,creation_time) values (4,5,1,6,78.9,'USD','Typical note','2022-02-10 17:34:31');
 
 insert into receipt_items (receipt_id,repair_work_id, price_amount, price_currency) values (1,1,20.40,'USD');
 insert into receipt_items (receipt_id,repair_work_id, price_amount, price_currency) values (1,2,52.40,'USD');
@@ -64,9 +65,9 @@ insert into receipt_items (receipt_id,repair_work_id, price_amount, price_curren
 insert into receipt_items (receipt_id,repair_work_id, price_amount, price_currency) values (3,3,14.10,'USD');
 insert into receipt_items (receipt_id,repair_work_id, price_amount, price_currency) values (3,3,15.10,'USD');
 
-insert into receipt_items (receipt_id,repair_work_id, price_amount, price_currency) values (1,1,18.40,'USD');
-insert into receipt_items (receipt_id,repair_work_id, price_amount, price_currency) values (1,2,50.40,'USD');
-insert into receipt_items (receipt_id,repair_work_id, price_amount, price_currency) values (1,3,10.10,'USD');
+insert into receipt_items (receipt_id,repair_work_id, price_amount, price_currency) values (4,1,18.40,'USD');
+insert into receipt_items (receipt_id,repair_work_id, price_amount, price_currency) values (4,2,50.40,'USD');
+insert into receipt_items (receipt_id,repair_work_id, price_amount, price_currency) values (4,3,10.10,'USD');
 
 insert into receipt_deliveries (receipt_id, city, country, local_address) values (1,'Kyiv','Ukraine','some street2');
 insert into receipt_deliveries (receipt_id, city, country, local_address) values (2,'Kyiv','Poland','some street3');
