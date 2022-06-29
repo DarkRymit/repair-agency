@@ -1,6 +1,6 @@
 package com.epam.finalproject.config;
 
-import com.epam.finalproject.controller.SignUpForm;
+import com.epam.finalproject.payload.request.SignUpRequest;
 import com.epam.finalproject.entity.User;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -13,7 +13,7 @@ public class ModelMapperConfig {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.typeMap(SignUpForm.class, User.class).addMappings(mapper -> mapper.skip(User::setPassword));
+        modelMapper.typeMap(SignUpRequest.class, User.class).addMappings(mapper -> mapper.skip(User::setPassword));
         return new ModelMapper();
     }
 }

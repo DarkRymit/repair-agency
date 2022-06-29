@@ -1,6 +1,6 @@
 package com.epam.finalproject.service.impl;
 
-import com.epam.finalproject.controller.SignUpForm;
+import com.epam.finalproject.payload.request.SignUpRequest;
 import com.epam.finalproject.entity.Role;
 import com.epam.finalproject.entity.RoleEnum;
 import com.epam.finalproject.entity.User;
@@ -32,7 +32,7 @@ public class UserServiceDefault implements UserService {
 
     @Override
     @Transactional
-    public User signUpNewUserAccount(SignUpForm form) {
+    public User signUpNewUserAccount(SignUpRequest form) {
         try {
             return getSetUpAndSave(UserUtil::createWithInitializedContainers, user -> {
                 modelMapper.map(form, user);

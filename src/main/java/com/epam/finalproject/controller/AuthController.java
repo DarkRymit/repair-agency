@@ -2,6 +2,7 @@ package com.epam.finalproject.controller;
 
 import com.epam.finalproject.entity.User;
 import com.epam.finalproject.entity.VerificationToken;
+import com.epam.finalproject.payload.request.SignUpRequest;
 import com.epam.finalproject.registration.OnRegistrationCompleteEvent;
 import com.epam.finalproject.service.UserService;
 import com.epam.finalproject.service.VerificationTokenService;
@@ -41,12 +42,12 @@ public class AuthController {
     }
 
     @ModelAttribute("singUpForm")
-    public SignUpForm signUpForm() {
-        return new SignUpForm();
+    public SignUpRequest signUpForm() {
+        return new SignUpRequest();
     }
 
     @PostMapping("/signup")
-    String signUp(@ModelAttribute("singUpForm") @Valid SignUpForm form, Model model, RedirectAttributes redirectedAttributes,HttpServletRequest request) {
+    String signUp(@ModelAttribute("singUpForm") @Valid SignUpRequest form, Model model, RedirectAttributes redirectedAttributes, HttpServletRequest request) {
         boolean isErrorsExists = false;
         if (userService.existsByUsername(form.getUsername())) {
             isErrorsExists = true;
