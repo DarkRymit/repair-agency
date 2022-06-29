@@ -1,9 +1,14 @@
 package com.epam.finalproject.controller;
 
+import com.epam.finalproject.entity.PasswordResetToken;
 import com.epam.finalproject.entity.User;
 import com.epam.finalproject.entity.VerificationToken;
+import com.epam.finalproject.payload.request.NewPasswordRequest;
+import com.epam.finalproject.payload.request.PasswordResetRequest;
 import com.epam.finalproject.payload.request.SignUpRequest;
 import com.epam.finalproject.registration.OnRegistrationCompleteEvent;
+import com.epam.finalproject.resetpassword.OnPasswordResetEvent;
+import com.epam.finalproject.service.PasswordResetTokenService;
 import com.epam.finalproject.service.UserService;
 import com.epam.finalproject.service.VerificationTokenService;
 import lombok.AllArgsConstructor;
@@ -31,6 +36,8 @@ public class AuthController {
     UserService userService;
 
     VerificationTokenService verificationTokenService;
+
+    PasswordResetTokenService passwordResetTokenService;
 
     ApplicationEventPublisher eventPublisher;
 
@@ -110,6 +117,26 @@ public class AuthController {
         return "redirect:/auth/signin";
     }
 
+    @PostMapping("/resetpassword")
+    String resetPassword(HttpServletRequest request, PasswordResetRequest resetRequest){
+        User user = userService.findByEmail(resetRequest.getEmail()).orElseThrow();
+        eventPublisher.publishEvent(new OnPasswordResetEvent(user, request.getLocale(), getAppUrl(request)));
+        return "redirect:/resetpassword/confirm";
+    }
+
+    @PostMapping("/resetpassword/confirm/{token}")
+    String resetPasswordConfirm(@PathVariable String token, NewPasswordRequest newPasswordRequest){
+        Optional<PasswordResetToken> optionalPasswordResetRequest = passwordResetTokenService.findByToken(token);
+        if (optionalPasswordResetRequest.isEmpty()){
+            return "redirect:/auth/resetpassword?errorNoFound";
+        }
+        PasswordResetToken passwordResetToken = optionalPasswordResetRequest.get();
+        if (passwordResetTokenService.isExpired(passwordResetToken)){
+            return "redirect:/auth/resetpassword?errorExp";
+        }
+        passwordResetTokenService.newPassword(passwordResetToken,newPasswordRequest);
+        return "redirect:/auth/signin";
+    }
 
     private String getAppUrl(HttpServletRequest request) {
         return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();

@@ -4,6 +4,8 @@ import com.epam.finalproject.payload.request.SignUpRequest;
 import com.epam.finalproject.entity.RoleEnum;
 import com.epam.finalproject.entity.User;
 
+import java.util.Optional;
+
 public interface UserService {
     User signUpNewUserAccount(SignUpRequest form);
 
@@ -14,4 +16,6 @@ public interface UserService {
     boolean isUserHaveRoleWithName(User user, RoleEnum roleName);
 
     boolean isUserNotVerified(User user);
+
+    Optional<User> findByEmail(String email);
 }

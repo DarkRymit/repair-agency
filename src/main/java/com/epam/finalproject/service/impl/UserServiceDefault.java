@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -63,6 +64,11 @@ public class UserServiceDefault implements UserService {
     @Override
     public boolean isUserNotVerified(User user) {
         return isUserHaveRoleWithName(user,RoleEnum.UNVERIFIED);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     private User getSetUpAndSave(Supplier<User> userSupplier, Consumer<User> userConsumer) {
