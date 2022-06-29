@@ -39,7 +39,7 @@ class ReceiptRepositoryTest {
         assertThat(BigDecimal.valueOf(84.9)).isEqualByComparingTo(receipt.getPriceAmount());
         assertEquals("USD",receipt.getPriceCurrency());
         assertEquals("Typical note",receipt.getNote());
-        assertEquals(LocalDateTime.parse("2022-01-10 14:23:22", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),receipt.getCreationTime());
+        assertEquals(LocalDateTime.parse("2022-01-10T14:23:22"),receipt.getCreationTime());
 
     }
 
@@ -69,7 +69,7 @@ class ReceiptRepositoryTest {
 
     @Test
     void findAllByCreationTimeBetween() {
-        List<Receipt> receipts = receiptRepository.findAllByCreationTimeBetween(LocalDateTime.parse("2022-01-10 13:23:22", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),LocalDateTime.now());
+        List<Receipt> receipts = receiptRepository.findAllByCreationTimeBetween(LocalDateTime.parse("2022-01-10T13:23:22"),LocalDateTime.now());
         assertFalse(receipts.isEmpty());
 
     }
