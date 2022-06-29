@@ -1,7 +1,6 @@
 package com.epam.finalproject.repository;
 
-import com.epam.finalproject.entity.UserAddress;
-import com.epam.finalproject.entity.Wallet;
+import com.epam.finalproject.model.entity.UserAddress;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

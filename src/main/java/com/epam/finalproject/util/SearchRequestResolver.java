@@ -1,10 +1,10 @@
 package com.epam.finalproject.util;
 
-import com.epam.finalproject.entity.ReceiptStatusEnum;
-import com.epam.finalproject.search.ReceiptSearch;
-import com.epam.finalproject.search.ReceiptSearchRequest;
-import com.epam.finalproject.search.UserSearch;
-import com.epam.finalproject.search.UserSearchRequest;
+import com.epam.finalproject.model.entity.ReceiptStatusEnum;
+import com.epam.finalproject.model.search.ReceiptSearch;
+import com.epam.finalproject.model.search.UserSearch;
+import com.epam.finalproject.payload.request.search.ReceiptSearchRequest;
+import com.epam.finalproject.payload.request.search.UserSearchRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;

@@ -1,16 +1,15 @@
 package com.epam.finalproject.service.impl;
 
-import com.epam.finalproject.entity.Role;
-import com.epam.finalproject.entity.RoleEnum;
-import com.epam.finalproject.entity.User;
-import com.epam.finalproject.entity.VerificationToken;
+import com.epam.finalproject.model.entity.Role;
+import com.epam.finalproject.model.entity.RoleEnum;
+import com.epam.finalproject.model.entity.User;
+import com.epam.finalproject.model.entity.VerificationToken;
 import com.epam.finalproject.repository.RoleRepository;
 import com.epam.finalproject.repository.UserRepository;
 import com.epam.finalproject.repository.VerificationTokenRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Value;

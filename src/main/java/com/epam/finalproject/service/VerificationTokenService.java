@@ -1,7 +1,7 @@
 package com.epam.finalproject.service;
 
-import com.epam.finalproject.entity.User;
-import com.epam.finalproject.entity.VerificationToken;
+import com.epam.finalproject.model.entity.User;
+import com.epam.finalproject.model.entity.VerificationToken;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

@@ -1,9 +1,9 @@
 package com.epam.finalproject.controller;
 
-import com.epam.finalproject.entity.Receipt;
-import com.epam.finalproject.entity.User;
-import com.epam.finalproject.search.ReceiptSearchRequest;
-import com.epam.finalproject.search.UserSearchRequest;
+import com.epam.finalproject.model.entity.Receipt;
+import com.epam.finalproject.model.entity.User;
+import com.epam.finalproject.payload.request.search.ReceiptSearchRequest;
+import com.epam.finalproject.payload.request.search.UserSearchRequest;
 import com.epam.finalproject.service.ReceiptService;
 import com.epam.finalproject.service.SearchService;
 import com.epam.finalproject.service.UserService;

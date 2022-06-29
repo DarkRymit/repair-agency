@@ -1,7 +1,7 @@
 package com.epam.finalproject.config;
 
+import com.epam.finalproject.model.entity.User;
 import com.epam.finalproject.payload.request.SignUpRequest;
-import com.epam.finalproject.entity.User;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

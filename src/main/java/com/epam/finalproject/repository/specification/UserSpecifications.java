@@ -1,7 +1,7 @@
 package com.epam.finalproject.repository.specification;
 
-import com.epam.finalproject.entity.User;
-import com.epam.finalproject.search.UserSearch;
+import com.epam.finalproject.model.entity.User;
+import com.epam.finalproject.model.search.UserSearch;
 import org.springframework.data.jpa.domain.Specification;
 
 public class UserSpecifications {

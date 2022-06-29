@@ -1,11 +1,11 @@
 package com.epam.finalproject.service;
 
-import com.epam.finalproject.entity.Receipt;
-import com.epam.finalproject.entity.User;
-import com.epam.finalproject.search.ReceiptSearch;
-import com.epam.finalproject.search.ReceiptSearchRequest;
-import com.epam.finalproject.search.UserSearch;
-import com.epam.finalproject.search.UserSearchRequest;
+import com.epam.finalproject.model.entity.Receipt;
+import com.epam.finalproject.model.entity.User;
+import com.epam.finalproject.model.search.ReceiptSearch;
+import com.epam.finalproject.model.search.UserSearch;
+import com.epam.finalproject.payload.request.search.ReceiptSearchRequest;
+import com.epam.finalproject.payload.request.search.UserSearchRequest;
 import org.springframework.data.domain.Page;
 
 public interface SearchService {

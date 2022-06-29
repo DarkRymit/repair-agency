@@ -1,12 +1,10 @@
 package com.epam.finalproject.service.impl;
 
-import com.epam.finalproject.entity.PasswordResetToken;
-import com.epam.finalproject.entity.User;
+import com.epam.finalproject.model.entity.PasswordResetToken;
+import com.epam.finalproject.model.entity.User;
 import com.epam.finalproject.payload.request.NewPasswordRequest;
 import com.epam.finalproject.repository.PasswordResetTokenRepository;
-import com.epam.finalproject.repository.RoleRepository;
 import com.epam.finalproject.repository.UserRepository;
-import com.epam.finalproject.repository.VerificationTokenRepository;
 import com.epam.finalproject.service.PasswordResetTokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

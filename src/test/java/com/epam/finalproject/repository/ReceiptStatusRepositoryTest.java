@@ -1,9 +1,7 @@
 package com.epam.finalproject.repository;
 
-import com.epam.finalproject.entity.ReceiptStatus;
-import com.epam.finalproject.entity.ReceiptStatusEnum;
-import com.epam.finalproject.entity.RepairCategory;
-import com.epam.finalproject.entity.RepairCategoryName;
+import com.epam.finalproject.model.entity.ReceiptStatus;
+import com.epam.finalproject.model.entity.ReceiptStatusEnum;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

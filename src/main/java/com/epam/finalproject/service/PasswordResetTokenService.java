@@ -1,7 +1,7 @@
 package com.epam.finalproject.service;
 
-import com.epam.finalproject.entity.PasswordResetToken;
-import com.epam.finalproject.entity.User;
+import com.epam.finalproject.model.entity.PasswordResetToken;
+import com.epam.finalproject.model.entity.User;
 import com.epam.finalproject.payload.request.NewPasswordRequest;
 
 import java.time.LocalDateTime;

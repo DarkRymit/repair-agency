@@ -1,7 +1,7 @@
 package com.epam.finalproject.repository;
 
-import com.epam.finalproject.entity.Receipt;
-import com.epam.finalproject.entity.ReceiptDelivery;
+import com.epam.finalproject.model.entity.Receipt;
+import com.epam.finalproject.model.entity.ReceiptDelivery;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

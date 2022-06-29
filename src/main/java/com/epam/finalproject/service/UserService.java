@@ -1,8 +1,8 @@
 package com.epam.finalproject.service;
 
+import com.epam.finalproject.model.entity.RoleEnum;
+import com.epam.finalproject.model.entity.User;
 import com.epam.finalproject.payload.request.SignUpRequest;
-import com.epam.finalproject.entity.RoleEnum;
-import com.epam.finalproject.entity.User;
 
 import java.util.Optional;
 

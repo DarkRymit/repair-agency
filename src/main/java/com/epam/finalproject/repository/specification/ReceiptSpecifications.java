@@ -1,13 +1,13 @@
 package com.epam.finalproject.repository.specification;
 
-import com.epam.finalproject.entity.Receipt;
-import com.epam.finalproject.entity.ReceiptStatus;
-import com.epam.finalproject.entity.ReceiptStatusEnum;
-import com.epam.finalproject.entity.User;
-import com.epam.finalproject.search.ReceiptSearch;
+import com.epam.finalproject.model.entity.Receipt;
+import com.epam.finalproject.model.entity.ReceiptStatus;
+import com.epam.finalproject.model.entity.ReceiptStatusEnum;
+import com.epam.finalproject.model.entity.User;
+import com.epam.finalproject.model.search.ReceiptSearch;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.Join;
 import java.util.Set;
 
 public class ReceiptSpecifications {

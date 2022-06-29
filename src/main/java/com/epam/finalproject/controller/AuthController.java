@@ -1,13 +1,13 @@
 package com.epam.finalproject.controller;
 
-import com.epam.finalproject.entity.PasswordResetToken;
-import com.epam.finalproject.entity.User;
-import com.epam.finalproject.entity.VerificationToken;
+import com.epam.finalproject.model.entity.PasswordResetToken;
+import com.epam.finalproject.model.entity.User;
+import com.epam.finalproject.model.entity.VerificationToken;
+import com.epam.finalproject.model.event.OnPasswordResetEvent;
+import com.epam.finalproject.model.event.OnRegistrationCompleteEvent;
 import com.epam.finalproject.payload.request.NewPasswordRequest;
 import com.epam.finalproject.payload.request.PasswordResetRequest;
 import com.epam.finalproject.payload.request.SignUpRequest;
-import com.epam.finalproject.registration.OnRegistrationCompleteEvent;
-import com.epam.finalproject.resetpassword.OnPasswordResetEvent;
 import com.epam.finalproject.service.PasswordResetTokenService;
 import com.epam.finalproject.service.UserService;
 import com.epam.finalproject.service.VerificationTokenService;

@@ -1,8 +1,8 @@
 package com.epam.finalproject.repository;
 
-import com.epam.finalproject.entity.RepairCategoryName;
-import com.epam.finalproject.entity.RepairWork;
-import com.epam.finalproject.entity.RepairWorkName;
+import com.epam.finalproject.model.entity.RepairCategoryName;
+import com.epam.finalproject.model.entity.RepairWork;
+import com.epam.finalproject.model.entity.RepairWorkName;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
 package com.epam.finalproject.repository;
 
 
-import com.epam.finalproject.entity.VerificationToken;
+import com.epam.finalproject.model.entity.VerificationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

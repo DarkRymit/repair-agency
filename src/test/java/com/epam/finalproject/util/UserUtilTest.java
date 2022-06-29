@@ -1,6 +1,6 @@
 package com.epam.finalproject.util;
 
-import com.epam.finalproject.entity.User;
+import com.epam.finalproject.model.entity.User;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,9 +1,9 @@
 package com.epam.finalproject.repository;
 
-import com.epam.finalproject.entity.RepairCategoryName;
-import com.epam.finalproject.entity.RepairWork;
-import com.epam.finalproject.entity.RepairWorkName;
-import com.epam.finalproject.entity.RepairWorkStatus;
+import com.epam.finalproject.model.entity.RepairCategoryName;
+import com.epam.finalproject.model.entity.RepairWork;
+import com.epam.finalproject.model.entity.RepairWorkName;
+import com.epam.finalproject.model.entity.RepairWorkStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

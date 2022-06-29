@@ -1,8 +1,8 @@
 package com.epam.finalproject.security;
 
-import com.epam.finalproject.entity.Role;
-import com.epam.finalproject.entity.RoleEnum;
-import com.epam.finalproject.entity.User;
+import com.epam.finalproject.model.entity.Role;
+import com.epam.finalproject.model.entity.RoleEnum;
+import com.epam.finalproject.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,7 @@
 package com.epam.finalproject.repository;
 
-import com.epam.finalproject.entity.RoleEnum;
-import com.epam.finalproject.entity.User;
+import com.epam.finalproject.model.entity.RoleEnum;
+import com.epam.finalproject.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
