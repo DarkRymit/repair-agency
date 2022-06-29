@@ -91,7 +91,10 @@ public class ReceiptServiceImpl implements ReceiptService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add));
         log.info("set PriceAmount");
 
-        receipt.setPriceCurrency(receiptItems.stream().map(ReceiptItem::getPriceCurrency).distinct().collect(toSingleton()));
+        receipt.setPriceCurrency(receiptItems.stream()
+                .map(ReceiptItem::getPriceCurrency)
+                .distinct()
+                .collect(toSingleton()));
         log.info("set PriceCurrency");
 
         ReceiptDelivery receiptDelivery = getReceiptDelivery(createRequest.getReceiptDelivery(), receipt);
@@ -121,7 +124,8 @@ public class ReceiptServiceImpl implements ReceiptService {
         receipt.setMaster(user);
         log.info("update master");
 
-        ReceiptStatus receiptStatus = receiptStatusRepository.findByName(updateRequest.getReceiptStatus()).orElseThrow();
+        ReceiptStatus receiptStatus = receiptStatusRepository.findByName(updateRequest.getReceiptStatus())
+                .orElseThrow();
         receipt.setReceiptStatus(receiptStatus);
         log.info("update status");
 
@@ -140,7 +144,10 @@ public class ReceiptServiceImpl implements ReceiptService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add));
         log.info("update PriceAmount");
 
-        receipt.setPriceCurrency(receiptItems.stream().map(ReceiptItem::getPriceCurrency).distinct().collect(toSingleton()));
+        receipt.setPriceCurrency(receiptItems.stream()
+                .map(ReceiptItem::getPriceCurrency)
+                .distinct()
+                .collect(toSingleton()));
         log.info("update PriceCurrency");
 
         ReceiptDelivery receiptDelivery = getReceiptDelivery(updateRequest.getReceiptDelivery(), receipt);
@@ -156,67 +163,45 @@ public class ReceiptServiceImpl implements ReceiptService {
         return resultReceipt;
     }
 
-    private ReceiptDelivery getReceiptDelivery(ReceiptDeliveryCreateRequest deliveryCreateRequest, Receipt receipt) {
-        ReceiptDelivery receiptDelivery = new ReceiptDelivery();
-
-        receiptDelivery.setReceipt(receipt);
-
-        receiptDelivery.setCity(deliveryCreateRequest.getCity());
-
-        receiptDelivery.setCountry(deliveryCreateRequest.getCountry());
-
-        receiptDelivery.setState(deliveryCreateRequest.getState());
-
-        receiptDelivery.setLocalAddress(deliveryCreateRequest.getLocalAddress());
-
-        receiptDelivery.setPostalCode(deliveryCreateRequest.getPostalCode());
-
-        return receiptDelivery;
+    private ReceiptDelivery getReceiptDelivery(ReceiptDeliveryCreateRequest request, Receipt receipt) {
+        return ReceiptDelivery.builder()
+                .receipt(receipt)
+                .city(request.getCity())
+                .country(request.getCountry())
+                .state(request.getState())
+                .localAddress(request.getLocalAddress())
+                .postalCode(request.getPostalCode())
+                .build();
     }
-    private ReceiptDelivery getReceiptDelivery(ReceiptDeliveryUpdateRequest deliveryCreateRequest, Receipt receipt) {
-        ReceiptDelivery receiptDelivery = receipt.getReceiptDelivery();
 
-        receiptDelivery.setCity(deliveryCreateRequest.getCity());
-
-        receiptDelivery.setCountry(deliveryCreateRequest.getCountry());
-
-        receiptDelivery.setState(deliveryCreateRequest.getState());
-
-        receiptDelivery.setLocalAddress(deliveryCreateRequest.getLocalAddress());
-
-        receiptDelivery.setPostalCode(deliveryCreateRequest.getPostalCode());
-
-        return receiptDelivery;
+    private ReceiptDelivery getReceiptDelivery(ReceiptDeliveryUpdateRequest request, Receipt receipt) {
+        return ReceiptDelivery.builder()
+                .receipt(receipt)
+                .city(request.getCity())
+                .country(request.getCountry())
+                .state(request.getState())
+                .localAddress(request.getLocalAddress())
+                .postalCode(request.getPostalCode())
+                .build();
     }
 
     private ReceiptItem getReceiptItem(Receipt receipt, ReceiptItemCreateRequest e) {
-        ReceiptItem receiptItem = new ReceiptItem();
-
         RepairWork repairWork = repairWorkRepository.findById(e.getRepairWorkID()).orElseThrow();
-
-        receiptItem.setReceipt(receipt);
-
-        receiptItem.setRepairWork(repairWork);
-
-        receiptItem.setPriceAmount(e.getPriceAmount());
-
-        receiptItem.setPriceCurrency(e.getPriceCurrency());
-
-        return receiptItem;
+        return ReceiptItem.builder()
+                .receipt(receipt)
+                .repairWork(repairWork)
+                .priceAmount(e.getPriceAmount())
+                .priceCurrency(e.getPriceCurrency())
+                .build();
     }
+
     private ReceiptItem getReceiptItem(Receipt receipt, ReceiptItemUpdateRequest e) {
-        ReceiptItem receiptItem = new ReceiptItem();
-
         RepairWork repairWork = repairWorkRepository.findById(e.getRepairWorkID()).orElseThrow();
-
-        receiptItem.setReceipt(receipt);
-
-        receiptItem.setRepairWork(repairWork);
-
-        receiptItem.setPriceAmount(e.getPriceAmount());
-
-        receiptItem.setPriceCurrency(e.getPriceCurrency());
-
-        return receiptItem;
+        return ReceiptItem.builder()
+                .receipt(receipt)
+                .repairWork(repairWork)
+                .priceAmount(e.getPriceAmount())
+                .priceCurrency(e.getPriceCurrency())
+                .build();
     }
 }

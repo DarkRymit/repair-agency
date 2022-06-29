@@ -1,6 +1,9 @@
 package com.epam.finalproject.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -9,7 +12,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "receipt_items")
 @Data
-
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ReceiptItem {
     @Id
     @Column(unique = true, nullable = false)
