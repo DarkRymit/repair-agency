@@ -30,7 +30,7 @@ public class Receipt {
     @JoinColumn(name = "master_id")
     private User master;
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "receipt",cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "receipt",cascade = CascadeType.ALL ,orphanRemoval=true)
     @Fetch(value = FetchMode.SUBSELECT)
     private Set<ReceiptItem> receiptItems;
 

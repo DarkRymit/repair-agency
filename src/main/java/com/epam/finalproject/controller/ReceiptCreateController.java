@@ -1,7 +1,7 @@
 package com.epam.finalproject.controller;
 
-import com.epam.finalproject.payload.request.ReceiptCreateRequest;
 import com.epam.finalproject.entity.Receipt;
+import com.epam.finalproject.payload.request.receipt.create.ReceiptCreateRequest;
 import com.epam.finalproject.service.ReceiptService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

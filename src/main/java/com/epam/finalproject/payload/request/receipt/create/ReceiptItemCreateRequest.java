@@ -1,4 +1,4 @@
-package com.epam.finalproject.payload.request;
+package com.epam.finalproject.payload.request.receipt.create;
 
 import lombok.Data;
 

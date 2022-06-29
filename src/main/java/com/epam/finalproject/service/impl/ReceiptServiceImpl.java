@@ -1,9 +1,12 @@
 package com.epam.finalproject.service.impl;
 
-import com.epam.finalproject.payload.request.ReceiptCreateRequest;
-import com.epam.finalproject.payload.request.ReceiptDeliveryCreateRequest;
-import com.epam.finalproject.payload.request.ReceiptItemCreateRequest;
 import com.epam.finalproject.entity.*;
+import com.epam.finalproject.payload.request.receipt.create.ReceiptCreateRequest;
+import com.epam.finalproject.payload.request.receipt.create.ReceiptDeliveryCreateRequest;
+import com.epam.finalproject.payload.request.receipt.create.ReceiptItemCreateRequest;
+import com.epam.finalproject.payload.request.receipt.update.ReceiptDeliveryUpdateRequest;
+import com.epam.finalproject.payload.request.receipt.update.ReceiptItemUpdateRequest;
+import com.epam.finalproject.payload.request.receipt.update.ReceiptUpdateRequest;
 import com.epam.finalproject.repository.*;
 import com.epam.finalproject.service.ReceiptService;
 import lombok.AllArgsConstructor;
@@ -107,6 +110,52 @@ public class ReceiptServiceImpl implements ReceiptService {
         return receipt;
     }
 
+    @Override
+    public Receipt update(ReceiptUpdateRequest updateRequest) {
+
+        log.info(updateRequest.toString());
+
+        Receipt receipt = receiptRepository.findById(updateRequest.getId()).orElseThrow();
+
+        User user = userRepository.findById(updateRequest.getMasterId()).orElseThrow();
+        receipt.setMaster(user);
+        log.info("update master");
+
+        ReceiptStatus receiptStatus = receiptStatusRepository.findByName(updateRequest.getReceiptStatus()).orElseThrow();
+        receipt.setReceiptStatus(receiptStatus);
+        log.info("update status");
+
+        Set<ReceiptItem> receiptItems = updateRequest.getReceiptItems()
+                .stream()
+                .map(e -> getReceiptItem(receipt, e))
+                .collect(Collectors.toSet());
+
+        receipt.getReceiptItems().clear();
+        receipt.getReceiptItems().addAll(receiptItems);
+
+        log.info("update receiptItems");
+
+        receipt.setPriceAmount(receiptItems.stream()
+                .map(ReceiptItem::getPriceAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add));
+        log.info("update PriceAmount");
+
+        receipt.setPriceCurrency(receiptItems.stream().map(ReceiptItem::getPriceCurrency).distinct().collect(toSingleton()));
+        log.info("update PriceCurrency");
+
+        ReceiptDelivery receiptDelivery = getReceiptDelivery(updateRequest.getReceiptDelivery(), receipt);
+        receipt.setReceiptDelivery(receiptDelivery);
+        log.info("update ReceiptDelivery");
+
+        receipt.setNote(updateRequest.getNote());
+        log.info("update Note");
+
+        Receipt resultReceipt = receiptRepository.save(receipt);
+        log.info("save receipt");
+
+        return resultReceipt;
+    }
+
     private ReceiptDelivery getReceiptDelivery(ReceiptDeliveryCreateRequest deliveryCreateRequest, Receipt receipt) {
         ReceiptDelivery receiptDelivery = new ReceiptDelivery();
 
@@ -124,11 +173,41 @@ public class ReceiptServiceImpl implements ReceiptService {
 
         return receiptDelivery;
     }
+    private ReceiptDelivery getReceiptDelivery(ReceiptDeliveryUpdateRequest deliveryCreateRequest, Receipt receipt) {
+        ReceiptDelivery receiptDelivery = receipt.getReceiptDelivery();
+
+        receiptDelivery.setCity(deliveryCreateRequest.getCity());
+
+        receiptDelivery.setCountry(deliveryCreateRequest.getCountry());
+
+        receiptDelivery.setState(deliveryCreateRequest.getState());
+
+        receiptDelivery.setLocalAddress(deliveryCreateRequest.getLocalAddress());
+
+        receiptDelivery.setPostalCode(deliveryCreateRequest.getPostalCode());
+
+        return receiptDelivery;
+    }
 
     private ReceiptItem getReceiptItem(Receipt receipt, ReceiptItemCreateRequest e) {
         ReceiptItem receiptItem = new ReceiptItem();
 
-        RepairWork repairWork = repairWorkRepository.getById(e.getRepairWorkID());
+        RepairWork repairWork = repairWorkRepository.findById(e.getRepairWorkID()).orElseThrow();
+
+        receiptItem.setReceipt(receipt);
+
+        receiptItem.setRepairWork(repairWork);
+
+        receiptItem.setPriceAmount(e.getPriceAmount());
+
+        receiptItem.setPriceCurrency(e.getPriceCurrency());
+
+        return receiptItem;
+    }
+    private ReceiptItem getReceiptItem(Receipt receipt, ReceiptItemUpdateRequest e) {
+        ReceiptItem receiptItem = new ReceiptItem();
+
+        RepairWork repairWork = repairWorkRepository.findById(e.getRepairWorkID()).orElseThrow();
 
         receiptItem.setReceipt(receipt);
 
