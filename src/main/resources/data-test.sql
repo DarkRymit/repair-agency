@@ -49,8 +49,8 @@ insert into receipt_statuses (name) values ('DONE');
 insert into receipt_statuses (name) values ('CANCELED');
 
 insert into receipts (user_id,receipt_status_id,category_id,master_id,price_amount, price_currency,note,creation_time) values (4,3,1,3,84.9,'USD','Typical note','2022-01-10 14:23:22');
-insert into receipts (user_id,receipt_status_id,category_id,master_id,price_amount, price_currency,note,creation_time) values (5,2,1,3,40.3,'USD','Typical note','2022-12-14 16:00:40');
-insert into receipts (user_id,receipt_status_id,category_id,master_id,price_amount, price_currency,note,creation_time) values (5,6,1,6,40.3,'USD','Typical note','2022-10-14 17:00:40');
+insert into receipts (user_id,receipt_status_id,category_id,master_id,price_amount, price_currency,note,creation_time) values (5,2,1,3,40.3,'USD','Typical note','2021-12-14 16:00:40');
+insert into receipts (user_id,receipt_status_id,category_id,master_id,price_amount, price_currency,note,creation_time) values (5,6,1,6,40.3,'USD','Typical note','2021-10-14 17:00:40');
 insert into receipts (user_id,receipt_status_id,category_id,master_id,price_amount, price_currency,note,creation_time) values (4,5,1,6,78.9,'USD','Typical note','2022-02-10 17:34:31');
 
 insert into receipt_items (receipt_id,repair_work_id, price_amount, price_currency) values (1,1,20.40,'USD');
