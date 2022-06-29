@@ -65,50 +65,35 @@ public class ReceiptServiceImpl implements ReceiptService {
         log.info(createRequest.toString());
 
         Receipt receipt = new Receipt();
-        log.info("create receipt");
 
         User user = userRepository.findById(createRequest.getUserID()).orElseThrow();
-        receipt.setUser(user);
-        log.info("set user");
-
         ReceiptStatus receiptStatus = receiptStatusRepository.findByName(ReceiptStatusEnum.CREATED).orElseThrow();
-        receipt.setReceiptStatus(receiptStatus);
-        log.info("set status");
-
         RepairCategory repairCategory = repairCategoryRepository.getById(createRequest.getCategoryId());
-        receipt.setCategory(repairCategory);
-        log.info("set category");
-
         Set<ReceiptItem> receiptItems = createRequest.getReceiptItems()
                 .stream()
-                .map(e -> getReceiptItem(receipt, e))
+                .map(e -> buildBy(e, receipt))
                 .collect(Collectors.toSet());
-        receipt.setReceiptItems(receiptItems);
-        log.info("set receiptItems");
-
-        receipt.setPriceAmount(receiptItems.stream()
+        ReceiptDelivery receiptDelivery = buildBy(createRequest.getReceiptDelivery(), receipt);
+        BigDecimal receiptTotalPriceAmount = receiptItems.stream()
                 .map(ReceiptItem::getPriceAmount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add));
-        log.info("set PriceAmount");
-
-        receipt.setPriceCurrency(receiptItems.stream()
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        String receiptPriceCurrency = receiptItems.stream()
                 .map(ReceiptItem::getPriceCurrency)
                 .distinct()
-                .collect(toSingleton()));
-        log.info("set PriceCurrency");
+                .collect(toSingleton());
 
-        ReceiptDelivery receiptDelivery = getReceiptDelivery(createRequest.getReceiptDelivery(), receipt);
+        receipt.setUser(user);
+        receipt.setReceiptStatus(receiptStatus);
+        receipt.setCategory(repairCategory);
+        receipt.setReceiptItems(receiptItems);
+        receipt.setPriceAmount(receiptTotalPriceAmount);
+        receipt.setPriceCurrency(receiptPriceCurrency);
         receipt.setReceiptDelivery(receiptDelivery);
-        log.info("set ReceiptDelivery");
-
         receipt.setNote(createRequest.getNote());
-        log.info("set Note");
-
         receipt.setCreationTime(LocalDateTime.now());
-        log.info("set CreationTime");
 
         receiptRepository.save(receipt);
-        log.info("Save Receipt");
+        log.info("save receipt");
 
         return receipt;
     }
@@ -121,41 +106,29 @@ public class ReceiptServiceImpl implements ReceiptService {
         Receipt receipt = receiptRepository.findById(updateRequest.getId()).orElseThrow();
 
         User user = userRepository.findById(updateRequest.getMasterId()).orElseThrow();
-        receipt.setMaster(user);
-        log.info("update master");
-
         ReceiptStatus receiptStatus = receiptStatusRepository.findByName(updateRequest.getReceiptStatus())
                 .orElseThrow();
-        receipt.setReceiptStatus(receiptStatus);
-        log.info("update status");
-
         Set<ReceiptItem> receiptItems = updateRequest.getReceiptItems()
                 .stream()
-                .map(e -> getReceiptItem(receipt, e))
+                .map(e -> buildBy(e, receipt))
                 .collect(Collectors.toSet());
-
-        receipt.getReceiptItems().clear();
-        receipt.getReceiptItems().addAll(receiptItems);
-
-        log.info("update receiptItems");
-
-        receipt.setPriceAmount(receiptItems.stream()
+        BigDecimal receiptTotalPriceAmount = receiptItems.stream()
                 .map(ReceiptItem::getPriceAmount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add));
-        log.info("update PriceAmount");
-
-        receipt.setPriceCurrency(receiptItems.stream()
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        String receiptPriceCurrency = receiptItems.stream()
                 .map(ReceiptItem::getPriceCurrency)
                 .distinct()
-                .collect(toSingleton()));
-        log.info("update PriceCurrency");
+                .collect(toSingleton());
+        ReceiptDelivery receiptDelivery = buildBy(updateRequest.getReceiptDelivery(), receipt);
 
-        ReceiptDelivery receiptDelivery = getReceiptDelivery(updateRequest.getReceiptDelivery(), receipt);
+        receipt.setMaster(user);
+        receipt.setReceiptStatus(receiptStatus);
+        receipt.getReceiptItems().clear();
+        receipt.getReceiptItems().addAll(receiptItems);
+        receipt.setPriceAmount(receiptTotalPriceAmount);
+        receipt.setPriceCurrency(receiptPriceCurrency);
         receipt.setReceiptDelivery(receiptDelivery);
-        log.info("update ReceiptDelivery");
-
         receipt.setNote(updateRequest.getNote());
-        log.info("update Note");
 
         Receipt resultReceipt = receiptRepository.save(receipt);
         log.info("save receipt");
@@ -163,7 +136,7 @@ public class ReceiptServiceImpl implements ReceiptService {
         return resultReceipt;
     }
 
-    private ReceiptDelivery getReceiptDelivery(ReceiptDeliveryCreateRequest request, Receipt receipt) {
+    private ReceiptDelivery buildBy(ReceiptDeliveryCreateRequest request, Receipt receipt) {
         return ReceiptDelivery.builder()
                 .receipt(receipt)
                 .city(request.getCity())
@@ -174,7 +147,7 @@ public class ReceiptServiceImpl implements ReceiptService {
                 .build();
     }
 
-    private ReceiptDelivery getReceiptDelivery(ReceiptDeliveryUpdateRequest request, Receipt receipt) {
+    private ReceiptDelivery buildBy(ReceiptDeliveryUpdateRequest request, Receipt receipt) {
         return ReceiptDelivery.builder()
                 .receipt(receipt)
                 .city(request.getCity())
@@ -185,23 +158,23 @@ public class ReceiptServiceImpl implements ReceiptService {
                 .build();
     }
 
-    private ReceiptItem getReceiptItem(Receipt receipt, ReceiptItemCreateRequest e) {
-        RepairWork repairWork = repairWorkRepository.findById(e.getRepairWorkID()).orElseThrow();
+    private ReceiptItem buildBy(ReceiptItemCreateRequest request,Receipt receipt) {
+        RepairWork repairWork = repairWorkRepository.findById(request.getRepairWorkID()).orElseThrow();
         return ReceiptItem.builder()
                 .receipt(receipt)
                 .repairWork(repairWork)
-                .priceAmount(e.getPriceAmount())
-                .priceCurrency(e.getPriceCurrency())
+                .priceAmount(request.getPriceAmount())
+                .priceCurrency(request.getPriceCurrency())
                 .build();
     }
 
-    private ReceiptItem getReceiptItem(Receipt receipt, ReceiptItemUpdateRequest e) {
-        RepairWork repairWork = repairWorkRepository.findById(e.getRepairWorkID()).orElseThrow();
+    private ReceiptItem buildBy(ReceiptItemUpdateRequest request,Receipt receipt) {
+        RepairWork repairWork = repairWorkRepository.findById(request.getRepairWorkID()).orElseThrow();
         return ReceiptItem.builder()
                 .receipt(receipt)
                 .repairWork(repairWork)
-                .priceAmount(e.getPriceAmount())
-                .priceCurrency(e.getPriceCurrency())
+                .priceAmount(request.getPriceAmount())
+                .priceCurrency(request.getPriceCurrency())
                 .build();
     }
 }
