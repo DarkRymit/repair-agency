@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -40,7 +40,7 @@ class ReceiptRepositoryTest {
         assertThat(BigDecimal.valueOf(84.9)).isEqualByComparingTo(receipt.getPriceAmount());
         assertEquals("USD",receipt.getPriceCurrency());
         assertEquals("Typical note",receipt.getNote());
-        assertEquals(LocalDateTime.parse("2022-01-10T14:23:22"),receipt.getCreationTime());
+        assertEquals(Instant.parse("2022-01-10T14:23:22Z"),receipt.getCreationDate());
 
     }
 
@@ -70,20 +70,20 @@ class ReceiptRepositoryTest {
 
     @Test
     void findAllByCreationTimeBetween() {
-        List<Receipt> receipts = receiptRepository.findAllByCreationTimeBetween(LocalDateTime.parse("2022-01-10T13:23:22"),LocalDateTime.now());
+        List<Receipt> receipts = receiptRepository.findAllByCreationDateBetween(Instant.parse("2022-01-10T13:23:22Z"),Instant.now());
         assertFalse(receipts.isEmpty());
 
     }
 
     @Test
     void findAllByCreationTimeAfter() {
-        List<Receipt> receipts = receiptRepository.findAllByCreationTimeAfter(LocalDateTime.now());
+        List<Receipt> receipts = receiptRepository.findAllByCreationDateAfter(Instant.now());
         assertTrue(receipts.isEmpty());
     }
 
     @Test
     void findAllByCreationTimeBefore() {
-        List<Receipt> receipts = receiptRepository.findAllByCreationTimeBefore(LocalDateTime.now());
+        List<Receipt> receipts = receiptRepository.findAllByCreationDateBefore(Instant.now());
         assertFalse(receipts.isEmpty());
     }
 }
