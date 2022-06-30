@@ -1,7 +1,7 @@
 package com.epam.finalproject.service.impl;
 
 import com.epam.finalproject.model.entity.Role;
-import com.epam.finalproject.model.entity.RoleEnum;
+import com.epam.finalproject.model.entity.enums.RoleEnum;
 import com.epam.finalproject.model.entity.User;
 import com.epam.finalproject.model.entity.VerificationToken;
 import com.epam.finalproject.repository.RoleRepository;

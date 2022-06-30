@@ -1,6 +1,6 @@
 package com.epam.finalproject.payload.request.receipt.update;
 
-import com.epam.finalproject.model.entity.ReceiptStatusEnum;
+import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 

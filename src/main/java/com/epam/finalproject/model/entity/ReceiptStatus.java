@@ -1,5 +1,6 @@
 package com.epam.finalproject.model.entity;
 
+import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
 import lombok.Data;
 
 import javax.persistence.*;

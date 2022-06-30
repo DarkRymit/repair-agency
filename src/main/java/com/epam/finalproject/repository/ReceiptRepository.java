@@ -1,7 +1,7 @@
 package com.epam.finalproject.repository;
 
 import com.epam.finalproject.model.entity.Receipt;
-import com.epam.finalproject.model.entity.ReceiptStatusEnum;
+import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

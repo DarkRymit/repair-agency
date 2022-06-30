@@ -1,6 +1,6 @@
 package com.epam.finalproject.model.search;
 
-import com.epam.finalproject.model.entity.ReceiptStatusEnum;
+import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;

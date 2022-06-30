@@ -1,4 +1,4 @@
-package com.epam.finalproject.model.entity;
+package com.epam.finalproject.model.entity.enums;
 
 public enum RoleEnum {
     UNVERIFIED,

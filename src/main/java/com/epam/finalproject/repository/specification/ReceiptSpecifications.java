@@ -2,7 +2,7 @@ package com.epam.finalproject.repository.specification;
 
 import com.epam.finalproject.model.entity.Receipt;
 import com.epam.finalproject.model.entity.ReceiptStatus;
-import com.epam.finalproject.model.entity.ReceiptStatusEnum;
+import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
 import com.epam.finalproject.model.entity.User;
 import com.epam.finalproject.model.search.ReceiptSearch;
 import org.springframework.data.jpa.domain.Specification;

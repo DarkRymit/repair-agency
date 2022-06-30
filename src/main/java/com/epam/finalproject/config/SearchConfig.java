@@ -1,6 +1,6 @@
 package com.epam.finalproject.config;
 
-import com.epam.finalproject.model.entity.ReceiptStatusEnum;
+import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,6 @@
 package com.epam.finalproject.service;
 
-import com.epam.finalproject.model.entity.RoleEnum;
+import com.epam.finalproject.model.entity.enums.RoleEnum;
 import com.epam.finalproject.model.entity.User;
 import com.epam.finalproject.payload.request.SignUpRequest;
 

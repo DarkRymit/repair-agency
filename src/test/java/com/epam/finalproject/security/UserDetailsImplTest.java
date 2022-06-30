@@ -1,7 +1,7 @@
 package com.epam.finalproject.security;
 
 import com.epam.finalproject.model.entity.Role;
-import com.epam.finalproject.model.entity.RoleEnum;
+import com.epam.finalproject.model.entity.enums.RoleEnum;
 import com.epam.finalproject.model.entity.User;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,7 @@
 package com.epam.finalproject.service.impl;
 
 import com.epam.finalproject.model.entity.*;
+import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptCreateRequest;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptDeliveryCreateRequest;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptItemCreateRequest;

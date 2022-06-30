@@ -1,5 +1,6 @@
 package com.epam.finalproject.model.entity;
 
+import com.epam.finalproject.model.entity.enums.RepairCategoryName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

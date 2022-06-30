@@ -1,6 +1,6 @@
 package com.epam.finalproject.util;
 
-import com.epam.finalproject.model.entity.ReceiptStatusEnum;
+import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
 import com.epam.finalproject.model.search.ReceiptSearch;
 import com.epam.finalproject.model.search.UserSearch;
 import com.epam.finalproject.payload.request.search.ReceiptSearchRequest;

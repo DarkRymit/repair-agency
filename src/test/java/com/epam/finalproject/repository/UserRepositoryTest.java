@@ -1,7 +1,7 @@
 package com.epam.finalproject.repository;
 
 import com.epam.finalproject.model.entity.Role;
-import com.epam.finalproject.model.entity.RoleEnum;
+import com.epam.finalproject.model.entity.enums.RoleEnum;
 import com.epam.finalproject.model.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

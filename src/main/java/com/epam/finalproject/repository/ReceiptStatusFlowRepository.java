@@ -2,7 +2,7 @@ package com.epam.finalproject.repository;
 
 import com.epam.finalproject.model.entity.ReceiptStatus;
 import com.epam.finalproject.model.entity.ReceiptStatusFlow;
-import com.epam.finalproject.model.entity.RoleEnum;
+import com.epam.finalproject.model.entity.enums.RoleEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
