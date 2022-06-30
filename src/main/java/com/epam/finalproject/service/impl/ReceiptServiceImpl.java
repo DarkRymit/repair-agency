@@ -1,6 +1,9 @@
 package com.epam.finalproject.service.impl;
 
-import com.epam.finalproject.model.entity.*;
+import com.epam.finalproject.model.entity.Receipt;
+import com.epam.finalproject.model.entity.ReceiptDelivery;
+import com.epam.finalproject.model.entity.ReceiptItem;
+import com.epam.finalproject.model.entity.RepairWork;
 import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptCreateRequest;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptDeliveryCreateRequest;
@@ -19,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -68,7 +70,6 @@ public class ReceiptServiceImpl implements ReceiptService {
         receipt.setPriceCurrency(getReceiptPriceCurrency(receiptItems));
         receipt.setReceiptDelivery(buildBy(createRequest.getReceiptDelivery(), receipt));
         receipt.setNote(createRequest.getNote());
-        receipt.setCreationTime(LocalDateTime.now());
 
         receiptRepository.save(receipt);
         log.info("save receipt");
@@ -91,13 +92,24 @@ public class ReceiptServiceImpl implements ReceiptService {
         receipt.getReceiptItems().addAll(receiptItems);
         receipt.setPriceAmount(getReceiptTotalPriceAmount(receiptItems));
         receipt.setPriceCurrency(getReceiptPriceCurrency(receiptItems));
-        receipt.setReceiptDelivery(buildBy(request.getReceiptDelivery(), receipt));
+        mergeDeliveryInto(receipt,buildBy(request.getReceiptDelivery(), receipt));
         receipt.setNote(request.getNote());
 
         Receipt resultReceipt = receiptRepository.save(receipt);
         log.info("save receipt");
 
         return resultReceipt;
+    }
+
+    private void mergeDeliveryInto(Receipt receipt, ReceiptDelivery delivery) {
+        ReceiptDelivery oldDelivery = receipt.getReceiptDelivery();
+        if (!oldDelivery.equals(delivery)){
+            oldDelivery.setCity(delivery.getCity());
+            oldDelivery.setCountry(delivery.getCountry());
+            oldDelivery.setState(delivery.getState());
+            oldDelivery.setLocalAddress(delivery.getLocalAddress());
+            oldDelivery.setPostalCode(delivery.getPostalCode());
+        }
     }
 
     private Set<ReceiptItem> getReceiptItemSet(ReceiptUpdateRequest updateRequest, Receipt receipt) {
