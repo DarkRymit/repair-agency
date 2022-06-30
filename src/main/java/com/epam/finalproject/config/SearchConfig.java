@@ -18,7 +18,7 @@ public class SearchConfig {
     Map<String, Sort> receiptSort() {
         HashMap<String, Sort> hashMap = new HashMap<>();
 
-        Sort sortByTime = Sort.by("creationTime");
+        Sort sortByTime = Sort.by("creationDate");
 
         hashMap.put("price", Sort.by("priceAmount").and(Sort.by("priceCurrency").and(sortByTime)));
         hashMap.put("create-time", sortByTime);
