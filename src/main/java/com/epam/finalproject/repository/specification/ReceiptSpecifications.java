@@ -16,6 +16,7 @@ public class ReceiptSpecifications {
     }
 
     public static Specification<Receipt> hasStatusWithName(Set<ReceiptStatusEnum> status) {
+        if (status.isEmpty()) throw new IllegalArgumentException();
         return (root, query, cb) -> {
             Join<ReceiptStatus, Receipt> receiptStatusReceiptJoin = root.join("receiptStatus");
             return receiptStatusReceiptJoin.get("name").in(status);
@@ -23,12 +24,14 @@ public class ReceiptSpecifications {
     }
 
     public static Specification<Receipt> hasMasterWithNameLike(String name) {
+        if (name.isBlank()) throw new IllegalArgumentException();
         return (root, query, cb) -> {
             Join<User, Receipt> masterReceiptJoin = root.join("master");
             return cb.like(masterReceiptJoin.get("username"), "%" + name + "%");
         };
     }
     public static Specification<Receipt> hasUserWithNameLike(String name) {
+        if (name.isBlank()) throw new IllegalArgumentException();
         return (root, query, cb) -> {
             Join<User, Receipt> userReceiptJoin = root.join("user");
             return cb.like(userReceiptJoin.get("username"), "%" + name + "%");
