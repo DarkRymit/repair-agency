@@ -1,6 +1,9 @@
 package com.epam.finalproject.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.CreatedBy;
@@ -18,6 +21,9 @@ import java.util.Set;
 @Table(name = "receipts")
 @Data
 @EntityListeners(AuditingEntityListener.class)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Receipt {
     @Id
     @Column(unique = true, nullable = false)
