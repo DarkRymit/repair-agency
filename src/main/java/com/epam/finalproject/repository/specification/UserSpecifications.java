@@ -4,12 +4,16 @@ import com.epam.finalproject.model.entity.User;
 import com.epam.finalproject.model.search.UserSearch;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.Objects;
+
 public class UserSpecifications {
 
     private UserSpecifications() {
     }
 
     public static Specification<User> hasUsernameLike(String name) {
+        Objects.requireNonNull(name);
+        if (name.isBlank()) throw new IllegalArgumentException();
         return (root, query, cb) -> cb.like(root.get("username"), "%" + name + "%");
     }
 
