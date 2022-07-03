@@ -15,8 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SearchRequestResolverTest {
@@ -81,7 +80,7 @@ class SearchRequestResolverTest {
 
         assertEquals("mast",receiptSearch.getMasterUsername());
         assertEquals("",receiptSearch.getUserUsername());
-        assertThat(receiptSearch.getReceiptStatuses(), containsInAnyOrder(ReceiptStatusEnum.DONE,ReceiptStatusEnum.PAID));
+        assertThat(receiptSearch.getReceiptStatuses()).containsExactlyInAnyOrder(ReceiptStatusEnum.DONE,ReceiptStatusEnum.PAID);
         PageRequest pageRequest = receiptSearch.getPageRequest();
         assertEquals(Sort.by("creationDate"),pageRequest.getSort());
         assertEquals(2,pageRequest.getPageNumber());
