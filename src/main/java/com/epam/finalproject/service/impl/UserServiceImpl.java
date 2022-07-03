@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 
 @Service
 @AllArgsConstructor
-public class UserServiceDefault implements UserService {
+public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
 
