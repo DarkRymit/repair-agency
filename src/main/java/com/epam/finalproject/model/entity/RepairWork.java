@@ -2,6 +2,7 @@ package com.epam.finalproject.model.entity;
 
 import com.epam.finalproject.model.entity.enums.RepairWorkName;
 import com.epam.finalproject.model.entity.enums.RepairWorkStatus;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.Set;
 @Table(name = "repair_works")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class RepairWork {
     @Id
     @Column(unique = true, nullable = false)
