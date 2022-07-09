@@ -1,8 +1,6 @@
 package com.epam.finalproject.repository;
 
-import com.epam.finalproject.model.entity.enums.RepairCategoryName;
 import com.epam.finalproject.model.entity.RepairWork;
-import com.epam.finalproject.model.entity.enums.RepairWorkName;
 import com.epam.finalproject.model.entity.enums.RepairWorkStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +21,16 @@ class RepairWorkRepositoryTest {
 
     @Test
     void findByName() {
-        List<RepairWork> repairWorks = repairWorkRepository.findByName(RepairWorkName.BATTERY_REPLACE);
+        List<RepairWork> repairWorks = repairWorkRepository.findByKeyName("battery-replace");
         assertFalse(repairWorks.isEmpty());
     }
 
     @Test
     void findByNameAndCategory() {
-        RepairWork repairWork = repairWorkRepository.findByNameAndCategory_Name(RepairWorkName.BATTERY_REPLACE, RepairCategoryName.NOTEBOOK)
+        RepairWork repairWork = repairWorkRepository.findByKeyNameAndCategory_KeyName("battery-replace", "notebook")
                 .orElseThrow();
-        assertEquals(RepairWorkName.BATTERY_REPLACE, repairWork.getName());
-        assertEquals(RepairCategoryName.NOTEBOOK, repairWork.getCategory().getName());
+        assertEquals("battery-replace", repairWork.getKeyName());
+        assertEquals("notebook", repairWork.getCategory().getKeyName());
         assertTrue(repairWork.getStatuses().contains(RepairWorkStatus.VIP));
     }
 
