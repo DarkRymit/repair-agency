@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -52,6 +53,8 @@ class UserRepositoryTest {
                 .phone("+380 63 108 7167")
                 .roles(Set.of(role))
                 .wallets(new HashSet<>())
+                .creationDate(Instant.now())
+                .lastModifiedDate(Instant.now())
                 .build();
         userRepository.save(user);
         User createdUser = userRepository.findByUsername("NoneStriker").orElseThrow();
