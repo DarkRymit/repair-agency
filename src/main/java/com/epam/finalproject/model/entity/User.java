@@ -5,9 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -52,6 +56,18 @@ public class User implements Serializable {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn()
     private UserAddress address;
+
+    @CreatedDate
+    @Column(nullable = false)
+    private Instant creationDate;
+
+    @Column
+    @LastModifiedBy
+    private String lastModifiedBy;
+
+    @LastModifiedDate
+    @Column
+    private Instant lastModifiedDate;
 
     public void addRole(Role role) {
         this.roles.add(role);
