@@ -37,9 +37,8 @@ public class UserServiceImpl implements UserService {
         try {
             return getSetUpAndSave(UserUtil::createWithInitializedContainers, user -> {
                 modelMapper.map(form, user);
-                user.chainer()
-                        .password(passwordEncoder.encode(form.getPassword()))
-                        .addRole(roleRepository.findByName(RoleEnum.UNVERIFIED).orElseThrow());
+                user.setPassword(passwordEncoder.encode(form.getPassword()));
+                user.addRole(roleRepository.findByName(RoleEnum.UNVERIFIED).orElseThrow());
             });
         } catch (Exception e) {
             throw new SingUpException(e);
