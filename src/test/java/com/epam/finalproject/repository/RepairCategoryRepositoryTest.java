@@ -1,7 +1,6 @@
 package com.epam.finalproject.repository;
 
 import com.epam.finalproject.model.entity.RepairCategory;
-import com.epam.finalproject.model.entity.enums.RepairCategoryName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,8 +26,8 @@ class RepairCategoryRepositoryTest {
 
     @Test
     void findByName() {
-        RepairCategory repairCategory = repairCategoryRepository.findByName(RepairCategoryName.PC).orElseThrow();
-        assertEquals(RepairCategoryName.PC, repairCategory.getName());
+        RepairCategory repairCategory = repairCategoryRepository.findByKeyName("pc").orElseThrow();
+        assertEquals("pc", repairCategory.getKeyName());
     }
 
 }
