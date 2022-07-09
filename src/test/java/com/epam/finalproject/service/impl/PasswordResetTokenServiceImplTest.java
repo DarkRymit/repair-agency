@@ -19,6 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
@@ -81,7 +82,7 @@ class PasswordResetTokenServiceImplTest {
                 .id(2L)
                 .token("token")
                 .user(user)
-                .expiryDate(LocalDateTime.now().plusMinutes(10))
+                .expiryDate(Instant.now().plusSeconds(10*60))
                 .build();
     }
 
@@ -92,7 +93,7 @@ class PasswordResetTokenServiceImplTest {
         assertNotNull(passwordResetToken.getExpiryDate());
         assertNotNull(passwordResetToken.getToken());
         assertEquals(passwordResetToken.getUser(),user);
-        assertTrue(passwordResetToken.getExpiryDate().isAfter(LocalDateTime.now()));
+        assertTrue(passwordResetToken.getExpiryDate().isAfter(Instant.now()));
 
     }
 
@@ -110,7 +111,7 @@ class PasswordResetTokenServiceImplTest {
         assertFalse(passwordResetTokenService.isExpired(passwordResetToken));
         assertFalse(passwordResetTokenService.isExpired(passwordResetToken, () -> passwordResetToken.getExpiryDate()));
         assertTrue(passwordResetTokenService.isExpired(passwordResetToken, () -> passwordResetToken.getExpiryDate()
-                .plusMinutes(1)));
+                .plusSeconds(60)));
     }
 
     @Test

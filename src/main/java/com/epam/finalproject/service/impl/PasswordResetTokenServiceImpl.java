@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -56,11 +58,11 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService 
 
     @Override
     public boolean isExpired(PasswordResetToken passwordResetToken) {
-        return isExpired(passwordResetToken, LocalDateTime::now);
+        return isExpired(passwordResetToken, Instant::now);
     }
 
     @Override
-    public boolean isExpired(PasswordResetToken passwordResetToken, Supplier<LocalDateTime> dateSupplier) {
+    public boolean isExpired(PasswordResetToken passwordResetToken, Supplier<Instant> dateSupplier) {
         return passwordResetToken.getExpiryDate().isBefore(dateSupplier.get());
     }
 
@@ -72,7 +74,7 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService 
         userRepository.save(user);
         passwordResetTokenRepository.delete(token);
     }
-    private LocalDateTime calculateExpiryDate() {
-        return LocalDateTime.now().plusMinutes(expiration);
+    private Instant calculateExpiryDate() {
+        return Instant.now().plus(Duration.ofMinutes(expiration));
     }
 }

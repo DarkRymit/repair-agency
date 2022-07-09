@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.Objects;
+import java.time.Instant;
+
 
 @Entity
 @Table(name = "password_reset_tokens")
@@ -23,41 +23,10 @@ public class PasswordResetToken {
 
     private String token;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @OneToOne(targetEntity = User.class)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
-    private LocalDateTime expiryDate;
+    private Instant expiryDate;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PasswordResetToken that = (PasswordResetToken) o;
-
-        if (!Objects.equals(id, that.id)) return false;
-        if (!Objects.equals(token, that.token)) return false;
-        if (user != null ? !user.getId().equals(that.user.getId()) : that.user != null) return false;
-        return Objects.equals(expiryDate, that.expiryDate);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (token != null ? token.hashCode() : 0);
-        result = 31 * result + (user != null ? user.getId().hashCode() : 0);
-        result = 31 * result + (expiryDate != null ? expiryDate.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "PasswordResetToken{" +
-                "id=" + id +
-                ", token='" + token + '\'' +
-                ", user=" + (user != null ? user.getId() : null) +
-                ", expiryDate=" + expiryDate +
-                '}';
-    }
 }
