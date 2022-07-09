@@ -5,25 +5,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
-@Table(name = "repair_categories")
+@Table(name = "repair_category_local_parts")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RepairCategory {
+public class RepairCategoryLocalPart {
 
     @Id
     @Column(unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    private RepairCategory category;
+
     @Column(nullable = false)
-    private String keyName;
+    private String name;
 
-    @OneToMany
-    @JoinColumn(name = "repair_categories_id")
-    private Set<RepairCategoryLocalPart> localParts;
-
+    @ManyToOne
+    private AppLocale language;
 }
