@@ -23,7 +23,7 @@ class ReceiptDeliveryRepositoryTest {
         ReceiptDelivery receiptDeliveries = receiptDeliveryRepository.findById(1L).orElseThrow();
         Receipt receipt = receiptDeliveries.getReceipt();
         assertNotNull(receipt);
-        assertEquals(1L,receipt.getReceiptDelivery().getId());
+        assertEquals(1L,receipt.getDelivery().getId());
         assertEquals("Kyiv",receiptDeliveries.getCity());
         assertEquals("Ukraine",receiptDeliveries.getCountry());
         assertEquals("some street2",receiptDeliveries.getLocalAddress());

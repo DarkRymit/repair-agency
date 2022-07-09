@@ -1,8 +1,9 @@
 package com.epam.finalproject.repository;
 
-import com.epam.finalproject.model.entity.*;
 import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
-import com.epam.finalproject.model.entity.enums.RepairCategoryName;
+import com.epam.finalproject.model.entity.Receipt;
+import com.epam.finalproject.model.entity.ReceiptDelivery;
+import com.epam.finalproject.model.entity.ReceiptItem;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,18 +28,18 @@ class ReceiptRepositoryTest {
     void find() {
         Receipt receipt = receiptRepository.findById(1L).orElseThrow();
         assertEquals("CustomerStriker",receipt.getUser().getUsername());
-        assertEquals(ReceiptStatusEnum.PAID,receipt.getReceiptStatus().getName());
+        assertEquals(ReceiptStatusEnum.PAID,receipt.getStatus().getName());
         assertEquals("MasterStriker",receipt.getMaster().getUsername());
 
-        Set<ReceiptItem> receiptItems = receipt.getReceiptItems();
+        Set<ReceiptItem> receiptItems = receipt.getItems();
         assertFalse(receiptItems.isEmpty());
 
-        ReceiptDelivery receiptDelivery = receipt.getReceiptDelivery();
+        ReceiptDelivery receiptDelivery = receipt.getDelivery();
         assertNotNull(receiptDelivery);
 
-        assertEquals(RepairCategoryName.NOTEBOOK,receipt.getCategory().getName());
-        assertThat(BigDecimal.valueOf(84.9)).isEqualByComparingTo(receipt.getPriceAmount());
-        assertEquals("USD",receipt.getPriceCurrency());
+        assertEquals("notebook",receipt.getCategory().getKeyName());
+        assertThat(BigDecimal.valueOf(84.9)).isEqualByComparingTo(receipt.getTotalPrice());
+        assertEquals("USD",receipt.getPriceCurrency().getCode());
         assertEquals("Typical note",receipt.getNote());
         assertEquals(Instant.parse("2022-01-10T14:23:22Z"),receipt.getCreationDate());
 
@@ -64,7 +65,7 @@ class ReceiptRepositoryTest {
 
     @Test
     void findAllByReceiptStatus_Name() {
-        List<Receipt> receipts = receiptRepository.findAllByReceiptStatus_Name(ReceiptStatusEnum.PAID);
+        List<Receipt> receipts = receiptRepository.findAllByStatus_Name(ReceiptStatusEnum.PAID);
         assertFalse(receipts.isEmpty());
     }
 

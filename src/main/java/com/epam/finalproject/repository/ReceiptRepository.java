@@ -13,7 +13,7 @@ import java.util.List;
 public interface ReceiptRepository extends JpaRepository<Receipt, Long>, JpaSpecificationExecutor<Receipt> {
     List<Receipt> findAllByUser_Username(String username);
     List<Receipt> findAllByMaster_Username(String username);
-    List<Receipt> findAllByReceiptStatus_Name(ReceiptStatusEnum receiptStatusName);
+    List<Receipt> findAllByStatus_Name(ReceiptStatusEnum receiptStatusName);
     List<Receipt> findAllByCreationDateBetween(Instant start, Instant end);
     List<Receipt> findAllByCreationDateAfter(Instant time);
     List<Receipt> findAllByCreationDateBefore(Instant time);

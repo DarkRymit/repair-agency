@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -36,29 +34,31 @@ public class Receipt {
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "receipt_status_id")
-    private ReceiptStatus receiptStatus;
+    private ReceiptStatus status;
 
     @ManyToOne
     @JoinColumn(name = "master_id")
     private User master;
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "receipt",cascade = CascadeType.ALL ,orphanRemoval=true)
-    @Fetch(value = FetchMode.SUBSELECT)
-    private Set<ReceiptItem> receiptItems;
+    @OneToMany(mappedBy = "receipt",fetch = FetchType.EAGER,cascade = CascadeType.ALL ,orphanRemoval=true)
+    private Set<ReceiptItem> items;
 
     @OneToOne(mappedBy = "receipt", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn()
-    private ReceiptDelivery receiptDelivery;
+    private ReceiptDelivery delivery;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private RepairCategory category;
 
     @Column(precision=19, scale=4)
-    private BigDecimal priceAmount;
+    private BigDecimal totalPrice;
 
-    @Column
-    private String priceCurrency;
+    @ManyToOne
+    @JoinColumn(nullable = false,name = "currency_id")
+    private AppCurrency priceCurrency;
+
+    private String note;
 
     @CreatedDate
     @Column(nullable = false)
@@ -76,5 +76,4 @@ public class Receipt {
     @Column
     private Instant lastModifiedDate;
 
-    private String note;
 }

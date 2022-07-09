@@ -18,7 +18,7 @@ public class ReceiptSpecifications {
     public static Specification<Receipt> hasStatusWithName(Set<ReceiptStatusEnum> status) {
         if (status.isEmpty()) throw new IllegalArgumentException();
         return (root, query, cb) -> {
-            Join<ReceiptStatus, Receipt> receiptStatusReceiptJoin = root.join("receiptStatus");
+            Join<ReceiptStatus, Receipt> receiptStatusReceiptJoin = root.join("status");
             return receiptStatusReceiptJoin.get("name").in(status);
         };
     }

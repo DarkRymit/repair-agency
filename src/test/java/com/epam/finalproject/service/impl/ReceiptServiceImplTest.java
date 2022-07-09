@@ -2,10 +2,11 @@ package com.epam.finalproject.service.impl;
 
 import com.epam.finalproject.model.entity.*;
 import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
-import com.epam.finalproject.model.entity.enums.RepairCategoryName;
-import com.epam.finalproject.model.entity.enums.RepairWorkName;
 import com.epam.finalproject.model.entity.enums.RoleEnum;
-import com.epam.finalproject.payload.request.SignUpRequest;
+import com.epam.finalproject.model.entity.Receipt;
+import com.epam.finalproject.model.entity.ReceiptDelivery;
+import com.epam.finalproject.model.entity.ReceiptItem;
+import com.epam.finalproject.model.entity.ReceiptStatus;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptCreateRequest;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptDeliveryCreateRequest;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptItemCreateRequest;
@@ -19,7 +20,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -58,10 +58,15 @@ class ReceiptServiceImplTest {
     @Mock
     UserRepository userRepository;
 
+    @Mock
+    AppCurrencyRepository appCurrencyRepository;
+
     @InjectMocks
     ReceiptServiceImpl receiptService;
 
     User user;
+
+    AppCurrency currency;
 
     @BeforeEach
     void setMockOutput() {
@@ -75,6 +80,7 @@ class ReceiptServiceImplTest {
                 .phone("+380 63 108 7168")
                 .roles(new HashSet<>(Set.of(new Role(RoleEnum.CUSTOMER), new Role(RoleEnum.UNVERIFIED))))
                 .build();
+        currency = new AppCurrency(1L,"USD");
     }
 
     @Test
@@ -129,10 +135,22 @@ class ReceiptServiceImplTest {
         );
         ReceiptCreateRequest request = new ReceiptCreateRequest(1L, receiptItemCreateRequests, deliveryCreateRequest, 1L, "test note");
         ReceiptStatus receiptStatus = new ReceiptStatus(1L, ReceiptStatusEnum.CREATED);
-        RepairCategory repairCategory = new RepairCategory(1L, RepairCategoryName.NOTEBOOK);
+        RepairCategory repairCategory = new RepairCategory(1L,"notebook",Set.of());
         Set<RepairWork> repairWorks = Set.of(
-                new RepairWork(1L, repairCategory, RepairWorkName.BATTERY_REPLACE, BigDecimal.TEN, "USD", null),
-                new RepairWork(2L, repairCategory, RepairWorkName.DATA_RECOVERY, BigDecimal.TEN, "USD", null)
+                RepairWork.builder()
+                        .id(1L)
+                        .category(repairCategory)
+                        .keyName("battery-replace")
+                        .localParts(Set.of(new RepairWorkLocalPart(null,null,"Replace battery",null)))
+                        .prices(Set.of(new RepairWorkPrice(null,null,BigDecimal.TEN,null,new AppCurrency(null,"USD"))))
+                        .build(),
+                RepairWork.builder()
+                        .id(2L)
+                        .category(repairCategory)
+                        .keyName("data-recovery")
+                        .localParts(Set.of(new RepairWorkLocalPart(null,null,"Replace battery",null)))
+                        .prices(Set.of(new RepairWorkPrice(null,null,BigDecimal.TEN,null,new AppCurrency(null,"USD"))))
+                        .build()
         );
 
         when(userRepository.findById(any())).thenReturn(Optional.ofNullable(user));
@@ -146,24 +164,24 @@ class ReceiptServiceImplTest {
                 .filter(e -> e.getId().equals(2L))
                 .findFirst()
                 .orElseThrow()));
-
+        when(appCurrencyRepository.findByCode(any())).thenReturn(Optional.ofNullable(currency));
 
         Receipt result = receiptService.createNew(request);
         assertEquals(user, result.getUser());
-        assertEquals(receiptStatus, result.getReceiptStatus());
+        assertEquals(receiptStatus, result.getStatus());
 
-        assertThat(result.getReceiptItems()
+        assertThat(result.getItems()
                 .stream()
                 .map(ReceiptItem::getRepairWork)
                 .collect(Collectors.toList())).containsExactlyInAnyOrderElementsOf(repairWorks);
 
-        ReceiptDelivery resultDelivery = result.getReceiptDelivery();
+        ReceiptDelivery resultDelivery = result.getDelivery();
         assertEquals(deliveryCreateRequest.getCountry(),resultDelivery.getCountry());
         assertEquals(deliveryCreateRequest.getCity(),resultDelivery.getCity());
         assertEquals(deliveryCreateRequest.getLocalAddress(),resultDelivery.getLocalAddress());
 
-        assertEquals("USD", result.getPriceCurrency());
-        assertThat(result.getPriceAmount()).isEqualByComparingTo(BigDecimal.TEN.add(BigDecimal.TEN));
+        assertEquals("USD", result.getPriceCurrency().getCode());
+        assertThat(result.getTotalPrice()).isEqualByComparingTo(BigDecimal.TEN.add(BigDecimal.TEN));
 
         assertEquals(repairCategory, result.getCategory());
         assertEquals(request.getNote(), result.getNote());
@@ -177,12 +195,12 @@ class ReceiptServiceImplTest {
                 new ReceiptItemUpdateRequest(2L, BigDecimal.TEN, "USD")
         );
         ReceiptUpdateRequest request = new ReceiptUpdateRequest(1L,ReceiptStatusEnum.PAID,2L,receiptItemUpdateRequests,deliveryUpdateRequest,"new Note");
-        RepairCategory repairCategory = new RepairCategory(1L, RepairCategoryName.NOTEBOOK);
+        RepairCategory repairCategory = new RepairCategory(1L, "notebook",Set.of());
         Receipt oldReceipt = Receipt.builder()
                 .id(1L)
-                .receiptItems(new HashSet<>())
+                .items(new HashSet<>())
                 .user(user)
-                .receiptDelivery(new ReceiptDelivery())
+                .delivery(new ReceiptDelivery())
                 .category(repairCategory)
                 .build();
         User master = User.builder()
@@ -191,8 +209,20 @@ class ReceiptServiceImplTest {
                 .build();
         ReceiptStatus receiptStatus = new ReceiptStatus(1L, ReceiptStatusEnum.PAID);
         Set<RepairWork> repairWorks = Set.of(
-                new RepairWork(1L, repairCategory, RepairWorkName.BATTERY_REPLACE, BigDecimal.TEN, "USD", null),
-                new RepairWork(2L, repairCategory, RepairWorkName.DATA_RECOVERY, BigDecimal.TEN, "USD", null)
+                RepairWork.builder()
+                        .id(1L)
+                        .category(repairCategory)
+                        .keyName("battery-replace")
+                        .localParts(Set.of(new RepairWorkLocalPart(null,null,"Replace battery",null)))
+                        .prices(Set.of(new RepairWorkPrice(null,null,BigDecimal.TEN,null,new AppCurrency(null,"USD"))))
+                        .build(),
+                RepairWork.builder()
+                        .id(2L)
+                        .category(repairCategory)
+                        .keyName("data-recovery")
+                        .localParts(Set.of(new RepairWorkLocalPart(null,null,"Replace battery",null)))
+                        .prices(Set.of(new RepairWorkPrice(null,null,BigDecimal.TEN,null,new AppCurrency(null,"USD"))))
+                        .build()
         );
 
         when(receiptRepository.findById(request.getId())).thenReturn(Optional.of(oldReceipt));
@@ -207,23 +237,24 @@ class ReceiptServiceImplTest {
                 .findFirst()
                 .orElseThrow()));
         when(receiptRepository.save(any())).then(returnsFirstArg());
+        when(appCurrencyRepository.findByCode(any())).thenReturn(Optional.ofNullable(currency));
 
         Receipt result = receiptService.update(request);
         assertEquals(user, result.getUser());
-        assertEquals(receiptStatus, result.getReceiptStatus());
+        assertEquals(receiptStatus, result.getStatus());
 
-        assertThat(result.getReceiptItems()
+        assertThat(result.getItems()
                 .stream()
                 .map(ReceiptItem::getRepairWork)
                 .collect(Collectors.toList())).containsExactlyInAnyOrderElementsOf(repairWorks);
 
-        ReceiptDelivery resultDelivery = result.getReceiptDelivery();
+        ReceiptDelivery resultDelivery = result.getDelivery();
         assertEquals(deliveryUpdateRequest.getCountry(),resultDelivery.getCountry());
         assertEquals(deliveryUpdateRequest.getCity(),resultDelivery.getCity());
         assertEquals(deliveryUpdateRequest.getLocalAddress(),resultDelivery.getLocalAddress());
 
-        assertEquals("USD", result.getPriceCurrency());
-        assertThat(result.getPriceAmount()).isEqualByComparingTo(BigDecimal.valueOf(25));
+        assertEquals("USD", result.getPriceCurrency().getCode());
+        assertThat(result.getTotalPrice()).isEqualByComparingTo(BigDecimal.valueOf(25));
 
         assertEquals(repairCategory, result.getCategory());
         assertEquals(request.getNote(), result.getNote());
