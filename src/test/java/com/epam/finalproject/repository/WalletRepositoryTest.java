@@ -35,7 +35,7 @@ class WalletRepositoryTest {
         Wallet wallet = walletRepository.findDistinctByNameAndUser_Username("Default","RedStriker").orElseThrow();
         assertEquals("Default", wallet.getName());
         assertEquals("RedStriker", wallet.getUser().getUsername());
-        assertEquals("USD", wallet.getMoneyCurrency());
+        assertEquals("USD", wallet.getMoneyCurrency().getCode());
         assertEquals(0,BigDecimal.valueOf(100).compareTo(wallet.getMoneyAmount()));
     }
 }
