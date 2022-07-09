@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -57,11 +59,11 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Override
     public boolean isExpired(VerificationToken verificationToken) {
-        return isExpired(verificationToken, LocalDateTime::now);
+        return isExpired(verificationToken, Instant::now);
     }
 
     @Override
-    public boolean isExpired(VerificationToken verificationToken, Supplier<LocalDateTime> dateSupplier) {
+    public boolean isExpired(VerificationToken verificationToken, Supplier<Instant> dateSupplier) {
         return verificationToken.getExpiryDate().isBefore(dateSupplier.get());
     }
 
@@ -75,8 +77,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         verificationTokenRepository.delete(token);
     }
 
-    private LocalDateTime calculateExpiryDate() {
-        return LocalDateTime.now().plusMinutes(expiration);
+    private Instant calculateExpiryDate() {
+        return Instant.now().plus(Duration.ofMinutes(expiration));
     }
-    
 }

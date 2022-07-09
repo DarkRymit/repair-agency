@@ -3,7 +3,7 @@ package com.epam.finalproject.service;
 import com.epam.finalproject.model.entity.User;
 import com.epam.finalproject.model.entity.VerificationToken;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -14,7 +14,7 @@ public interface VerificationTokenService {
 
     boolean isExpired(VerificationToken verificationToken);
 
-    boolean isExpired(VerificationToken verificationToken, Supplier<LocalDateTime> dateSupplier);
+    boolean isExpired(VerificationToken verificationToken, Supplier<Instant> dateSupplier);
 
     void verifyByToken(VerificationToken token);
 }

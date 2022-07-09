@@ -17,6 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
@@ -69,7 +70,7 @@ class VerificationTokenServiceImplTest {
                 .id(2L)
                 .token("token")
                 .user(user)
-                .expiryDate(LocalDateTime.now().plusMinutes(10))
+                .expiryDate(Instant.now().plusSeconds(10*60))
                 .build();
     }
 
@@ -79,7 +80,7 @@ class VerificationTokenServiceImplTest {
         assertNotNull(verificationToken.getExpiryDate());
         assertNotNull(verificationToken.getToken());
         assertEquals(verificationToken.getUser(),user);
-        assertTrue(verificationToken.getExpiryDate().isAfter(LocalDateTime.now()));
+        assertTrue(verificationToken.getExpiryDate().isAfter(Instant.now()));
 
     }
 
@@ -96,7 +97,7 @@ class VerificationTokenServiceImplTest {
         assertFalse(verificationTokenService.isExpired(verificationToken));
         assertFalse(verificationTokenService.isExpired(verificationToken, () -> verificationToken.getExpiryDate()));
         assertTrue(verificationTokenService.isExpired(verificationToken, () -> verificationToken.getExpiryDate()
-                .plusMinutes(1)));
+                .plusSeconds(60)));
     }
 
     @Test
