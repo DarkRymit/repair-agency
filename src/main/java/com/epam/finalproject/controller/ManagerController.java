@@ -1,6 +1,6 @@
 package com.epam.finalproject.controller;
 
-import com.epam.finalproject.model.entity.Receipt;
+import com.epam.finalproject.dto.ReceiptDTO;
 import com.epam.finalproject.model.entity.User;
 import com.epam.finalproject.payload.request.search.ReceiptSearchRequest;
 import com.epam.finalproject.payload.request.search.UserSearchRequest;
@@ -40,7 +40,7 @@ public class ManagerController {
 
     @GetMapping("/orders")
     String ordersPage(Model model, ReceiptSearchRequest receiptSearchRequest) {
-        Page<Receipt> receipts = searchService.findBySearch(receiptSearchRequest);
+        Page<ReceiptDTO> receipts = searchService.findBySearch(receiptSearchRequest).map(r -> receiptService.constructDTO(r));
         model.addAttribute("search",receiptSearchRequest);
         model.addAttribute("receipts", receipts);
         model.addAttribute(ACTIVE, "orders");
