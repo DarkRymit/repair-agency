@@ -1,5 +1,6 @@
 package com.epam.finalproject.service.impl;
 
+import com.epam.finalproject.dto.ReceiptDTO;
 import com.epam.finalproject.model.entity.*;
 import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptCreateRequest;
@@ -12,6 +13,7 @@ import com.epam.finalproject.repository.*;
 import com.epam.finalproject.service.ReceiptService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -41,6 +43,8 @@ public class ReceiptServiceImpl implements ReceiptService {
     AppCurrencyRepository appCurrencyRepository;
 
     UserRepository userRepository;
+
+    ModelMapper modelMapper;
 
     @Override
     public List<Receipt> findAll() {
@@ -98,6 +102,15 @@ public class ReceiptServiceImpl implements ReceiptService {
         log.info("save receipt");
 
         return resultReceipt;
+    }
+
+    @Override
+    public ReceiptDTO constructDTO(Receipt receipt) {
+        log.info("Arg :" + receipt);
+        ReceiptDTO result = new ReceiptDTO();
+        modelMapper.map(receipt,result);
+        log.info("ReceiptDTO constructed :" + result);
+        return result;
     }
 
     private void mergeDeliveryInto(Receipt receipt, ReceiptDelivery delivery) {

@@ -1,5 +1,6 @@
 package com.epam.finalproject.service;
 
+import com.epam.finalproject.dto.ReceiptDTO;
 import com.epam.finalproject.model.entity.Receipt;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptCreateRequest;
 import com.epam.finalproject.payload.request.receipt.update.ReceiptUpdateRequest;
@@ -16,4 +17,6 @@ public interface ReceiptService {
     Receipt createNew(ReceiptCreateRequest createRequest);
 
     Receipt update(ReceiptUpdateRequest updateRequest);
+
+    ReceiptDTO constructDTO(Receipt receipt);
 }
