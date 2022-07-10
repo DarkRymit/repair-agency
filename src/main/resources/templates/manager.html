@@ -363,14 +363,14 @@
                                 </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
-                                <tr class="table-light" th:each="receipt:${receipts}">
+                                <tr class="table-light" th:each="receipt:${receipts.getContent()}">
                                     <td>
                                         <a class=" text-dark text-decoration-none"
                                            th:href="'/user/'+${receipt.user.id}+'/profile'"
                                            th:text="'@'+${receipt.user.username}"></a>
                                     </td>
                                     <td>
-                                        <th:block th:switch="${receipt.receiptStatus.name.name()}">
+                                        <th:block th:switch="${receipt.status.name}">
                                             <span th:case="'CREATED'">Created</span>
                                             <span th:case="'WAIT_FOR_PAYMENT'">Wait for payment</span>
                                             <span th:case="'PAID'">Paid</span>
@@ -393,11 +393,11 @@
                                            th:text="'@'+${receipt.master.username}"></a>
                                     </td>
                                     <td th:text="${receipt.category.name}">notebook</td>
-                                    <td th:text="${receipt.priceAmount}">20.40</td>
-                                    <td th:text="${receipt.priceCurrency}">USD</td>
-                                    <td th:text="${receipt.creationDate}">14-01-2003</td>
-                                    <td th:text="${receipt.receiptDelivery.country}">Ukraine</td>
-                                    <td th:text="${receipt.receiptDelivery.city}">Kyiv</td>
+                                    <td th:text="${receipt.totalPrice}">20.40</td>
+                                    <td th:text="${receipt.priceCurrency.code}">USD</td>
+                                    <td th:text="${@thymeleafUtil.format(receipt.creationDate)}">14-01-2003</td>
+                                    <td th:text="${receipt.delivery.country}">Ukraine</td>
+                                    <td th:text="${receipt.delivery.city}">Kyiv</td>
                                 </tr>
                                 </tbody>
                             </table>
