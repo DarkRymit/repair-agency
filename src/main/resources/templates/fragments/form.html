@@ -1,5 +1,5 @@
-<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="receiptSearch(search)">
-    <form id="search-form" method="get" th:action="@{/manager/orders}">
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <form id="search-form" method="get" th:action="@{/manager/orders}" th:fragment="receiptSearch(search)">
         <ul class="list-group text-center">
             <li class="list-group-item">
                 <input class="btn btn-primary btn-user btn-block search-submit" type="submit"
@@ -100,9 +100,7 @@
             </li>
         </ul>
     </form>
-</th:block>
-<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="userSearch(search)">
-    <form id="search-form" method="get" th:action="@{/manager/users}" >
+    <form id="search-form" method="get" th:action="@{/manager/users}" th:fragment="userSearch(search)">
         <ul class="list-group text-center">
             <li class="list-group-item">
                 <input class="btn btn-primary btn-user btn-block search-submit" type="submit"
@@ -143,4 +141,46 @@
             </li>
         </ul>
     </form>
+    <form id="search-form" method="get" th:action="@{/manager/masters}" th:fragment="masterSearch(search)">
+        <ul class="list-group text-center">
+            <li class="list-group-item">
+                <input class="btn btn-primary btn-user btn-block search-submit" type="submit"
+                       value="Apply">
+            </li>
+            <li class="list-group-item">
+                <label for="sort_select"> Sort by </label>
+                <select class="form-select" id="sort_select" name="sort">
+                    <option th:selected="${search.sort=='username'&&search.sort==''}"
+                            value="username">
+                        username
+                    </option>
+                    <option th:selected="${search.sort=='name'}" value="name">
+                        name
+                    </option>
+                </select>
+            </li>
+            <li class="list-group-item list-group-item-secondary">
+                Filter by
+            </li>
+            <li class="list-group-item">
+                <button class="btn btn-primary" data-bs-target="#collapseUsername"
+                        data-bs-toggle="collapse"
+                        type="button">
+                    username
+                </button>
+                <div class="collapse px-auto" id="collapseUsername"
+                     th:classappend="${search?.username!= null && !search.username.isBlank()} ? show">
+                    <div class="list-group">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                            <input class="form-control" name="username" placeholder="Username"
+                                   th:value="${search?.username}"
+                                   type="text">
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </form>
+
 </th:block>

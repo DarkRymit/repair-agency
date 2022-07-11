@@ -2,8 +2,10 @@ package com.epam.finalproject.service.impl;
 
 import com.epam.finalproject.model.entity.Receipt;
 import com.epam.finalproject.model.entity.User;
+import com.epam.finalproject.model.search.MasterSearch;
 import com.epam.finalproject.model.search.ReceiptSearch;
 import com.epam.finalproject.model.search.UserSearch;
+import com.epam.finalproject.payload.request.search.MasterSearchRequest;
 import com.epam.finalproject.payload.request.search.ReceiptSearchRequest;
 import com.epam.finalproject.payload.request.search.UserSearchRequest;
 import com.epam.finalproject.repository.ReceiptRepository;
@@ -45,5 +47,14 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public Page<User> findBySearch(UserSearchRequest userSearchRequest) {
         return findBySearch(searchRequestResolver.resolve(userSearchRequest));
+    }
+
+    @Override
+    public Page<User> findBySearch(MasterSearch masterSearch) {
+        return userRepository.findAll(UserSpecifications.matchSearch(masterSearch), masterSearch.getPageRequest());
+    }
+    @Override
+    public Page<User> findBySearch(MasterSearchRequest masterSearchRequest) {
+        return findBySearch(searchRequestResolver.resolve(masterSearchRequest));
     }
 }

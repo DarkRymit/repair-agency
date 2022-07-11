@@ -2,6 +2,7 @@ package com.epam.finalproject.controller;
 
 import com.epam.finalproject.dto.ReceiptDTO;
 import com.epam.finalproject.model.entity.User;
+import com.epam.finalproject.payload.request.search.MasterSearchRequest;
 import com.epam.finalproject.payload.request.search.ReceiptSearchRequest;
 import com.epam.finalproject.payload.request.search.UserSearchRequest;
 import com.epam.finalproject.service.ReceiptService;
@@ -57,7 +58,10 @@ public class ManagerController {
     }
 
     @GetMapping("/masters")
-    String mastersPage(Model model) {
+    String mastersPage(Model model, MasterSearchRequest masterSearchRequest) {
+        Page<User> masters = searchService.findBySearch(masterSearchRequest);
+        model.addAttribute("search",masterSearchRequest);
+        model.addAttribute("masters", masters);
         model.addAttribute(ACTIVE, "masters");
         return MANAGER_VIEW;
     }

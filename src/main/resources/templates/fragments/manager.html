@@ -85,4 +85,36 @@
             </div>
         </div>
     </div>
+    <div class="container ms-0" th:fragment="master(search,masters)">
+        <div class="row">
+            <div class="col-2" th:insert="fragments/form.html :: userSearch(${search})"></div>
+            <div class="col-10">
+                <th:block th:insert="fragments/table.html :: simple(~{::#masterHead},~{::#masterBody})">
+                    <tr class="head" id="masterHead">
+                        <th scope="col">Username</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Roles</th>
+                    </tr>
+                    <tr class="body table-light" th:each="master:${masters.getContent()}" id="masterBody">
+                        <td>
+                            <a class=" text-dark text-decoration-none"
+                               th:href="'/user/'+${master.id}+'/profile'"
+                               th:text="'@'+${master.username}"></a>
+                        </td>
+                        <td th:text="${master.firstName}"></td>
+                        <td th:text="${master.lastName}"></td>
+                        <td th:text="${master.phone}"></td>
+                        <td>
+                            <ul class="list-group" th:each="role:${master.roles}">
+                                <li class="list-group-item" th:text="${role.name}"></li>
+                            </ul>
+                        </td>
+                    </tr>
+                </th:block>
+                <th:block th:insert="~{fragments/pagination.html :: pagination(${masters})}"></th:block>
+            </div>
+        </div>
+    </div>
 </th:block>

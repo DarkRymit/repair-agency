@@ -17,7 +17,7 @@
             <th:block th:include="${active == 'home'} ? ~{fragments/manager.html :: home} : ~{}"></th:block>
             <th:block th:include="${active == 'orders'} ? ~{fragments/manager :: receipt(${search},${receipts})} :  ~{}"></th:block>
             <th:block th:include="${active == 'users'} ? ~{fragments/manager.html :: user(${search},${users}) } : ~{}"></th:block>
-            <th:block th:include="${active == 'masters'} ? ~{fragments/manager.html :: master } : ~{}"></th:block>
+            <th:block th:include="${active == 'masters'} ? ~{fragments/manager.html :: master(${search},${masters}) } : ~{}"></th:block>
             <th:block th:include="${active == 'responses'} ? ~{fragments/manager.html :: response } : ~{}"></th:block>
         </div>
     </main>

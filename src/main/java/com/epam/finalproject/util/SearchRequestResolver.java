@@ -1,8 +1,10 @@
 package com.epam.finalproject.util;
 
 import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
+import com.epam.finalproject.model.search.MasterSearch;
 import com.epam.finalproject.model.search.ReceiptSearch;
 import com.epam.finalproject.model.search.UserSearch;
+import com.epam.finalproject.payload.request.search.MasterSearchRequest;
 import com.epam.finalproject.payload.request.search.ReceiptSearchRequest;
 import com.epam.finalproject.payload.request.search.UserSearchRequest;
 import lombok.AllArgsConstructor;
@@ -68,6 +70,26 @@ public class SearchRequestResolver {
 
         return UserSearch.builder()
                 .username(userSearchRequest.getUsername())
+                .pageRequest(PageRequest.of(pageValue, countValue, sort))
+                .build();
+    }
+
+    public MasterSearch resolve(MasterSearchRequest masterSearchRequest) {
+        int pageValue = Optional.ofNullable(masterSearchRequest.getPage()).orElse(0);
+
+        int countValue = Optional.ofNullable(masterSearchRequest.getCount()).orElse(10);
+
+        String sortValue = Optional.ofNullable(masterSearchRequest.getSort()).orElse("");
+
+        Sort sort = userSort.entrySet()
+                .stream()
+                .filter(e -> e.getKey().equals(sortValue))
+                .map(Map.Entry::getValue)
+                .findFirst()
+                .orElseThrow();
+
+        return MasterSearch.builder()
+                .username(masterSearchRequest.getUsername())
                 .pageRequest(PageRequest.of(pageValue, countValue, sort))
                 .build();
     }
