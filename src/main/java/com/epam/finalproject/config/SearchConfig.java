@@ -20,9 +20,9 @@ public class SearchConfig {
 
         Sort sortByTime = Sort.by("creationDate");
 
-        hashMap.put("price", Sort.by("priceAmount").and(Sort.by("priceCurrency").and(sortByTime)));
+        hashMap.put("price", Sort.by("totalPrice").and(Sort.by("priceCurrency").and(sortByTime)));
         hashMap.put("create-time", sortByTime);
-        hashMap.put("status", Sort.by("receiptStatus").and(sortByTime));
+        hashMap.put("status", Sort.by("status").and(sortByTime));
         hashMap.put("", sortByTime);
 
         return Collections.unmodifiableMap(hashMap);
