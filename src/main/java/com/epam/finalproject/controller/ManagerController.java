@@ -53,7 +53,7 @@ public class ManagerController {
         model.addAttribute("search",userSearchRequest);
         model.addAttribute("users", users);
         model.addAttribute(ACTIVE, "users");
-        return "manager-users";
+        return MANAGER_VIEW;
     }
 
     @GetMapping("/masters")
