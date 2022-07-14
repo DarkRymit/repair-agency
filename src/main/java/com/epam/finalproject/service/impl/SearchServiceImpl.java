@@ -1,5 +1,6 @@
 package com.epam.finalproject.service.impl;
 
+import com.epam.finalproject.aop.logging.Loggable;
 import com.epam.finalproject.model.entity.Receipt;
 import com.epam.finalproject.model.entity.User;
 import com.epam.finalproject.model.search.MasterSearch;
@@ -29,12 +30,14 @@ public class SearchServiceImpl implements SearchService {
     SearchRequestResolver searchRequestResolver;
 
     @Override
+    @Loggable
     public Page<Receipt> findBySearch(ReceiptSearch receiptSearch) {
         return receiptRepository.findAll(ReceiptSpecifications.matchSearch(receiptSearch), receiptSearch.getPageRequest());
 
     }
 
     @Override
+    @Loggable
     public Page<Receipt> findBySearch(ReceiptSearchRequest receiptSearchRequest) {
         return findBySearch(searchRequestResolver.resolve(receiptSearchRequest));
     }

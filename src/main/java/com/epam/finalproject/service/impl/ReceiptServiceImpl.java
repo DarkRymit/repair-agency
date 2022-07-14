@@ -1,5 +1,6 @@
 package com.epam.finalproject.service.impl;
 
+import com.epam.finalproject.aop.logging.Loggable;
 import com.epam.finalproject.dto.ReceiptDTO;
 import com.epam.finalproject.model.entity.*;
 import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
@@ -105,11 +106,10 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
+    @Loggable
     public ReceiptDTO constructDTO(Receipt receipt) {
-        log.info("Arg :" + receipt);
         ReceiptDTO result = new ReceiptDTO();
         modelMapper.map(receipt,result);
-        log.info("ReceiptDTO constructed :" + result);
         return result;
     }
 
