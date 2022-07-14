@@ -1,5 +1,6 @@
 package com.epam.finalproject.service.impl;
 
+import com.epam.finalproject.aop.logging.Loggable;
 import com.epam.finalproject.model.entity.Role;
 import com.epam.finalproject.model.entity.enums.RoleEnum;
 import com.epam.finalproject.model.entity.User;
@@ -40,6 +41,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     }
 
     @Override
+    @Loggable
     public VerificationToken createTokenForUser(User user) {
         String token = UUID.randomUUID().toString();
         VerificationToken verificationToken = VerificationToken.builder()
@@ -53,22 +55,26 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     }
 
     @Override
+    @Loggable
     public Optional<VerificationToken> findByToken(String token) {
         return verificationTokenRepository.findByToken(token);
     }
 
     @Override
+    @Loggable
     public boolean isExpired(VerificationToken verificationToken) {
         return isExpired(verificationToken, Instant::now);
     }
 
     @Override
+    @Loggable
     public boolean isExpired(VerificationToken verificationToken, Supplier<Instant> dateSupplier) {
         return verificationToken.getExpiryDate().isBefore(dateSupplier.get());
     }
 
     @Override
     @Transactional
+    @Loggable
     public void verifyByToken(VerificationToken token) {
         Role role = roleRepository.findByName(RoleEnum.UNVERIFIED).orElseThrow();
         User user = token.getUser();

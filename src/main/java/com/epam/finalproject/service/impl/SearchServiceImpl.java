@@ -43,20 +43,24 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
+    @Loggable
     public Page<User> findBySearch(UserSearch userSearch) {
         return userRepository.findAll(UserSpecifications.matchSearch(userSearch), userSearch.getPageRequest());
     }
 
     @Override
+    @Loggable
     public Page<User> findBySearch(UserSearchRequest userSearchRequest) {
         return findBySearch(searchRequestResolver.resolve(userSearchRequest));
     }
 
     @Override
+    @Loggable
     public Page<User> findBySearch(MasterSearch masterSearch) {
         return userRepository.findAll(UserSpecifications.matchSearch(masterSearch), masterSearch.getPageRequest());
     }
     @Override
+    @Loggable
     public Page<User> findBySearch(MasterSearchRequest masterSearchRequest) {
         return findBySearch(searchRequestResolver.resolve(masterSearchRequest));
     }

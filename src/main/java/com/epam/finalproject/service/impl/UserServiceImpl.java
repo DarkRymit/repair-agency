@@ -1,5 +1,6 @@
 package com.epam.finalproject.service.impl;
 
+import com.epam.finalproject.aop.logging.Loggable;
 import com.epam.finalproject.exceptions.SingUpException;
 import com.epam.finalproject.model.entity.Role;
 import com.epam.finalproject.model.entity.enums.RoleEnum;
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @Loggable
     public User signUpNewUserAccount(SignUpRequest form) {
         try {
             return getSetUpAndSave(UserUtil::createWithInitializedContainers, user -> {

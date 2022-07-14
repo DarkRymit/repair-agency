@@ -28,11 +28,8 @@ public class SearchRequestResolver {
     Map<String, ReceiptStatusEnum> receiptStatus;
 
     public ReceiptSearch resolve(ReceiptSearchRequest receiptSearchRequest) {
-        int pageValue = Optional.ofNullable(receiptSearchRequest.getPage()).orElse(0);
 
-        int countValue = Optional.ofNullable(receiptSearchRequest.getCount()).orElse(10);
-
-        String sortValue = Optional.ofNullable(receiptSearchRequest.getSort()).orElse("");
+        String sortValue = getValueOrDefault(receiptSearchRequest.getSort(),"");
 
         Sort sort = receiptSort.entrySet()
                 .stream()
@@ -51,13 +48,11 @@ public class SearchRequestResolver {
                 .receiptStatuses(receiptStatuses)
                 .userUsername(receiptSearchRequest.getUser())
                 .masterUsername(receiptSearchRequest.getMaster())
-                .pageRequest(PageRequest.of(pageValue, countValue, sort))
+                .pageRequest(PageRequest.of(getValueOrZero(receiptSearchRequest.getPage()), getValueOrDefault(receiptSearchRequest.getCount(), 10), sort))
                 .build();
     }
-    public UserSearch resolve(UserSearchRequest userSearchRequest) {
-        int pageValue = Optional.ofNullable(userSearchRequest.getPage()).orElse(0);
 
-        int countValue = Optional.ofNullable(userSearchRequest.getCount()).orElse(10);
+    public UserSearch resolve(UserSearchRequest userSearchRequest) {
 
         String sortValue = Optional.ofNullable(userSearchRequest.getSort()).orElse("");
 
@@ -70,16 +65,13 @@ public class SearchRequestResolver {
 
         return UserSearch.builder()
                 .username(userSearchRequest.getUsername())
-                .pageRequest(PageRequest.of(pageValue, countValue, sort))
+                .pageRequest(PageRequest.of(getValueOrZero(userSearchRequest.getPage()), getValueOrDefault(userSearchRequest.getCount(), 10), sort))
                 .build();
     }
 
     public MasterSearch resolve(MasterSearchRequest masterSearchRequest) {
-        int pageValue = Optional.ofNullable(masterSearchRequest.getPage()).orElse(0);
 
-        int countValue = Optional.ofNullable(masterSearchRequest.getCount()).orElse(10);
-
-        String sortValue = Optional.ofNullable(masterSearchRequest.getSort()).orElse("");
+        String sortValue = getValueOrDefault(masterSearchRequest.getSort(),"");
 
         Sort sort = userSort.entrySet()
                 .stream()
@@ -90,7 +82,15 @@ public class SearchRequestResolver {
 
         return MasterSearch.builder()
                 .username(masterSearchRequest.getUsername())
-                .pageRequest(PageRequest.of(pageValue, countValue, sort))
+                .pageRequest(PageRequest.of(getValueOrZero(masterSearchRequest.getPage()), getValueOrDefault(masterSearchRequest.getCount(), 10), sort))
                 .build();
+    }
+
+    private Integer getValueOrZero(Integer value) {
+        return getValueOrDefault(value, 0);
+    }
+
+    private <T> T getValueOrDefault(T value, T defaultValue) {
+        return Optional.ofNullable(value).orElse(defaultValue);
     }
 }

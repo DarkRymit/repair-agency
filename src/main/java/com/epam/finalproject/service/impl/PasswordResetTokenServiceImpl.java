@@ -1,5 +1,6 @@
 package com.epam.finalproject.service.impl;
 
+import com.epam.finalproject.aop.logging.Loggable;
 import com.epam.finalproject.model.entity.PasswordResetToken;
 import com.epam.finalproject.model.entity.User;
 import com.epam.finalproject.payload.request.NewPasswordRequest;
@@ -39,6 +40,7 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService 
     }
 
     @Override
+    @Loggable
     public PasswordResetToken createTokenForUser(User user) {
                 String token = UUID.randomUUID().toString();
         PasswordResetToken passwordResetToken = PasswordResetToken.builder()
@@ -52,22 +54,26 @@ public class PasswordResetTokenServiceImpl implements PasswordResetTokenService 
     }
 
     @Override
+    @Loggable
     public Optional<PasswordResetToken> findByToken(String token) {
         return passwordResetTokenRepository.findByToken(token);
     }
 
     @Override
+    @Loggable
     public boolean isExpired(PasswordResetToken passwordResetToken) {
         return isExpired(passwordResetToken, Instant::now);
     }
 
     @Override
+    @Loggable
     public boolean isExpired(PasswordResetToken passwordResetToken, Supplier<Instant> dateSupplier) {
         return passwordResetToken.getExpiryDate().isBefore(dateSupplier.get());
     }
 
     @Override
     @Transactional
+    @Loggable
     public void newPassword(PasswordResetToken token, NewPasswordRequest newPasswordRequest) {
         User user = token.getUser();
         user.setPassword(passwordEncoder.encode(newPasswordRequest.getPassword()));

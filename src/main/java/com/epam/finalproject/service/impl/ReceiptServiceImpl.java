@@ -59,6 +59,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     @Transactional
+    @Loggable
     public Receipt createNew(ReceiptCreateRequest createRequest) {
         log.info(createRequest.toString());
 
@@ -83,6 +84,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     @Transactional
+    @Loggable
     public Receipt update(ReceiptUpdateRequest request) {
         log.info(request.toString());
 
