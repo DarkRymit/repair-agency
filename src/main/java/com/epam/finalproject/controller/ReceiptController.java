@@ -1,6 +1,7 @@
 package com.epam.finalproject.controller;
 
 import com.epam.finalproject.model.entity.Receipt;
+import com.epam.finalproject.payload.request.receipt.create.ReceiptCreateRequest;
 import com.epam.finalproject.payload.request.receipt.update.ReceiptUpdateRequest;
 import com.epam.finalproject.service.ReceiptService;
 import lombok.AllArgsConstructor;
@@ -22,5 +23,12 @@ public class ReceiptController {
         Receipt receipt = receiptService.update(updateRequest);
         return "redirect:/"+receipt.getId();
     }
+
+    @PostMapping("/create")
+    String create(Model model, @RequestBody ReceiptCreateRequest createRequest, @RequestParam(required=false) String redirectURL) {
+        Receipt receipt = receiptService.createNew(createRequest);
+        return "redirect:/"+receipt.getId();
+    }
+
 
 }
