@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +24,7 @@ public class SearchConfig {
         hashMap.put("status", Sort.by("status").and(sortByTime));
         hashMap.put("", sortByTime);
 
-        return Collections.unmodifiableMap(hashMap);
+        return Map.copyOf(hashMap);
     }
 
     @Bean
@@ -38,7 +37,7 @@ public class SearchConfig {
         hashMap.put("work", ReceiptStatusEnum.IN_WORK);
         hashMap.put("wait", ReceiptStatusEnum.WAIT_FOR_PAYMENT);
 
-        return Collections.unmodifiableMap(hashMap);
+        return Map.copyOf(hashMap);
     }
 
     @Bean
@@ -50,7 +49,7 @@ public class SearchConfig {
         hashMap.put("name", Sort.by("firstName").and(Sort.by("lastName").and(sortByUsername)));
         hashMap.put("", sortByUsername);
 
-        return Collections.unmodifiableMap(hashMap);
+        return Map.copyOf(hashMap);
     }
 
 }
