@@ -105,7 +105,19 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--        Additional Dependencies-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.invesdwin</groupId>
+            <artifactId>invesdwin-instrument</artifactId>
+            <version>1.0.14</version><!---project.version.invesdwin-instrument-->
+        </dependency>
         <dependency>
             <groupId>org.javamoney</groupId>
             <artifactId>moneta</artifactId>
@@ -128,6 +140,18 @@
             <version>8.12.49</version>
         </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>invesdwin-oss</id>
+            <url>https://invesdwin.de/repo/invesdwin-oss-remote</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>invesdwin-oss</id>
+            <url>https://invesdwin.de/repo/invesdwin-oss-remote</url>
+        </pluginRepository>
+    </pluginRepositories>
     <profiles>
         <profile>
             <id>HAL_EXPLORER</id>

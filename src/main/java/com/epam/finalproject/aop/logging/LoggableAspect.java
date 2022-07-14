@@ -8,13 +8,11 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
 @Aspect
 @Slf4j
-@Component
 public class LoggableAspect {
 
     public static final String METHOD_CALLED_WITH_ARGS = "method {} called with args {}";
@@ -26,7 +24,7 @@ public class LoggableAspect {
         // Pointcuts need to have empty body
     }
 
-    @Around(value = "callAt(annotation)", argNames = "pjp,annotation")
+    @Around(value = "callAt(annotation) && within(com.epam.finalproject..*) && execution(* com.epam.finalproject..*(..))", argNames = "pjp,annotation")
     public Object around(ProceedingJoinPoint pjp, Loggable annotation) throws Throwable {
         Signature signature = pjp.getSignature();
 
@@ -80,9 +78,5 @@ public class LoggableAspect {
 
     private void logArgs(ProceedingJoinPoint pjp, Loggable annotation, Signature signature, Logger logger) {
         LoggableFunctionContainer.argsMap().get(annotation.level()).handle(logger, METHOD_CALLED_WITH_ARGS, signature, pjp.getArgs());
-    }
-
-    public static LoggableAspect aspectOf(){
-        return new LoggableAspect();
     }
 }
