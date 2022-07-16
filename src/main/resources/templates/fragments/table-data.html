@@ -1,0 +1,42 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+
+    <td th:fragment="receipt-user(receipt)">
+        <a class=" text-dark text-decoration-none"
+           th:href="'/user/'+${receipt.user.id}+'/profile'"
+           th:text="'@'+${receipt.user.username}"></a>
+    </td>
+    <td th:fragment="receipt-status(receipt)">
+        <th:block th:switch="${receipt.status.name}">
+            <span th:case="'CREATED'">Created</span>
+            <span th:case="'WAIT_FOR_PAYMENT'">Wait for payment</span>
+            <span th:case="'PAID'">Paid</span>
+            <span th:case="'IN_WORK'">In work</span>
+            <span th:case="'DONE'">Done</span>
+            <span th:case="'CANCELED'">Canceled</span>
+        </th:block>
+    </td>
+    <td th:switch="${receipt.master} == null" th:fragment="receipt-master(receipt)">
+        <i class=" text-dark text-decoration-none"
+           th:case="true">
+            Not assigned
+        </i>
+        <a class=" text-dark text-decoration-none"
+           th:case="*"
+           th:href="'/user/'+${receipt.master.id}+'/profile'"
+           th:text="'@'+${receipt.master.username}"></a>
+    </td>
+    <td th:text="${receipt.category.name}" th:fragment="receipt-category(receipt)">notebook</td>
+
+    <td th:fragment="receipt-price(receipt)">
+        <i th:text="${receipt.totalPrice}" ></i>
+        <i th:text="${receipt.priceCurrency.code}"></i>
+    </td>
+
+    <td th:text="${@thymeleafUtil.format(receipt.creationDate)}" th:fragment="receipt-creationDate(receipt)">14-01-2003</td>
+    <td th:fragment="receipt-delivery(receipt)">
+        <ul class="list-group">
+            <li th:text="${receipt.delivery.country}" class="list-group-item">Ukraine</li>
+            <li th:text="${receipt.delivery.city}"  class="list-group-item">Kyiv</li>
+        </ul>
+    </td>
+</th:block>

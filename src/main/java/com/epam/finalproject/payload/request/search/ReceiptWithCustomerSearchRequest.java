@@ -7,10 +7,9 @@ import java.util.Set;
 
 @Data
 @AllArgsConstructor
-public class ReceiptSearchRequest {
+public class ReceiptWithCustomerSearchRequest {
     String sort;
     Set<String> status;
-    String customer;
     String master;
     Integer page;
     Integer count;

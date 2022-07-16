@@ -1,0 +1,117 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <ul class="list-group text-center">
+        <li class="list-group-item" th:fragment="apply">
+            <input class="btn btn-primary btn-user btn-block search-submit" type="submit"
+                   value="Apply">
+        </li>
+
+        <li class="list-group-item" th:fragment="sort(search)">
+            <label for="sort_select"> Sort by </label>
+            <select class="form-select" id="sort_select" name="sort">
+                <option th:selected="${search.sort=='create-time'&&search.sort==''}" value="create-time">creation time</option>
+                <option th:selected="${search.sort=='status'}" value="status">status</option>
+                <option th:selected="${search.sort=='price'}" value="price">price</option>
+            </select>
+        </li>
+
+        <li class="list-group-item list-group-item-secondary" th:fragment="filter">
+            Filter by
+        </li>
+
+        <li class="list-group-item" th:fragment="status(search)">
+            <button class="btn btn-primary" data-bs-target="#collapseStatus"
+                    data-bs-toggle="collapse"
+                    type="button">
+                Status
+            </button>
+            <div class="collapse px-auto" id="collapseStatus"
+                 th:classappend="${search?.status!= null && !search.status.isEmpty()} ? show">
+                <div class="list-group">
+                    <div class="form-check list-group-item list-group-item-action">
+                        <input class="form-check-input" id="flexCheckWaitForPayment"
+                               name="status"
+                               th:checked="${search?.status?.contains('wait')}"
+                               type="checkbox"
+                               value="wait">
+                        <label class="form-check-label" for="flexCheckWaitForPayment">
+                            Wait for payment
+                        </label>
+                    </div>
+                    <div class="form-check list-group-item list-group-item-action">
+                        <input class="form-check-input" id="flexCheckPaid" name="status"
+                               th:checked="${search?.status?.contains('paid')}"
+                               type="checkbox"
+                               value="paid">
+                        <label class="form-check-label" for="flexCheckPaid">
+                            Paid
+                        </label>
+                    </div>
+                    <div class="form-check list-group-item list-group-item-action">
+                        <input class="form-check-input" id="flexCheckInWork" name="status"
+                               th:checked="${search?.status?.contains('work')}"
+                               type="checkbox"
+                               value="work">
+                        <label class="form-check-label" for="flexCheckInWork">
+                            In work
+                        </label>
+                    </div>
+                    <div class="form-check list-group-item list-group-item-action">
+                        <input class="form-check-input" id="flexCheckDone" name="status"
+                               th:checked="${search?.status?.contains('done')}"
+                               type="checkbox"
+                               value="done">
+                        <label class="form-check-label" for="flexCheckDone">
+                            Done
+                        </label>
+                    </div>
+                    <div class="form-check list-group-item list-group-item-action">
+                        <input class="form-check-input" id="flexCheckCanceled" name="status"
+                               th:checked="${search?.status?.contains('cancel')}"
+                               type="checkbox"
+                               value="cancel">
+                        <label class="form-check-label" for="flexCheckCanceled">
+                            Canceled
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li class="list-group-item" th:fragment="master(search)">
+            <button class="btn btn-primary" data-bs-target="#collapseMaster"
+                    data-bs-toggle="collapse"
+                    type="button">
+                Master
+            </button>
+            <div class="collapse px-auto" id="collapseMaster"
+                 th:classappend="${search?.master!= null && !search.master.isBlank()} ? show">
+                <div class="list-group">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">@</span>
+                        <input class="form-control" name="master" placeholder="Username"
+                               th:value="${search?.master}"
+                               type="text">
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item" th:fragment="customer(search)">
+            <button class="btn btn-primary" data-bs-target="#collapseCustomer"
+                    data-bs-toggle="collapse"
+                    type="button">
+                Customer
+            </button>
+            <div class="collapse px-auto" id="collapseCustomer"
+                 th:classappend="${search?.customer!= null && !search.customer.isBlank()} ? show">
+                <div class="list-group">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon2">@</span>
+                        <input class="form-control" name="customer" placeholder="Username"
+                               th:value="${search?.customer}"
+                               type="text">
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</th:block>

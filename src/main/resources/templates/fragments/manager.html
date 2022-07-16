@@ -1,7 +1,18 @@
 <th:block xmlns:th="http://www.thymeleaf.org">
     <div class="container ms-0" th:fragment="receipt(search,receipts)">
         <div class="row">
-            <div class="col-2" th:insert="fragments/form.html :: receiptSearch (${search})"></div>
+            <div class="col-2">
+                <form id="search-form" method="get" th:action="@{/manager/orders}">
+                    <ul class="list-group text-center">
+                        <th:block th:insert="fragments/form/receiptSearch :: apply"></th:block>
+                        <th:block th:insert="fragments/form/receiptSearch :: sort(${search})"></th:block>
+                        <th:block th:insert="fragments/form/receiptSearch :: filter"></th:block>
+                        <th:block th:insert="fragments/form/receiptSearch :: status(${search})"></th:block>
+                        <th:block th:insert="fragments/form/receiptSearch :: master(${search})"></th:block>
+                        <th:block th:insert="fragments/form/receiptSearch :: customer(${search})"></th:block>
+                    </ul>
+                </form>
+            </div>
             <div class="col-10">
                 <th:block th:insert="fragments/table.html :: simple(~{::#receiptHead},~{::#receiptBody})">
                     <tr class="head" id="receiptHead">
@@ -10,43 +21,17 @@
                         <th scope="col">Master</th>
                         <th scope="col">Category</th>
                         <th scope="col">Price</th>
-                        <th scope="col">Currency</th>
                         <th scope="col">Creation time</th>
-                        <th scope="col">Delivery country</th>
-                        <th scope="col">Delivery city</th>
+                        <th scope="col">Delivery</th>
                     </tr>
                     <tr class="body table-light" th:each="receipt:${receipts.getContent()}" id="receiptBody">
-                        <td>
-                            <a class=" text-dark text-decoration-none"
-                               th:href="'/user/'+${receipt.user.id}+'/profile'"
-                               th:text="'@'+${receipt.user.username}"></a>
-                        </td>
-                        <td>
-                            <th:block th:switch="${receipt.status.name}">
-                                <span th:case="'CREATED'">Created</span>
-                                <span th:case="'WAIT_FOR_PAYMENT'">Wait for payment</span>
-                                <span th:case="'PAID'">Paid</span>
-                                <span th:case="'IN_WORK'">In work</span>
-                                <span th:case="'DONE'">Done</span>
-                                <span th:case="'CANCELED'">Canceled</span>
-                            </th:block>
-                        </td>
-                        <td th:switch="${receipt.master} == null">
-                            <i class=" text-dark text-decoration-none"
-                               th:case="true">
-                                Not assigned
-                            </i>
-                            <a class=" text-dark text-decoration-none"
-                               th:case="*"
-                               th:href="'/user/'+${receipt.master.id}+'/profile'"
-                               th:text="'@'+${receipt.master.username}"></a>
-                        </td>
-                        <td th:text="${receipt.category.name}">notebook</td>
-                        <td th:text="${receipt.totalPrice}">20.40</td>
-                        <td th:text="${receipt.priceCurrency.code}">USD</td>
-                        <td th:text="${@thymeleafUtil.format(receipt.creationDate)}">14-01-2003</td>
-                        <td th:text="${receipt.delivery.country}">Ukraine</td>
-                        <td th:text="${receipt.delivery.city}">Kyiv</td>
+                        <th:block th:insert="fragments/table-data :: receipt-user(${receipt})"></th:block>
+                        <th:block th:insert="fragments/table-data :: receipt-status(${receipt})"></th:block>
+                        <th:block th:insert="fragments/table-data :: receipt-master(${receipt})"></th:block>
+                        <th:block th:insert="fragments/table-data :: receipt-category(${receipt})"></th:block>
+                        <th:block th:insert="fragments/table-data :: receipt-price(${receipt})"></th:block>
+                        <th:block th:insert="fragments/table-data :: receipt-creationDate(${receipt})"></th:block>
+                        <th:block th:insert="fragments/table-data :: receipt-delivery(${receipt})"></th:block>
                     </tr>
                 </th:block>
                 <th:block th:insert="~{fragments/pagination.html :: pagination(${receipts})}"></th:block>

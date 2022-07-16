@@ -3,12 +3,8 @@ package com.epam.finalproject.service.impl;
 import com.epam.finalproject.aop.logging.Loggable;
 import com.epam.finalproject.model.entity.Receipt;
 import com.epam.finalproject.model.entity.User;
-import com.epam.finalproject.model.search.MasterSearch;
-import com.epam.finalproject.model.search.ReceiptSearch;
-import com.epam.finalproject.model.search.UserSearch;
-import com.epam.finalproject.payload.request.search.MasterSearchRequest;
-import com.epam.finalproject.payload.request.search.ReceiptSearchRequest;
-import com.epam.finalproject.payload.request.search.UserSearchRequest;
+import com.epam.finalproject.model.search.*;
+import com.epam.finalproject.payload.request.search.*;
 import com.epam.finalproject.repository.ReceiptRepository;
 import com.epam.finalproject.repository.UserRepository;
 import com.epam.finalproject.repository.specification.ReceiptSpecifications;
@@ -40,6 +36,30 @@ public class SearchServiceImpl implements SearchService {
     @Loggable
     public Page<Receipt> findBySearch(ReceiptSearchRequest receiptSearchRequest) {
         return findBySearch(searchRequestResolver.resolve(receiptSearchRequest));
+    }
+
+    @Override
+    @Loggable
+    public Page<Receipt> findBySearch(ReceiptWithCustomerSearch receiptSearch) {
+        return receiptRepository.findAll(ReceiptSpecifications.matchSearch(receiptSearch), receiptSearch.getPageRequest());
+    }
+
+    @Override
+    @Loggable
+    public Page<Receipt> findBySearch(ReceiptWithCustomerSearchRequest receiptSearchRequest,User customer) {
+        return findBySearch(searchRequestResolver.resolve(receiptSearchRequest,customer));
+    }
+
+    @Override
+    @Loggable
+    public Page<Receipt> findBySearch(ReceiptWithMasterSearch receiptSearch) {
+        return receiptRepository.findAll(ReceiptSpecifications.matchSearch(receiptSearch), receiptSearch.getPageRequest());
+    }
+
+    @Override
+    @Loggable
+    public Page<Receipt> findBySearch(ReceiptWithMasterSearchRequest receiptSearchRequest,User master) {
+        return findBySearch(searchRequestResolver.resolve(receiptSearchRequest,master));
     }
 
     @Override

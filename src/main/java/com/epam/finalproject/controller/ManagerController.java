@@ -24,7 +24,11 @@ public class ManagerController {
 
     public static final String ACTIVE = "active";
 
-    public static final String MANAGER_VIEW = "manager";
+    public static final String MANAGER_VIEW = "cabinet";
+
+    public static final String TYPE = "type";
+    public static final String MANAGER = "manager";
+    public static final String SEARCH = "search";
 
     SearchService searchService;
 
@@ -36,38 +40,43 @@ public class ManagerController {
     @GetMapping("/home")
     String homePage(Model model) {
         model.addAttribute(ACTIVE, "home");
+        model.addAttribute(TYPE, MANAGER);
         return MANAGER_VIEW;
     }
 
     @GetMapping("/orders")
     String ordersPage(Model model, ReceiptSearchRequest receiptSearchRequest) {
         Page<ReceiptDTO> receipts = searchService.findBySearch(receiptSearchRequest).map(r -> receiptService.constructDTO(r));
-        model.addAttribute("search",receiptSearchRequest);
+        model.addAttribute(SEARCH,receiptSearchRequest);
         model.addAttribute("receipts", receipts);
         model.addAttribute(ACTIVE, "orders");
+        model.addAttribute(TYPE, MANAGER);
         return MANAGER_VIEW;
     }
 
     @GetMapping("/users")
     String usersPage(Model model, UserSearchRequest userSearchRequest) {
         Page<User> users = searchService.findBySearch(userSearchRequest);
-        model.addAttribute("search",userSearchRequest);
+        model.addAttribute(SEARCH,userSearchRequest);
         model.addAttribute("users", users);
         model.addAttribute(ACTIVE, "users");
+        model.addAttribute(TYPE, MANAGER);
         return MANAGER_VIEW;
     }
 
     @GetMapping("/masters")
     String mastersPage(Model model, MasterSearchRequest masterSearchRequest) {
         Page<User> masters = searchService.findBySearch(masterSearchRequest);
-        model.addAttribute("search",masterSearchRequest);
+        model.addAttribute(SEARCH,masterSearchRequest);
         model.addAttribute("masters", masters);
         model.addAttribute(ACTIVE, "masters");
+        model.addAttribute(TYPE, MANAGER);
         return MANAGER_VIEW;
     }
     @GetMapping("/responses")
     String responsesPage(Model model) {
         model.addAttribute(ACTIVE, "responses");
+        model.addAttribute(TYPE, MANAGER);
         return MANAGER_VIEW;
     }
 }

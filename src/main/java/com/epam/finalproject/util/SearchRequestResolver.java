@@ -1,12 +1,9 @@
 package com.epam.finalproject.util;
 
+import com.epam.finalproject.model.entity.User;
 import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
-import com.epam.finalproject.model.search.MasterSearch;
-import com.epam.finalproject.model.search.ReceiptSearch;
-import com.epam.finalproject.model.search.UserSearch;
-import com.epam.finalproject.payload.request.search.MasterSearchRequest;
-import com.epam.finalproject.payload.request.search.ReceiptSearchRequest;
-import com.epam.finalproject.payload.request.search.UserSearchRequest;
+import com.epam.finalproject.model.search.*;
+import com.epam.finalproject.payload.request.search.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -46,8 +43,56 @@ public class SearchRequestResolver {
 
         return ReceiptSearch.builder()
                 .receiptStatuses(receiptStatuses)
-                .userUsername(receiptSearchRequest.getUser())
+                .customerUsername(receiptSearchRequest.getCustomer())
                 .masterUsername(receiptSearchRequest.getMaster())
+                .pageRequest(PageRequest.of(getValueOrZero(receiptSearchRequest.getPage()), getValueOrDefault(receiptSearchRequest.getCount(), 10), sort))
+                .build();
+    }
+    public ReceiptWithCustomerSearch resolve(ReceiptWithCustomerSearchRequest receiptSearchRequest, User customer) {
+
+        String sortValue = getValueOrDefault(receiptSearchRequest.getSort(),"");
+
+        Sort sort = receiptSort.entrySet()
+                .stream()
+                .filter(e -> e.getKey().equals(sortValue))
+                .map(Map.Entry::getValue)
+                .findFirst()
+                .orElseThrow();
+
+        Set<ReceiptStatusEnum> receiptStatuses = Optional.ofNullable(receiptSearchRequest.getStatus())
+                .orElse(Set.of())
+                .stream()
+                .map(e -> Optional.ofNullable(receiptStatus.get(e)).orElseThrow())
+                .collect(Collectors.toSet());
+
+        return ReceiptWithCustomerSearch.builder()
+                .receiptStatuses(receiptStatuses)
+                .customer(customer)
+                .masterUsername(receiptSearchRequest.getMaster())
+                .pageRequest(PageRequest.of(getValueOrZero(receiptSearchRequest.getPage()), getValueOrDefault(receiptSearchRequest.getCount(), 10), sort))
+                .build();
+    }
+    public ReceiptWithMasterSearch resolve(ReceiptWithMasterSearchRequest receiptSearchRequest,User master) {
+
+        String sortValue = getValueOrDefault(receiptSearchRequest.getSort(),"");
+
+        Sort sort = receiptSort.entrySet()
+                .stream()
+                .filter(e -> e.getKey().equals(sortValue))
+                .map(Map.Entry::getValue)
+                .findFirst()
+                .orElseThrow();
+
+        Set<ReceiptStatusEnum> receiptStatuses = Optional.ofNullable(receiptSearchRequest.getStatus())
+                .orElse(Set.of())
+                .stream()
+                .map(e -> Optional.ofNullable(receiptStatus.get(e)).orElseThrow())
+                .collect(Collectors.toSet());
+
+        return ReceiptWithMasterSearch.builder()
+                .receiptStatuses(receiptStatuses)
+                .customerUsername(receiptSearchRequest.getCustomer())
+                .master(master)
                 .pageRequest(PageRequest.of(getValueOrZero(receiptSearchRequest.getPage()), getValueOrDefault(receiptSearchRequest.getCount(), 10), sort))
                 .build();
     }

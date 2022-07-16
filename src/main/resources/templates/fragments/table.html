@@ -1,8 +1,11 @@
-<table xmlns:th="http://www.thymeleaf.org" class="table table-bordered border-primary" th:fragment="simple(head,body)">
-    <thead class="table-dark align-middle">
-    <tr th:replace="${head}"></tr>
-    </thead>
-    <tbody class="table-group-divider">
-    <tr class="table-light" th:replace="${body}"></tr>
-    </tbody>
-</table>
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <table class="table table-bordered border-primary" th:fragment="simple(head,body)"
+           xmlns:th="http://www.thymeleaf.org">
+        <thead class="table-dark align-middle">
+        <tr th:replace="${head}"></tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr class="table-light" th:replace="${body}"></tr>
+        </tbody>
+    </table>
+</th:block>

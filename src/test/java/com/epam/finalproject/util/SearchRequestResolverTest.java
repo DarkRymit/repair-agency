@@ -79,7 +79,7 @@ class SearchRequestResolverTest {
         ReceiptSearch receiptSearch = searchRequestResolver.resolve(request);
 
         assertEquals("mast",receiptSearch.getMasterUsername());
-        assertEquals("",receiptSearch.getUserUsername());
+        assertEquals("",receiptSearch.getCustomerUsername());
         assertThat(receiptSearch.getReceiptStatuses()).containsExactlyInAnyOrder(ReceiptStatusEnum.DONE,ReceiptStatusEnum.PAID);
         PageRequest pageRequest = receiptSearch.getPageRequest();
         assertEquals(Sort.by("creationDate"),pageRequest.getSort());

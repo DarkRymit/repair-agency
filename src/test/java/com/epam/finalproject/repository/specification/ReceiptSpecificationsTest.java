@@ -75,7 +75,7 @@ class ReceiptSpecificationsTest {
     @Test
     void matchSearch() {
         ReceiptSearch search = ReceiptSearch.builder()
-                .userUsername("Customer")
+                .customerUsername("Customer")
                 .masterUsername("Master")
                 .receiptStatuses(Set.of(ReceiptStatusEnum.DONE,ReceiptStatusEnum.CREATED))
                 .build();
