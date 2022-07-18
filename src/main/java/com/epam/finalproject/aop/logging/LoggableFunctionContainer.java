@@ -32,11 +32,11 @@ public class LoggableFunctionContainer {
         argsMap = Map.copyOf(argsHandlerMapModifiable);
 
         Map<Level, LogReturnConsumer> returnHandlerMapModifiable = new EnumMap<>(Level.class);
-        returnHandlerMapModifiable.put(Level.ERROR, (logger, format, signature, result) -> logger.debug(format, signature.getName(), result));
-        returnHandlerMapModifiable.put(Level.WARN, (logger, format, signature, result) -> logger.debug(format, signature.getName(), result));
-        returnHandlerMapModifiable.put(Level.INFO, (logger, format, signature, result) -> logger.debug(format, signature.getName(), result));
+        returnHandlerMapModifiable.put(Level.ERROR, (logger, format, signature, result) -> logger.error(format, signature.getName(), result));
+        returnHandlerMapModifiable.put(Level.WARN, (logger, format, signature, result) -> logger.warn(format, signature.getName(), result));
+        returnHandlerMapModifiable.put(Level.INFO, (logger, format, signature, result) -> logger.info(format, signature.getName(), result));
         returnHandlerMapModifiable.put(Level.DEBUG, (logger, format, signature, result) -> logger.debug(format, signature.getName(), result));
-        returnHandlerMapModifiable.put(Level.TRACE, (logger, format, signature, result) -> logger.debug(format, signature.getName(), result));
+        returnHandlerMapModifiable.put(Level.TRACE, (logger, format, signature, result) -> logger.trace(format, signature.getName(), result));
         returnMap = Map.copyOf(returnHandlerMapModifiable);
 
     }
