@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="author">
+
+    <title>Receipt</title>
+    <th:block th:insert="fragments/import.html :: bootstrap"></th:block>
+    <!-- Custom styles for this template-->
+    <link href="/css/animation.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 fadeIn">
+                <div class="card shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-12 p-5 text-center">
+                                <strong> Order </strong>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <strong>ID</strong>
+                                        <span>:</span>
+                                        <strong th:text="${order.id}"></strong>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Customer</strong>
+                                        <span>:</span>
+                                        <a class=" text-dark text-decoration-none"
+                                           th:href="'/user/'+${order.user.id}+'/profile'"
+                                           th:text="'@'+${order.user.username}"></a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Status</strong>
+                                        <span>:</span>
+                                        <th:block th:switch="${order.status.name}">
+                                            <strong th:case="'CREATED'">Created</strong>
+                                            <strong th:case="'WAIT_FOR_PAYMENT'">Wait for payment</strong>
+                                            <strong th:case="'PAID'">Paid</strong>
+                                            <strong th:case="'IN_WORK'">In work</strong>
+                                            <strong th:case="'DONE'">Done</strong>
+                                            <strong th:case="'CANCELED'">Canceled</strong>
+                                        </th:block>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Master</strong>
+                                        <span>:</span>
+                                        <th:block th:switch="${order.master} == null">
+                                            <i class=" text-dark text-decoration-none"
+                                               th:case="true">
+                                                Not assigned
+                                            </i>
+                                            <a class=" text-dark text-decoration-none"
+                                               th:case="*"
+                                               th:href="'/user/'+${order.master.id}+'/profile'"
+                                               th:text="'@'+${order.master.username}"></a>
+                                        </th:block>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Category</strong>
+                                        <span>:</span>
+                                        <th:block th:text="${order.category.keyName}"></th:block>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Total price</strong>
+                                        <span>:</span>
+                                        <th:block th:text="${order.totalPrice}"></th:block>
+                                        <strong th:text="${order.priceCurrency.code}"></strong>
+                                    </li>
+                                    <li class="list-group-item">
+                                    <strong>Items</strong><span>:</span>
+                                        <br>
+                                        <ul class="list-group" th:each="item:${order.items}">
+                                            <li class="list-group-item">
+                                                <th:block th:text="${item.repairWork.keyName}"></th:block>
+                                                <br>
+                                                <th:block th:text="${item.priceAmount}"></th:block>
+                                                <strong th:text="${item.priceCurrency.code}"></strong>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Delivery</strong><span>:</span>
+                                        <br>
+                                        <ul class="list-group">
+                                            <li th:if="${order.delivery.country} != null" class="list-group-item">
+                                                <strong>Country</strong>
+                                                <span>:</span>
+                                                <span th:text="${order.delivery.country}"></span>
+                                            </li>
+                                            <li th:if="${order.delivery.state} != null" class="list-group-item">
+                                                <strong>State</strong>
+                                                <span>:</span>
+                                                <span th:text="${order.delivery.state}"></span>
+                                            </li>
+                                            <li th:if="${order.delivery.city} != null" class="list-group-item">
+                                                <strong>City</strong>
+                                                <span>:</span>
+                                                <span th:text="${order.delivery.city}"></span>
+                                            </li>
+                                            <li th:if="${order.delivery.localAddress} != null" class="list-group-item">
+                                                <strong>Local address</strong>
+                                                <span>:</span>
+                                                <span th:text="${order.delivery.localAddress}"></span>
+                                            </li>
+                                            <li th:if="${order.delivery.postalCode} != null" class="list-group-item">
+                                                <strong>Postal code</strong>
+                                                <span>:</span>
+                                                <span th:text="${order.delivery.postalCode}"></span>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Created</strong>
+                                        <span>:</span>
+                                        <strong th:text="${@thymeleafUtil.format(order.creationDate)}">14-01-2003</strong>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Modified</strong>
+                                        <span>:</span>
+                                        <strong th:text="${@thymeleafUtil.format(order.lastModifiedDate)}">14-01-2003</strong>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Note</strong>
+                                        <span>:</span>
+                                        <th:block th:text="${order.note}">14-01-2003</th:block>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JavaScript -->
+    <th:block th:replace="fragments/import.html :: bootstrapScript"></th:block>
+</body>
+
+</html>

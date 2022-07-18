@@ -1,5 +1,6 @@
 package com.epam.finalproject.controller;
 
+import com.epam.finalproject.dto.ReceiptDTO;
 import com.epam.finalproject.model.entity.Receipt;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptCreateRequest;
 import com.epam.finalproject.payload.request.receipt.update.ReceiptUpdateRequest;
@@ -22,6 +23,12 @@ public class ReceiptController {
         updateRequest.setId(id);
         Receipt receipt = receiptService.update(updateRequest);
         return "redirect:/"+receipt.getId();
+    }
+    @GetMapping("/{id}")
+    String show(Model model, @RequestParam(required = false) String redirectURL, @PathVariable Long id) {
+        ReceiptDTO receipt = receiptService.findById(id);
+        model.addAttribute("order",receipt);
+        return "order";
     }
 
     @PostMapping("/create")
