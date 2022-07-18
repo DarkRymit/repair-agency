@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="author">
+
+    <title>Receipt</title>
+    <th:block th:insert="fragments/import.html :: bootstrap"></th:block>
+    <!-- Custom styles for this template-->
+    <link href="/css/animation.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 fadeIn">
+                <div class="card shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-12 p-5 text-center">
+                                <strong> Order </strong>
+                                <form>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <strong>Category</strong>
+                                            <span>:</span>
+                                            <th:block th:text="${category.keyName}"></th:block>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <strong>Items</strong><span>:</span>
+                                            <br>
+                                            <ul class="list-group" th:each="work:${works}">
+                                                <li class="list-group-item">
+                                                    <label>
+                                                        <input class="form-check-input" type="checkbox" value="">
+                                                        <th:block th:text="${work.keyName}"></th:block>
+                                                    </label>
+                                                    <br>
+                                                    <th:block th:text="${work.lowerBorder}"></th:block>
+                                                    <th:block th:text="${work.upperBorder}"></th:block>
+                                                    <strong th:text="${work?.currency?.code}"></strong>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <strong>Delivery</strong><span>:</span>
+                                            <br>
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    <div class="input-group">
+                                                        <strong class="input-group-text">Country</strong>
+                                                        <input type="text" aria-label="Country" class="form-control">
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="input-group">
+                                                        <strong class="input-group-text">State</strong>
+                                                        <input type="text" aria-label="State" class="form-control">
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="input-group">
+                                                        <strong class="input-group-text">City</strong>
+                                                        <input type="text" aria-label="City" class="form-control">
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="input-group">
+                                                        <strong class="input-group-text">Local address</strong>
+                                                        <input type="text" aria-label="Local address"
+                                                                  class="form-control">
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="input-group">
+                                                        <strong class="input-group-text">Postal code</strong>
+                                                        <input type="text" aria-label="Postal code"
+                                                                  class="form-control">
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="input-group">
+                                                <strong class="input-group-text">Note</strong>
+                                                <textarea maxlength="255" aria-label="Note" class="form-control"></textarea>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JavaScript -->
+    <th:block th:replace="fragments/import.html :: bootstrapScript"></th:block>
+</body>
+
+</html>

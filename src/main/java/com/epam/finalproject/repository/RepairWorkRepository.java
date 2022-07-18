@@ -10,5 +10,6 @@ import java.util.Optional;
 @Repository
 public interface RepairWorkRepository extends JpaRepository<RepairWork, Long> {
     List<RepairWork> findByKeyName(String key);
+    List<RepairWork> findByCategoryKeyName(String key);
     Optional<RepairWork> findByKeyNameAndCategory_KeyName(String workKey, String categoryKey);
 }
