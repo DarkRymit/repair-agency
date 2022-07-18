@@ -13,6 +13,4 @@ public class ReceiptItemUpdateRequest {
     Long repairWorkID;
 
     BigDecimal priceAmount;
-
-    String priceCurrency;
 }

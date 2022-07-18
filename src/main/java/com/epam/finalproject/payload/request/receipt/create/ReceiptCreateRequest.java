@@ -11,13 +11,13 @@ import java.util.Set;
 @NoArgsConstructor
 public class ReceiptCreateRequest {
 
-    Long userID;
+    Long categoryId;
+
+    String priceCurrency;
 
     Set<ReceiptItemCreateRequest> receiptItems;
 
     ReceiptDeliveryCreateRequest receiptDelivery;
-
-    Long categoryId;
 
     String note;
 }

@@ -26,8 +26,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.epam.finalproject.util.CustomCollectionsUtil.toSingleton;
-
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -61,23 +59,34 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Transactional
     @Loggable
     public Receipt createNew(ReceiptCreateRequest createRequest) {
-        log.info(createRequest.toString());
-
         Receipt receipt = new Receipt();
 
-        Set<ReceiptItem> receiptItems = getReceiptItemSet(createRequest, receipt);
+        AppCurrency currency = appCurrencyRepository.findByCode(createRequest.getPriceCurrency()).orElseThrow();
 
-        receipt.setUser(userRepository.findById(createRequest.getUserID()).orElseThrow());
+        User customer = userRepository.findById(4L).orElseThrow();
+
+        RepairCategory category = repairCategoryRepository.findById(createRequest.getCategoryId()).orElseThrow();
+
+        ReceiptDelivery delivery = buildBy(createRequest.getReceiptDelivery(), receipt);
+
+        Set<ReceiptItem> receiptItems = getReceiptItemSet(createRequest, receipt, currency);
+
+
+        receipt.setUser(customer);
+
         receipt.setStatus(receiptStatusRepository.findByName(ReceiptStatusEnum.CREATED).orElseThrow());
-        receipt.setCategory(repairCategoryRepository.getById(createRequest.getCategoryId()));
+
+        receipt.setCategory(category);
+
+        receipt.setPriceCurrency(currency);
+
         receipt.setItems(receiptItems);
-        receipt.setTotalPrice(getReceiptTotalPriceAmount(receiptItems));
-        receipt.setPriceCurrency(getReceiptPriceCurrency(receiptItems));
-        receipt.setDelivery(buildBy(createRequest.getReceiptDelivery(), receipt));
+
+        receipt.setDelivery(delivery);
+
         receipt.setNote(createRequest.getNote());
 
         receiptRepository.save(receipt);
-        log.info("save receipt");
 
         return receipt;
     }
@@ -86,19 +95,25 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Transactional
     @Loggable
     public Receipt update(ReceiptUpdateRequest request) {
-        log.info(request.toString());
-
         Receipt receipt = receiptRepository.findById(request.getId()).orElseThrow();
 
-        Set<ReceiptItem> receiptItems = getReceiptItemSet(request, receipt);
+        AppCurrency currency = appCurrencyRepository.findByCode(request.getPriceCurrency()).orElseThrow();
+
+        Set<ReceiptItem> receiptItems = getReceiptItemSet(request, receipt, currency);
 
         receipt.setMaster(userRepository.findById(request.getMasterId()).orElseThrow());
+
         receipt.setStatus(receiptStatusRepository.findByName(request.getReceiptStatus()).orElseThrow());
+
         receipt.getItems().clear();
         receipt.getItems().addAll(receiptItems);
+
         receipt.setTotalPrice(getReceiptTotalPriceAmount(receiptItems));
-        receipt.setPriceCurrency(getReceiptPriceCurrency(receiptItems));
-        mergeDeliveryInto(receipt,buildBy(request.getReceiptDelivery(), receipt));
+
+        receipt.setPriceCurrency(currency);
+
+        mergeDeliveryInto(receipt, buildBy(request.getReceiptDelivery(), receipt));
+
         receipt.setNote(request.getNote());
 
         Receipt resultReceipt = receiptRepository.save(receipt);
@@ -111,7 +126,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Loggable
     public ReceiptDTO constructDTO(Receipt receipt) {
         ReceiptDTO result = new ReceiptDTO();
-        modelMapper.map(receipt,result);
+        modelMapper.map(receipt, result);
         return result;
     }
 
@@ -122,7 +137,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     private void mergeDeliveryInto(Receipt receipt, ReceiptDelivery delivery) {
         ReceiptDelivery oldDelivery = receipt.getDelivery();
-        if (!oldDelivery.equals(delivery)){
+        if (!oldDelivery.equals(delivery)) {
             oldDelivery.setCity(delivery.getCity());
             oldDelivery.setCountry(delivery.getCountry());
             oldDelivery.setState(delivery.getState());
@@ -131,12 +146,18 @@ public class ReceiptServiceImpl implements ReceiptService {
         }
     }
 
-    private Set<ReceiptItem> getReceiptItemSet(ReceiptUpdateRequest updateRequest, Receipt receipt) {
-        return updateRequest.getReceiptItems().stream().map(e -> buildBy(e, receipt)).collect(Collectors.toSet());
+    private Set<ReceiptItem> getReceiptItemSet(ReceiptUpdateRequest updateRequest, Receipt receipt, AppCurrency currency) {
+        return updateRequest.getReceiptItems()
+                .stream()
+                .map(e -> buildBy(e, receipt, currency))
+                .collect(Collectors.toSet());
     }
 
-    private Set<ReceiptItem> getReceiptItemSet(ReceiptCreateRequest createRequest, Receipt receipt) {
-        return createRequest.getReceiptItems().stream().map(e -> buildBy(e, receipt)).collect(Collectors.toSet());
+    private Set<ReceiptItem> getReceiptItemSet(ReceiptCreateRequest createRequest, Receipt receipt, AppCurrency currency) {
+        return createRequest.getReceiptItems()
+                .stream()
+                .map(e -> buildBy(e, receipt, currency))
+                .collect(Collectors.toSet());
     }
 
     private ReceiptDelivery buildBy(ReceiptDeliveryCreateRequest request, Receipt receipt) {
@@ -161,30 +182,19 @@ public class ReceiptServiceImpl implements ReceiptService {
                 .build();
     }
 
-    private ReceiptItem buildBy(ReceiptItemCreateRequest request, Receipt receipt) {
+    private ReceiptItem buildBy(ReceiptItemCreateRequest request, Receipt receipt, AppCurrency currency) {
         RepairWork repairWork = repairWorkRepository.findById(request.getRepairWorkID()).orElseThrow();
-        AppCurrency priceCurrency = appCurrencyRepository.findByCode(request.getPriceCurrency()).orElseThrow();
+        return ReceiptItem.builder().receipt(receipt).repairWork(repairWork).priceCurrency(currency).build();
+    }
+
+    private ReceiptItem buildBy(ReceiptItemUpdateRequest request, Receipt receipt, AppCurrency currency) {
+        RepairWork repairWork = repairWorkRepository.findById(request.getRepairWorkID()).orElseThrow();
         return ReceiptItem.builder()
                 .receipt(receipt)
                 .repairWork(repairWork)
                 .priceAmount(request.getPriceAmount())
-                .priceCurrency(priceCurrency)
+                .priceCurrency(currency)
                 .build();
-    }
-
-    private ReceiptItem buildBy(ReceiptItemUpdateRequest request, Receipt receipt) {
-        RepairWork repairWork = repairWorkRepository.findById(request.getRepairWorkID()).orElseThrow();
-        AppCurrency priceCurrency = appCurrencyRepository.findByCode(request.getPriceCurrency()).orElseThrow();
-        return ReceiptItem.builder()
-                .receipt(receipt)
-                .repairWork(repairWork)
-                .priceAmount(request.getPriceAmount())
-                .priceCurrency(priceCurrency)
-                .build();
-    }
-
-    private AppCurrency getReceiptPriceCurrency(Set<ReceiptItem> receiptItems) {
-        return receiptItems.stream().map(ReceiptItem::getPriceCurrency).distinct().collect(toSingleton());
     }
 
     private BigDecimal getReceiptTotalPriceAmount(Set<ReceiptItem> receiptItems) {

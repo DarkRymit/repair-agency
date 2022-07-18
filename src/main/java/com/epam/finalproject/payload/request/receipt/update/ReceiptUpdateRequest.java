@@ -24,6 +24,8 @@ public class ReceiptUpdateRequest {
 
     ReceiptDeliveryUpdateRequest receiptDelivery;
 
+    String priceCurrency;
+
     String note;
 
 }
