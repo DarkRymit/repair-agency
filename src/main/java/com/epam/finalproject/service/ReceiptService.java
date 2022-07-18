@@ -19,4 +19,6 @@ public interface ReceiptService {
     Receipt update(ReceiptUpdateRequest updateRequest);
 
     ReceiptDTO constructDTO(Receipt receipt);
+
+    ReceiptDTO findById(Long id);
 }

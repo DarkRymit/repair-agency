@@ -115,6 +115,11 @@ public class ReceiptServiceImpl implements ReceiptService {
         return result;
     }
 
+    @Override
+    public ReceiptDTO findById(Long id) {
+        return constructDTO(receiptRepository.findById(id).orElseThrow());
+    }
+
     private void mergeDeliveryInto(Receipt receipt, ReceiptDelivery delivery) {
         ReceiptDelivery oldDelivery = receipt.getDelivery();
         if (!oldDelivery.equals(delivery)){
