@@ -23,11 +23,16 @@ public class ModelMapperConfig {
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.typeMap(SignUpRequest.class, User.class).addMappings(mapper -> mapper.skip(User::setPassword));
-        modelMapper.typeMap(Receipt.class, ReceiptDTO.class).addMappings(mapper -> mapper.using(instantZonedDateTimeConverter()).map(Receipt::getCreationDate,ReceiptDTO::setCreationDate));
+        modelMapper.typeMap(Receipt.class, ReceiptDTO.class)
+                .addMappings(mapper -> mapper.using(instantZonedDateTimeConverter())
+                        .map(Receipt::getCreationDate, ReceiptDTO::setCreationDate))
+                .addMappings(mapper -> mapper.using(instantZonedDateTimeConverter())
+                        .map(Receipt::getLastModifiedDate, ReceiptDTO::setLastModifiedDate));
         return modelMapper;
     }
+
     @Bean
-    public Converter<Instant, ZonedDateTime> instantZonedDateTimeConverter(){
+    public Converter<Instant, ZonedDateTime> instantZonedDateTimeConverter() {
         return mappingContext -> mappingContext.getSource().atZone(ZoneId.systemDefault());
     }
 }
