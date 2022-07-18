@@ -15,20 +15,24 @@
             <div class="col-10">
                 <th:block th:insert="fragments/table.html :: simple(~{::#receiptHead},~{::#receiptBody})">
                     <tr class="head" id="receiptHead">
+                        <th scope="col">ID</th>
                         <th scope="col">User</th>
                         <th scope="col">Status</th>
                         <th scope="col">Category</th>
                         <th scope="col">Price</th>
                         <th scope="col">Creation time</th>
                         <th scope="col">Delivery</th>
+                        <th scope="col">Action</th>
                     </tr>
                     <tr class="body table-light" th:each="receipt:${receipts.getContent()}" id="receiptBody">
+                        <th:block th:insert="fragments/table-data :: receipt-id(${receipt})"></th:block>
                         <th:block th:insert="fragments/table-data :: receipt-user(${receipt})"></th:block>
                         <th:block th:insert="fragments/table-data :: receipt-status(${receipt})"></th:block>
                         <th:block th:insert="fragments/table-data :: receipt-category(${receipt})"></th:block>
                         <th:block th:insert="fragments/table-data :: receipt-price(${receipt})"></th:block>
                         <th:block th:insert="fragments/table-data :: receipt-creationDate(${receipt})"></th:block>
                         <th:block th:insert="fragments/table-data :: receipt-delivery(${receipt})"></th:block>
+                        <th:block th:insert="fragments/table-data :: receipt-action(${receipt})"></th:block>
                     </tr>
                 </th:block>
                 <th:block th:insert="~{fragments/pagination.html :: pagination(${receipts})}"></th:block>

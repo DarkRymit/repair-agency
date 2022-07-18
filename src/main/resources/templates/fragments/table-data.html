@@ -1,5 +1,10 @@
 <th:block xmlns:th="http://www.thymeleaf.org">
 
+    <td th:fragment="receipt-id(receipt)">
+        <a class=" text-dark text-decoration-none"
+           th:href="'/order/'+${receipt.id}"
+           th:text="${receipt.id}"></a>
+    </td>
     <td th:fragment="receipt-user(receipt)">
         <a class=" text-dark text-decoration-none"
            th:href="'/user/'+${receipt.user.id}+'/profile'"
@@ -38,5 +43,10 @@
             <li th:text="${receipt.delivery.country}" class="list-group-item">Ukraine</li>
             <li th:text="${receipt.delivery.city}"  class="list-group-item">Kyiv</li>
         </ul>
+    </td>
+    <td th:fragment="receipt-action(receipt)">
+        <a class="btn btn-outline-primary" th:href="'/order/'+${receipt.id}" role="button">
+            View
+        </a>
     </td>
 </th:block>
