@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RepairCategoryDTO {
 
+    private Long id;
+
     private String keyName;
 
     private String name;

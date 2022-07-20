@@ -25,7 +25,7 @@
                         <div class="row">
                             <div class="col-lg-12 p-5 text-center">
                                 <strong> Order </strong>
-                                <form>
+                                <form id="form">
                                     <ul class="list-group">
                                         <li class="list-group-item">
                                             <strong>Category</strong>
@@ -36,12 +36,13 @@
                                         <li class="list-group-item">
                                             <strong>Items</strong><span>:</span>
                                             <br>
-                                            <ul class="list-group" th:each="work:${works}">
-                                                <li class="list-group-item">
+                                            <ul class="list-group work-list" id="works">
+                                                <li class="list-group-item" th:each="work:${works}">
                                                     <label>
                                                         <input class="form-check-input" type="checkbox" value="">
                                                         <th:block th:text="${work.keyName}"></th:block>
                                                     </label>
+                                                    <div class="d-none" th:text="${work.id}"></div>
                                                     <br>
                                                     <th:block th:text="${work.lowerBorder}"></th:block>
                                                     <th:block th:text="${work.upperBorder}"></th:block>
@@ -56,33 +57,33 @@
                                                 <li class="list-group-item">
                                                     <div class="input-group">
                                                         <strong class="input-group-text">Country</strong>
-                                                        <input type="text" aria-label="Country" class="form-control">
+                                                        <input type="text" aria-label="Country" class="form-control" id="country">
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="input-group">
                                                         <strong class="input-group-text">State</strong>
-                                                        <input type="text" aria-label="State" class="form-control">
+                                                        <input type="text" aria-label="State" class="form-control" id="state">
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="input-group">
                                                         <strong class="input-group-text">City</strong>
-                                                        <input type="text" aria-label="City" class="form-control">
+                                                        <input type="text" aria-label="City" class="form-control" id="city">
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="input-group">
                                                         <strong class="input-group-text">Local address</strong>
                                                         <input type="text" aria-label="Local address"
-                                                                  class="form-control">
+                                                                  class="form-control" id="local-address">
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="input-group">
                                                         <strong class="input-group-text">Postal code</strong>
                                                         <input type="text" aria-label="Postal code"
-                                                                  class="form-control">
+                                                                  class="form-control" id="postal-code">
                                                     </div>
                                                 </li>
                                             </ul>
@@ -90,11 +91,11 @@
                                         <li class="list-group-item">
                                             <div class="input-group">
                                                 <strong class="input-group-text">Note</strong>
-                                                <textarea maxlength="255" aria-label="Note" class="form-control"></textarea>
+                                                <textarea maxlength="255" aria-label="Note" class="form-control" id="note"></textarea>
                                             </div>
                                         </li>
                                     </ul>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary" id="submit">Submit</button>
                                 </form>
                             </div>
                         </div>
@@ -106,7 +107,76 @@
 
 
     <!-- JavaScript -->
+    <th:block th:replace="fragments/import.html :: ajax"></th:block>
     <th:block th:replace="fragments/import.html :: bootstrapScript"></th:block>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            $("form").submit(function (event) {
+                event.preventDefault();
+
+                var receiptItems = []
+                $('#works li').each(function(idx, li) {
+                    var work = $(li);
+                    var workId = work.find(".d-none").text();
+                    var workChosen = work.find("input").is(':checked');
+                    if (workChosen){
+                        receiptItems.push(
+                            {
+                                repairWorkID:workId
+                            }
+                        )
+                    }
+                    console.log(receiptItems);
+                })
+
+                var country = $("#country").val();
+                var state = $("#state").val();
+                var city = $("#city").val();
+                var localAddress = $("#local-address").val();
+                var postalCode = $("#postal-code").val();
+
+                var receiptDelivery =  {}
+                Object.assign(receiptDelivery,
+                    country  && { "country": country },
+                    state && { "state": state },
+                    city  && { "city": city },
+                    localAddress  && { "localAddress": localAddress },
+                    postalCode && { "postalCode": postalCode },
+                );
+
+
+
+                var formData = {
+                    receiptItems: receiptItems,
+
+                    receiptDelivery: receiptDelivery,
+
+                    categoryId:/*[[${category.id}]]*/1,
+
+                    priceCurrency:/*[[${currency.code}]]*/'USD',
+
+                    note:$("#note").val()
+                };
+
+                var xhr = new XMLHttpRequest();
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8080/order/create",
+                    data: JSON.stringify(formData),
+                    dataType: "json",
+                    contentType: "application/json",
+                    xhr: function() {
+                        return xhr;
+                    },
+                }).always(function() {
+                    window.location.href = xhr.responseURL;
+                });
+
+
+            });
+        });
+    </script>
 </body>
 
 </html>

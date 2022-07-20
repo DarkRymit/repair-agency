@@ -12,6 +12,8 @@ import java.util.Set;
 @AllArgsConstructor
 public class RepairWorkDTO {
 
+    private Long id;
+
     private RepairCategoryDTO category;
 
     private String keyName;
