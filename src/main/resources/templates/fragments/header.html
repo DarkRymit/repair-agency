@@ -52,7 +52,7 @@
         </div>
     </nav>
 </th:block>
-<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="main">
+<th:block xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" xmlns:th="http://www.thymeleaf.org" th:fragment="main">
     <nav class="navbar fadeInDown navbar-expand-lg navbar-dark fixed-top bg-dark">
         <div class="container-fluid ">
             <a class="navbar-brand" href="#">Navbar w/ text</a>
@@ -61,7 +61,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto nav-justified">
+                <ul class="navbar-nav me-auto text-center">
                     <li class="nav-item">
                         <a class="nav-link " href="#">Home</a>
                     </li>
@@ -82,7 +82,7 @@
                         <a class="nav-link" href="#">About</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav ms-auto nav-justified">
+                <ul class="navbar-nav ms-auto text-center">
                     <li class="nav-item dropdown py-lg-0 pb-1">
                         <a class="nav-link" href="#" id="navbarDropdownMenu1Link" role="button" data-bs-toggle="dropdown" data-bs-trigger="hover focus" aria-expanded="false">
                             Lang
@@ -94,10 +94,13 @@
                         </ul>
                     </li>
                     <li class="nav-item px-lg-1 py-lg-0 py-1">
-                        <a class="btn btn-outline-primary nav-link" href="#">Login</a>
+                        <a class="btn nav-link" sec:authorize="hasRole('CUSTOMER')" sec:authentication="name" th:href="'/customer/orders'"></a>
+                        <a class="btn nav-link" sec:authorize="hasRole('MASTER')" sec:authentication="name" th:href="'/master/orders'"></a>
+                        <a class="btn nav-link" sec:authorize="hasRole('MANAGER')" sec:authentication="name"  th:href="'/manager/orders'"></a>
+                        <a class="btn btn-outline-primary nav-link" sec:authorize="isAnonymous()" href="/auth/signin">Login</a>
                     </li>
-                    <li class="nav-item px-lg-1 py-lg-0 py-1">
-                        <a class="btn btn-outline-success nav-link" href="#">Cart</a>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a class="btn btn-outline-primary nav-link" href="/auth/signout">Sign out</a>
                     </li>
                 </ul>
             </div>
