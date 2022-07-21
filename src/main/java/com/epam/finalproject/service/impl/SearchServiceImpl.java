@@ -46,8 +46,9 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     @Loggable
-    public Page<Receipt> findBySearch(ReceiptWithCustomerSearchRequest receiptSearchRequest,User customer) {
-        return findBySearch(searchRequestResolver.resolve(receiptSearchRequest,customer));
+    public Page<Receipt> findBySearch(ReceiptWithCustomerSearchRequest receiptSearchRequest,String customer) {
+        User user = userRepository.findByUsername(customer).orElseThrow();
+        return findBySearch(searchRequestResolver.resolve(receiptSearchRequest,user));
     }
 
     @Override
@@ -58,8 +59,9 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     @Loggable
-    public Page<Receipt> findBySearch(ReceiptWithMasterSearchRequest receiptSearchRequest,User master) {
-        return findBySearch(searchRequestResolver.resolve(receiptSearchRequest,master));
+    public Page<Receipt> findBySearch(ReceiptWithMasterSearchRequest receiptSearchRequest,String master) {
+        User user = userRepository.findByUsername(master).orElseThrow();
+        return findBySearch(searchRequestResolver.resolve(receiptSearchRequest,user));
     }
 
     @Override

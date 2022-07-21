@@ -13,6 +13,8 @@ import com.epam.finalproject.service.RepairCategoryService;
 import com.epam.finalproject.service.RepairWorkService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,8 +48,8 @@ public class ReceiptController {
     }
 
     @PostMapping("/create")
-    String create(Model model, @RequestBody ReceiptCreateRequest createRequest, @RequestParam(required=false) String redirectURL) {
-        Receipt receipt = receiptService.createNew(createRequest);
+    String create(Model model, @AuthenticationPrincipal UserDetails userDetails, @RequestBody ReceiptCreateRequest createRequest, @RequestParam(required=false) String redirectURL) {
+        Receipt receipt = receiptService.createNew(createRequest,userDetails.getUsername());
         return "redirect:/order/"+receipt.getId();
     }
     @GetMapping("/create")

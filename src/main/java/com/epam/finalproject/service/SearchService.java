@@ -10,9 +10,9 @@ public interface SearchService {
     Page<Receipt> findBySearch(ReceiptSearch receiptSearch);
     Page<Receipt> findBySearch(ReceiptSearchRequest receiptSearchRequest);
     Page<Receipt> findBySearch(ReceiptWithCustomerSearch searchRequest);
-    Page<Receipt> findBySearch(ReceiptWithCustomerSearchRequest searchRequest,User customer);
+    Page<Receipt> findBySearch(ReceiptWithCustomerSearchRequest searchRequest,String customer);
     Page<Receipt> findBySearch(ReceiptWithMasterSearch searchRequest);
-    Page<Receipt> findBySearch(ReceiptWithMasterSearchRequest searchRequest,User master);
+    Page<Receipt> findBySearch(ReceiptWithMasterSearchRequest searchRequest,String master);
 
     Page<User> findBySearch(UserSearch userSearch);
     Page<User> findBySearch(UserSearchRequest userSearchRequest);

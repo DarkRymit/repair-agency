@@ -14,7 +14,7 @@ public interface ReceiptService {
 
     Page<Receipt> findAll(Pageable pageable);
 
-    Receipt createNew(ReceiptCreateRequest createRequest);
+    Receipt createNew(ReceiptCreateRequest createRequest, String username);
 
     Receipt update(ReceiptUpdateRequest updateRequest);
 

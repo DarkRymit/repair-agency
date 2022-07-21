@@ -18,6 +18,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,12 +59,12 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     @Transactional
     @Loggable
-    public Receipt createNew(ReceiptCreateRequest createRequest) {
+    public Receipt createNew(ReceiptCreateRequest createRequest, String username) {
         Receipt receipt = new Receipt();
 
         AppCurrency currency = appCurrencyRepository.findByCode(createRequest.getPriceCurrency()).orElseThrow();
 
-        User customer = userRepository.findById(4L).orElseThrow();
+        User customer = userRepository.findByUsername(username).orElseThrow();
 
         RepairCategory category = repairCategoryRepository.findById(createRequest.getCategoryId()).orElseThrow();
 

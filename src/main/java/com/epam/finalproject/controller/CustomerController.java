@@ -8,6 +8,8 @@ import com.epam.finalproject.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,8 +43,8 @@ public class CustomerController {
     }
 
     @GetMapping("/orders")
-    String ordersPage(Model model, ReceiptWithCustomerSearchRequest searchRequest) {
-        Page<ReceiptDTO> receipts = searchService.findBySearch(searchRequest,userService.findByEmail("secondstrike@gmail.com").orElseThrow()).map(r -> receiptService.constructDTO(r));
+    String ordersPage(Model model, @AuthenticationPrincipal UserDetails userDetails, ReceiptWithCustomerSearchRequest searchRequest) {
+        Page<ReceiptDTO> receipts = searchService.findBySearch(searchRequest,userDetails.getUsername()).map(r -> receiptService.constructDTO(r));
         model.addAttribute("search",searchRequest);
         model.addAttribute("receipts", receipts);
         model.addAttribute(ACTIVE, "orders");
