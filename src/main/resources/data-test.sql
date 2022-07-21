@@ -30,6 +30,9 @@ insert into user_has_role (user_id, role_id) values (1,3);
 insert into user_has_role (user_id, role_id) values (2,4);
 insert into user_has_role (user_id, role_id) values (3,4);
 insert into user_has_role (user_id, role_id) values (3,5);
+insert into user_has_role (user_id, role_id) values (4,3);
+insert into user_has_role (user_id, role_id) values (5,3);
+insert into user_has_role (user_id, role_id) values (6,4);
 
 insert into user_addresses (user_id, city, country, local_address) values (1,'Kyiv','Ukraine','some street');
 
