@@ -117,22 +117,35 @@ public class AuthController {
         return "redirect:/auth/signin";
     }
 
+    @GetMapping("/resetpassword")
+    String resetPasswordPage(){
+        return "resetPassword";
+    }
     @PostMapping("/resetpassword")
     String resetPassword(HttpServletRequest request, PasswordResetRequest resetRequest){
         User user = userService.findByEmail(resetRequest.getEmail()).orElseThrow();
         eventPublisher.publishEvent(new OnPasswordResetEvent(user, request.getLocale(), getAppUrl(request)));
-        return "redirect:/resetpassword/confirm";
+        return "redirect:/auth/resetpassword/confirm";
     }
 
+    @GetMapping("/resetpassword/confirm")
+    String resetPasswordConfirmPage(){
+        return "resetPasswordConfirm";
+    }
+
+    @GetMapping("/resetpassword/confirm/{token}")
+    String resetPasswordConfirmTokenPage(@PathVariable String token){
+        return "resetPasswordConfirmToken";
+    }
     @PostMapping("/resetpassword/confirm/{token}")
-    String resetPasswordConfirm(@PathVariable String token, NewPasswordRequest newPasswordRequest){
+    String resetPasswordConfirmToken(@PathVariable String token, NewPasswordRequest newPasswordRequest){
         Optional<PasswordResetToken> optionalPasswordResetRequest = passwordResetTokenService.findByToken(token);
         if (optionalPasswordResetRequest.isEmpty()){
-            return "redirect:/auth/resetpassword?errorNoFound";
+            return "redirect:/auth/resetpassword/confirm?errorNoFound";
         }
         PasswordResetToken passwordResetToken = optionalPasswordResetRequest.get();
         if (passwordResetTokenService.isExpired(passwordResetToken)){
-            return "redirect:/auth/resetpassword?errorExp";
+            return "redirect:/auth/resetpassword/confirm?errorExp";
         }
         passwordResetTokenService.newPassword(passwordResetToken,newPasswordRequest);
         return "redirect:/auth/signin";
