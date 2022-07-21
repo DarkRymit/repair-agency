@@ -9,7 +9,7 @@
 </head>
 <body>
     <th:block th:include="fragments/svg.html :: svg"></th:block>
-    <th:block th:include="fragments/header.html :: manager"></th:block>
+    <th:block th:include="fragments/header.html :: main"></th:block>
     <main>
         <th:block th:include="${type == 'manager'} ? ~{fragments/side.html :: manager(${active})} : ~{}"></th:block>
         <th:block th:include="${type == 'master'} ? ~{fragments/side.html :: master(${active})} : ~{}"></th:block>
