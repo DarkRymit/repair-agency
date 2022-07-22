@@ -1,4 +1,4 @@
-<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="manager">
+<th:block th:fragment="manager" xmlns:th="http://www.thymeleaf.org">
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
         <div class="container-fluid ">
             <a class="navbar-brand" href="#">Navbar w/ text</a>
@@ -52,12 +52,13 @@
         </div>
     </nav>
 </th:block>
-<th:block xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" xmlns:th="http://www.thymeleaf.org" th:fragment="main">
+<th:block th:fragment="main" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+          xmlns:th="http://www.thymeleaf.org">
     <nav class="navbar fadeInDown navbar-expand-lg navbar-dark fixed-top bg-dark">
         <div class="container-fluid ">
             <a class="navbar-brand" href="#">Navbar w/ text</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <button aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                    data-bs-target="#navbarText" data-bs-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
@@ -66,10 +67,11 @@
                         <a class="nav-link " href="#">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                           id="navbarDropdownMenuLink" role="button">
                             Services
                         </a>
-                        <ul class="dropdown-menu bg-secondary text-center" aria-labelledby="navbarDropdownMenuLink">
+                        <ul aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu bg-secondary text-center">
                             <li><a class="dropdown-item " href="#">Service 1</a></li>
                             <li><a class="dropdown-item" href="#">Service 2</a></li>
                             <li><a class="dropdown-item" href="#">Service 3</a></li>
@@ -84,24 +86,37 @@
                 </ul>
                 <ul class="navbar-nav ms-auto text-center">
                     <li class="nav-item dropdown py-lg-0 pb-1">
-                        <a class="nav-link" href="#" id="navbarDropdownMenu1Link" role="button" data-bs-toggle="dropdown" data-bs-trigger="hover focus" aria-expanded="false">
+                        <a aria-expanded="false" class="nav-link" data-bs-toggle="dropdown" data-bs-trigger="hover focus"
+                           href="#" id="navbarDropdownMenu1Link" role="button">
                             Lang
                         </a>
-                        <ul class="dropdown-menu  dropdown-menu-lg-end bg-secondary text-center" aria-labelledby="navbarDropdownMenu1Link">
+                        <ul aria-labelledby="navbarDropdownMenu1Link"
+                            class="dropdown-menu  dropdown-menu-lg-end bg-secondary text-center">
                             <li><a class="dropdown-item" href="#">Lang 1</a></li>
                             <li><a class="dropdown-item" href="#">Lang 2</a></li>
                             <li><a class="dropdown-item" href="#">Lang 3</a></li>
                         </ul>
                     </li>
                     <li class="nav-item px-lg-1 py-lg-0 py-1">
-                        <a class="btn nav-link" sec:authorize="hasRole('CUSTOMER')" sec:authentication="name" th:href="'/customer/orders'"></a>
-                        <a class="btn nav-link" sec:authorize="hasRole('MASTER')" sec:authentication="name" th:href="'/master/orders'"></a>
-                        <a class="btn nav-link" sec:authorize="hasRole('MANAGER')" sec:authentication="name"  th:href="'/manager/orders'"></a>
-                        <a class="btn btn-outline-primary nav-link" sec:authorize="isAnonymous()" href="/auth/signin">Login</a>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <a aria-expanded="false" class="nav-link" data-bs-toggle="dropdown" data-bs-trigger="hover focus" href="#"
+                               id="mainUserBar" role="button" sec:authentication="name">
+                            </a>
+                            <ul aria-labelledby="navbarDropdownMenu1Link"
+                                class="dropdown-menu  dropdown-menu-lg-end bg-secondary text-center">
+                                <li><a class="dropdown-item btn nav-link" sec:authorize="hasRole('CUSTOMER')"
+                                       th:href="'/customer/orders'">Cabinet</a></li>
+                                <li><a class="dropdown-item btn nav-link" sec:authorize="hasRole('MASTER')"
+                                       th:href="'/master/orders'">Cabinet</a></li>
+                                <li><a class="dropdown-item btn nav-link" sec:authorize="hasRole('MANAGER')"
+                                       th:href="'/manager/orders'">Cabinet</a></li>
+                                <li><a class="dropdown-item btn btn-outline-primary nav-link"
+                                       th:href="'/auth/signout'">Sign out</a></li>
+                            </ul>
+                        </th:block>
+                        <a class="btn btn-outline-primary nav-link" href="/auth/signin" sec:authorize="isAnonymous()">Login</a>
                     </li>
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
-                        <a class="btn btn-outline-primary nav-link" href="/auth/signout">Sign out</a>
-                    </li>
+
                 </ul>
             </div>
         </div>
