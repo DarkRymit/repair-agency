@@ -1,10 +1,7 @@
 package com.epam.finalproject.model.entity;
 
 import com.epam.finalproject.model.entity.enums.RepairWorkStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -23,6 +20,8 @@ public class RepairWork {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private RepairCategory category;
 
     private String keyName;

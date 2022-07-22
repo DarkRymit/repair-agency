@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -21,6 +22,9 @@ public class RepairCategory {
 
     @Column(nullable = false)
     private String keyName;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RepairWork> works = new HashSet<>();
 
     @OneToMany
     @JoinColumn(name = "repair_categories_id")

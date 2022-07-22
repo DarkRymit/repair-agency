@@ -14,8 +14,6 @@ public class RepairWorkDTO {
 
     private Long id;
 
-    private RepairCategoryDTO category;
-
     private String keyName;
 
     private Set<RepairWorkStatusDTO> statuses;
