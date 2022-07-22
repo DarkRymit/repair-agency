@@ -91,3 +91,14 @@ insert into receipt_deliveries (receipt_id, city, country, local_address) values
 insert into receipt_deliveries (receipt_id, city, country, local_address) values (2,'Kyiv','Poland','some street3');
 insert into receipt_deliveries (receipt_id, city, country, local_address) values (3,'Kyiv','Ukraine','some street3');
 insert into receipt_deliveries (receipt_id, city, country, local_address) values (4,'Kyiv','Ukraine','some street3');
+
+insert into receipt_status_flows (from_status_id, to_status_id, role_id) values (1,2,5);
+insert into receipt_status_flows (from_status_id, to_status_id, role_id) values (2,3,5);
+insert into receipt_status_flows (from_status_id, to_status_id, role_id) values (1,6,5);
+insert into receipt_status_flows (from_status_id, to_status_id, role_id) values (2,6,5);
+insert into receipt_status_flows (from_status_id, to_status_id, role_id) values (3,6,5);
+insert into receipt_status_flows (from_status_id, to_status_id, role_id) values (3,4,4);
+insert into receipt_status_flows (from_status_id, to_status_id, role_id) values (4,5,4);
+
+
+

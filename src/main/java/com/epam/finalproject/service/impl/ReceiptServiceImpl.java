@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,6 +36,8 @@ public class ReceiptServiceImpl implements ReceiptService {
     ReceiptRepository receiptRepository;
 
     ReceiptStatusRepository receiptStatusRepository;
+
+    ReceiptStatusFlowRepository receiptStatusFlowRepository;
 
     RepairCategoryRepository repairCategoryRepository;
 
@@ -121,6 +124,19 @@ public class ReceiptServiceImpl implements ReceiptService {
         log.info("save receipt");
 
         return resultReceipt;
+    }
+
+    @Override
+    public ReceiptDTO updateStatus(Long receiptId, Long statusId,String username) {
+        Receipt receipt = receiptRepository.findById(receiptId).orElseThrow();
+        ReceiptStatus newStatus = receiptStatusRepository.findById(statusId).orElseThrow();
+        User user = userRepository.findByUsername(username).orElseThrow();
+        if (!receiptStatusFlowRepository.existsByFromStatusAndToStatusAndRoleIn(receipt.getStatus(), newStatus, user.getRoles())){
+            throw new NoSuchElementException("not supported");
+        }
+        receipt.setStatus(newStatus);
+        Receipt result = receiptRepository.save(receipt);
+        return constructDTO(result);
     }
 
     @Override

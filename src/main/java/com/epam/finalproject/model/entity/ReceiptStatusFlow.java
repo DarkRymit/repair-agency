@@ -15,14 +15,14 @@ public class ReceiptStatusFlow {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "from_id")
-    ReceiptStatus from;
+    @JoinColumn(nullable = false)
+    ReceiptStatus fromStatus;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "to_id")
-    ReceiptStatus to;
+    @JoinColumn(nullable = false)
+    ReceiptStatus toStatus;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "role_id")
+    @JoinColumn(nullable = false)
     Role role;
 }

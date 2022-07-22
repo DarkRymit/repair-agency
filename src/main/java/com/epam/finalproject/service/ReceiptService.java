@@ -18,6 +18,8 @@ public interface ReceiptService {
 
     Receipt update(ReceiptUpdateRequest updateRequest);
 
+    ReceiptDTO updateStatus(Long receiptId,Long statusId, String username);
+
     ReceiptDTO constructDTO(Receipt receipt);
 
     ReceiptDTO findById(Long id);

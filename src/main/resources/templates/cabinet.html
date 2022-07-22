@@ -20,7 +20,7 @@
         <div class="flex-shrink-0 flex-grow-1 customContent p-3 bg-white">
             <th:block th:if="${type == 'manager'}">
                 <th:block th:include="${active == 'home'} ? ~{fragments/manager :: home} : ~{}"></th:block>
-                <th:block th:include="${active == 'orders'} ? ~{fragments/manager :: receipt(${search},${receipts})} :  ~{}"></th:block>
+                <th:block th:include="${active == 'orders'} ? ~{fragments/manager :: receipt(${search},${receipts},${flows})} :  ~{}"></th:block>
                 <th:block th:include="${active == 'users'} ? ~{fragments/manager :: user(${search},${users}) } : ~{}"></th:block>
                 <th:block th:include="${active == 'masters'} ? ~{fragments/manager :: master(${search},${masters}) } : ~{}"></th:block>
                 <th:block th:include="${active == 'responses'} ? ~{fragments/manager :: response } : ~{}"></th:block>

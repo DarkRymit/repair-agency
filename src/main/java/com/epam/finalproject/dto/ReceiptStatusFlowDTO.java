@@ -7,10 +7,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReceiptStatusDTO {
+public class ReceiptStatusFlowDTO {
 
     private Long id;
 
-    private String name;
+    ReceiptStatusDTO fromStatus;
+
+    ReceiptStatusDTO toStatus;
+
+    RoleDTO role;
 
 }

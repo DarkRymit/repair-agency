@@ -13,6 +13,7 @@ import com.epam.finalproject.service.RepairCategoryService;
 import com.epam.finalproject.service.RepairWorkService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,11 @@ public class ReceiptController {
         updateRequest.setId(id);
         Receipt receipt = receiptService.update(updateRequest);
         return "redirect:/"+receipt.getId();
+    }
+    @PostMapping(value = "/{id}/status/change",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    String updateStatus(Model model,@AuthenticationPrincipal UserDetails userDetails,@PathVariable Long id,Long statusId) {
+        ReceiptDTO receipt = receiptService.updateStatus(id,statusId,userDetails.getUsername());
+        return "redirect:/order/"+receipt.getId();
     }
     @GetMapping("/{id}")
     String show(Model model, @RequestParam(required = false) String redirectURL, @PathVariable Long id) {

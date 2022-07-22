@@ -20,7 +20,7 @@
             <span th:case="'CANCELED'">Canceled</span>
         </th:block>
     </td>
-    <td th:switch="${receipt.master} == null" th:fragment="receipt-master(receipt)">
+    <td th:fragment="receipt-master(receipt)" th:switch="${receipt.master} == null">
         <i class=" text-dark text-decoration-none"
            th:case="true">
             Not assigned
@@ -30,23 +30,67 @@
            th:href="'/user/'+${receipt.master.id}+'/profile'"
            th:text="'@'+${receipt.master.username}"></a>
     </td>
-    <td th:text="${receipt.category.name}" th:fragment="receipt-category(receipt)">notebook</td>
+    <td th:fragment="receipt-category(receipt)" th:text="${receipt.category.name}">notebook</td>
 
     <td th:fragment="receipt-price(receipt)">
-        <i th:text="${receipt.totalPrice}" ></i>
+        <i th:text="${receipt.totalPrice}"></i>
         <i th:text="${receipt.priceCurrency.code}"></i>
     </td>
 
-    <td th:text="${@thymeleafUtil.format(receipt.creationDate)}" th:fragment="receipt-creationDate(receipt)">14-01-2003</td>
+    <td th:fragment="receipt-creationDate(receipt)" th:text="${@thymeleafUtil.format(receipt.creationDate)}">
+        14-01-2003
+    </td>
     <td th:fragment="receipt-delivery(receipt)">
         <ul class="list-group">
-            <li th:text="${receipt.delivery.country}" class="list-group-item">Ukraine</li>
-            <li th:text="${receipt.delivery.city}"  class="list-group-item">Kyiv</li>
+            <li class="list-group-item" th:text="${receipt.delivery.country}">Ukraine</li>
+            <li class="list-group-item" th:text="${receipt.delivery.city}">Kyiv</li>
         </ul>
     </td>
-    <td th:fragment="receipt-action(receipt)">
-        <a class="btn btn-outline-primary" th:href="'/order/'+${receipt.id}" role="button">
+    <td th:fragment="receipt-action(receipt,flows)">
+        <a class="btn btn-outline-primary" role="button" th:href="'/order/'+${receipt.id}">
             View
         </a>
+        <div class="dropdown">
+            <a aria-expanded="false" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+               id="dropdownMenuLink"
+               role="button">
+                Status
+            </a>
+            <ul aria-labelledby="dropdownMenuLink" class="dropdown-menu">
+                <th:block th:each="flow:${flows}">
+                    <li th:if="${flow.fromStatus.id} == ${receipt.status.id}">
+                        <form id="status-form" method="post" th:action="@{/order/{id}/status/change(id=${receipt.id})}">
+                            <th:block th:switch="${flow.toStatus.name}">
+                                <input name="statusId" th:value="${flow.toStatus.id}" type="hidden"/>
+                                <button class="btn dropdown-item btn-outline-primary"
+                                        role="button" th:case="'CREATED'"
+                                        type="submit">Created
+                                </button>
+                                <button class="btn dropdown-item btn-outline-primary"
+                                        role="button" th:case="'WAIT_FOR_PAYMENT'"
+                                        type="submit">Wait for payment
+                                </button>
+                                <button class="btn dropdown-item btn-outline-primary"
+                                        role="button" th:case="'PAID'"
+                                        type="submit">Paid
+                                </button>
+                                <button class="btn dropdown-item btn-outline-primary"
+                                        role="button" th:case="'IN_WORK'"
+                                        type="submit">In work
+                                </button>
+                                <button class="btn dropdown-item btn-outline-primary"
+                                        role="button" th:case="'DONE'"
+                                        type="submit">Done
+                                </button>
+                                <button class="btn dropdown-item btn-outline-primary"
+                                        role="button" th:case="'CANCELED'"
+                                        type="submit">Canceled
+                                </button>
+                            </th:block>
+                        </form>
+                    </li>
+                </th:block>
+            </ul>
+        </div>
     </td>
 </th:block>
