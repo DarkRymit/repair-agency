@@ -10,7 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -24,6 +28,14 @@ public class RepairCategoryServiceImpl implements RepairCategoryService {
     @Override
     public Page<RepairCategoryDTO> findAll(Pageable pageable) {
         return repairCategoryRepository.findAll(pageable).map(this::constructDTO);
+    }
+
+    @Override
+    public List<RepairCategoryDTO> findAll() {
+        return repairCategoryRepository.findAll(Sort.by("keyName"))
+                .stream()
+                .map(this::constructDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
