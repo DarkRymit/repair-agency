@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="author">
+
+    <title>Receipt</title>
+    <th:block th:insert="fragments/import.html :: bootstrap"></th:block>
+    <!-- Custom styles for this template-->
+    <link href="/css/animation.css" rel="stylesheet">
+</head>
+
+<body>
+    <th:block th:include="fragments/header.html :: main"></th:block>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 fadeIn">
+                <div class="card shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-12 p-5 text-center">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <ul class="list-group">
+                                            <li class=" list-group-item">
+                                                <i th:text="${category.keyName}"></i>
+                                            </li>
+                                            <li class=" list-group-item accordion accordion-flush"
+                                                th:id="'accordion'+${category.keyName}">
+                                                <div class="accordion-item">
+                                                    <h2 class="accordion-header" th:id="'heading'+${category.keyName}">
+                                                        <button aria-expanded="false"
+                                                                class="accordion-button collapsed"
+                                                                data-bs-toggle="collapse"
+                                                                th:data-bs-target="'#collapse'+${category.keyName}"
+                                                                type="button">
+                                                            List all works
+                                                        </button>
+                                                    </h2>
+                                                    <div class="accordion-collapse collapse show"
+                                                         th:data-bs-parent="'#accordion'+${category.keyName}"
+                                                         th:id="'collapse'+${category.keyName}">
+                                                        <ul class="list-group" th:each="work:${category.works}">
+                                                            <li class="list-group-item">
+                                                                <th:block th:text="${work.keyName}"></th:block>
+                                                                <br>
+                                                                <th:block th:text="${work.lowerBorder}"></th:block>
+                                                                <th:block th:text="${work.upperBorder}"></th:block>
+                                                                <strong th:text="${work.currency?.code}"></strong>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class=" list-group-item">
+                                                <a class="btn btn-outline-primary" th:href="'/order/create?category='+${category.keyName} + '&' +'currency=USD'" role="button">
+                                                    Make order with this category
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JavaScript -->
+    <th:block th:replace="fragments/import.html :: bootstrapScript"></th:block>
+</body>
+
+</html>
