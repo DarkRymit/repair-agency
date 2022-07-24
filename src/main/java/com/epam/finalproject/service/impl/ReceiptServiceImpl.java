@@ -18,7 +18,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,19 +49,22 @@ public class ReceiptServiceImpl implements ReceiptService {
     ModelMapper modelMapper;
 
     @Override
-    public List<Receipt> findAll() {
-        return receiptRepository.findAll(Sort.by("creationTime"));
+    public List<ReceiptDTO> findAll() {
+        return receiptRepository.findAll(Sort.by("creationTime"))
+                .stream()
+                .map(this::constructDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Page<Receipt> findAll(Pageable pageable) {
-        return receiptRepository.findAll(pageable);
+    public Page<ReceiptDTO> findAll(Pageable pageable) {
+        return receiptRepository.findAll(pageable).map(this::constructDTO);
     }
 
     @Override
     @Transactional
     @Loggable
-    public Receipt createNew(ReceiptCreateRequest createRequest, String username) {
+    public ReceiptDTO createNew(ReceiptCreateRequest createRequest, String username) {
         Receipt receipt = new Receipt();
 
         AppCurrency currency = appCurrencyRepository.findByCode(createRequest.getPriceCurrency()).orElseThrow();
@@ -92,13 +94,13 @@ public class ReceiptServiceImpl implements ReceiptService {
 
         receiptRepository.save(receipt);
 
-        return receipt;
+        return constructDTO(receipt);
     }
 
     @Override
     @Transactional
     @Loggable
-    public Receipt update(ReceiptUpdateRequest request) {
+    public ReceiptDTO update(ReceiptUpdateRequest request) {
         Receipt receipt = receiptRepository.findById(request.getId()).orElseThrow();
 
         AppCurrency currency = appCurrencyRepository.findByCode(request.getPriceCurrency()).orElseThrow();
@@ -123,15 +125,15 @@ public class ReceiptServiceImpl implements ReceiptService {
         Receipt resultReceipt = receiptRepository.save(receipt);
         log.info("save receipt");
 
-        return resultReceipt;
+        return constructDTO(resultReceipt);
     }
 
     @Override
-    public ReceiptDTO updateStatus(Long receiptId, Long statusId,String username) {
+    public ReceiptDTO updateStatus(Long receiptId, Long statusId, String username) {
         Receipt receipt = receiptRepository.findById(receiptId).orElseThrow();
         ReceiptStatus newStatus = receiptStatusRepository.findById(statusId).orElseThrow();
         User user = userRepository.findByUsername(username).orElseThrow();
-        if (!receiptStatusFlowRepository.existsByFromStatusAndToStatusAndRoleIn(receipt.getStatus(), newStatus, user.getRoles())){
+        if (!receiptStatusFlowRepository.existsByFromStatusAndToStatusAndRoleIn(receipt.getStatus(), newStatus, user.getRoles())) {
             throw new NoSuchElementException("not supported");
         }
         receipt.setStatus(newStatus);
@@ -142,9 +144,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     @Loggable
     public ReceiptDTO constructDTO(Receipt receipt) {
-        ReceiptDTO result = new ReceiptDTO();
-        modelMapper.map(receipt, result);
-        return result;
+        return modelMapper.map(receipt, ReceiptDTO.class);
     }
 
     @Override

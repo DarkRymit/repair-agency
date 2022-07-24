@@ -38,7 +38,7 @@ public class ReceiptController {
     @PatchMapping("/{id}")
     String update(Model model, @RequestBody ReceiptUpdateRequest updateRequest, @RequestParam(required = false) String redirectURL, @PathVariable Long id) {
         updateRequest.setId(id);
-        Receipt receipt = receiptService.update(updateRequest);
+        ReceiptDTO receipt = receiptService.update(updateRequest);
         return "redirect:/"+receipt.getId();
     }
     @PostMapping(value = "/{id}/status/change",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -55,7 +55,7 @@ public class ReceiptController {
 
     @PostMapping("/create")
     String create(Model model, @AuthenticationPrincipal UserDetails userDetails, @RequestBody ReceiptCreateRequest createRequest, @RequestParam(required=false) String redirectURL) {
-        Receipt receipt = receiptService.createNew(createRequest,userDetails.getUsername());
+        ReceiptDTO receipt = receiptService.createNew(createRequest,userDetails.getUsername());
         return "redirect:/order/"+receipt.getId();
     }
     @GetMapping("/create")

@@ -2,7 +2,7 @@ package com.epam.finalproject.controller;
 
 import com.epam.finalproject.dto.ReceiptDTO;
 import com.epam.finalproject.dto.ReceiptStatusFlowDTO;
-import com.epam.finalproject.model.entity.User;
+import com.epam.finalproject.dto.UserDTO;
 import com.epam.finalproject.payload.request.search.MasterSearchRequest;
 import com.epam.finalproject.payload.request.search.ReceiptSearchRequest;
 import com.epam.finalproject.payload.request.search.UserSearchRequest;
@@ -54,7 +54,7 @@ public class ManagerController {
 
     @GetMapping("/orders")
     String ordersPage(Model model, @AuthenticationPrincipal UserDetails userDetails, ReceiptSearchRequest receiptSearchRequest) {
-        Page<ReceiptDTO> receipts = searchService.findBySearch(receiptSearchRequest).map(r -> receiptService.constructDTO(r));
+        Page<ReceiptDTO> receipts = searchService.findBySearch(receiptSearchRequest);
         List<ReceiptStatusFlowDTO> flows = receiptStatusFlowService.listAllAvailableForUser(userDetails.getUsername());
         model.addAttribute("flows",flows);
         model.addAttribute(SEARCH,receiptSearchRequest);
@@ -66,7 +66,7 @@ public class ManagerController {
 
     @GetMapping("/users")
     String usersPage(Model model, UserSearchRequest userSearchRequest) {
-        Page<User> users = searchService.findBySearch(userSearchRequest);
+        Page<UserDTO> users = searchService.findBySearch(userSearchRequest);
         model.addAttribute(SEARCH,userSearchRequest);
         model.addAttribute("users", users);
         model.addAttribute(ACTIVE, "users");
@@ -76,7 +76,7 @@ public class ManagerController {
 
     @GetMapping("/masters")
     String mastersPage(Model model, MasterSearchRequest masterSearchRequest) {
-        Page<User> masters = searchService.findBySearch(masterSearchRequest);
+        Page<UserDTO> masters = searchService.findBySearch(masterSearchRequest);
         model.addAttribute(SEARCH,masterSearchRequest);
         model.addAttribute("masters", masters);
         model.addAttribute(ACTIVE, "masters");
