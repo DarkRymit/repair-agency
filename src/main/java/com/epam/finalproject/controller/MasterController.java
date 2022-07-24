@@ -43,7 +43,7 @@ public class MasterController {
 
     @GetMapping("/orders")
     String ordersPage(Model model, @AuthenticationPrincipal UserDetails userDetails, ReceiptWithMasterSearchRequest searchRequest) {
-        Page<ReceiptDTO> receipts = searchService.findBySearch(searchRequest,userDetails.getUsername()).map(r -> receiptService.constructDTO(r));
+        Page<ReceiptDTO> receipts = searchService.findBySearch(searchRequest,userDetails.getUsername());
         model.addAttribute("search",searchRequest);
         model.addAttribute("receipts", receipts);
         model.addAttribute(ACTIVE, "orders");
