@@ -29,7 +29,7 @@
                                     <li class="list-group-item">
                                         <ul class="list-group">
                                             <li class=" list-group-item">
-                                                <i th:text="${category.keyName}"></i>
+                                                <i th:text="${category.name}"></i>
                                             </li>
                                             <li class=" list-group-item accordion accordion-flush"
                                                 th:id="'accordion'+${category.keyName}">
@@ -48,7 +48,7 @@
                                                          th:id="'collapse'+${category.keyName}">
                                                         <ul class="list-group" th:each="work:${category.works}">
                                                             <li class="list-group-item">
-                                                                <th:block th:text="${work.keyName}"></th:block>
+                                                                <th:block th:text="${work.name}"></th:block>
                                                                 <br>
                                                                 <th:block th:text="${work.lowerBorder}"></th:block>
                                                                 <th:block th:text="${work.upperBorder}"></th:block>

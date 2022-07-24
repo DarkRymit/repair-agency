@@ -3,7 +3,6 @@ package com.epam.finalproject.service.impl;
 import com.epam.finalproject.aop.logging.Loggable;
 import com.epam.finalproject.dto.RepairWorkDTO;
 import com.epam.finalproject.model.entity.RepairWork;
-import com.epam.finalproject.repository.RepairCategoryRepository;
 import com.epam.finalproject.repository.RepairWorkRepository;
 import com.epam.finalproject.service.RepairWorkService;
 import lombok.AllArgsConstructor;
@@ -22,8 +21,6 @@ import java.util.stream.Collectors;
 public class RepairWorkServiceImpl implements RepairWorkService {
 
     RepairWorkRepository repairWorkRepository;
-
-    RepairCategoryRepository repairCategoryRepository;
 
     ModelMapper modelMapper;
 
@@ -44,18 +41,19 @@ public class RepairWorkServiceImpl implements RepairWorkService {
 
     @Override
     public List<RepairWorkDTO> findByCategoryKey(String key) {
-        return  repairWorkRepository.findByCategoryKeyName(key).stream().map(this::constructDTO).collect(Collectors.toList());
+        return repairWorkRepository.findByCategoryKeyName(key)
+                .stream()
+                .map(this::constructDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     public RepairWorkDTO findByKeyAndCategoryKey(String workKey, String categoryKey) {
-        return constructDTO(repairWorkRepository.findByKeyNameAndCategory_KeyName(workKey,categoryKey).orElseThrow());
+        return constructDTO(repairWorkRepository.findByKeyNameAndCategory_KeyName(workKey, categoryKey).orElseThrow());
     }
 
     @Loggable
-    public RepairWorkDTO constructDTO(RepairWork repairCategory) {
-        RepairWorkDTO result = new RepairWorkDTO();
-        modelMapper.map(repairCategory,result);
-        return result;
+    public RepairWorkDTO constructDTO(RepairWork repairWork) {
+        return modelMapper.map(repairWork, RepairWorkDTO.class);
     }
 }

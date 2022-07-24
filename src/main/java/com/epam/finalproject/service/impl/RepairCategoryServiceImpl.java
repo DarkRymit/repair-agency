@@ -50,8 +50,6 @@ public class RepairCategoryServiceImpl implements RepairCategoryService {
 
     @Loggable
     public RepairCategoryDTO constructDTO(RepairCategory repairCategory) {
-        RepairCategoryDTO result = new RepairCategoryDTO();
-        modelMapper.map(repairCategory,result);
-        return result;
+        return modelMapper.map(repairCategory,RepairCategoryDTO.class);
     }
 }

@@ -84,9 +84,8 @@
                         </a>
                         <ul aria-labelledby="navbarDropdownMenu1Link"
                             class="dropdown-menu  dropdown-menu-lg-end bg-secondary text-center">
-                            <li><a class="dropdown-item" href="#">Lang 1</a></li>
-                            <li><a class="dropdown-item" href="#">Lang 2</a></li>
-                            <li><a class="dropdown-item" href="#">Lang 3</a></li>
+                            <li><a class="dropdown-item" th:href="${@thymeleafUtil.replaceOrAddParam('lang', 'uk')}">Українська</a></li>
+                            <li><a class="dropdown-item" th:href="${@thymeleafUtil.replaceOrAddParam('lang', 'en')}">English</a></li>
                         </ul>
                     </li>
                     <li class="nav-item px-lg-1 py-lg-0 py-1">
