@@ -32,7 +32,7 @@
             </th:block>
             <th:block th:if="${type == 'customer'}">
                 <th:block th:include="${active == 'home'} ? ~{fragments/customer :: home} : ~{}"></th:block>
-                <th:block th:include="${active == 'orders'} ? ~{fragments/customer :: receipt(${search},${receipts})} :  ~{}"></th:block>
+                <th:block th:include="${active == 'orders'} ? ~{fragments/customer :: receipt(${search},${receipts},${flows})} :  ~{}"></th:block>
                 <th:block th:include="${active == 'responses'} ? ~{fragments/customer :: response } : ~{}"></th:block>
             </th:block>
         </div>

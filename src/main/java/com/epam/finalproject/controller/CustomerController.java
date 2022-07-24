@@ -1,8 +1,10 @@
 package com.epam.finalproject.controller;
 
 import com.epam.finalproject.dto.ReceiptDTO;
+import com.epam.finalproject.dto.ReceiptStatusFlowDTO;
 import com.epam.finalproject.payload.request.search.ReceiptWithCustomerSearchRequest;
 import com.epam.finalproject.service.ReceiptService;
+import com.epam.finalproject.service.ReceiptStatusFlowService;
 import com.epam.finalproject.service.SearchService;
 import com.epam.finalproject.service.UserService;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/customer")
@@ -34,6 +38,7 @@ public class CustomerController {
 
     UserService userService;
 
+    ReceiptStatusFlowService receiptStatusFlowService;
 
     @GetMapping("/home")
     String homePage(Model model) {
@@ -45,6 +50,8 @@ public class CustomerController {
     @GetMapping("/orders")
     String ordersPage(Model model, @AuthenticationPrincipal UserDetails userDetails, ReceiptWithCustomerSearchRequest searchRequest) {
         Page<ReceiptDTO> receipts = searchService.findBySearch(searchRequest,userDetails.getUsername());
+        List<ReceiptStatusFlowDTO> flows = receiptStatusFlowService.listAllAvailableForUser(userDetails.getUsername());
+        model.addAttribute("flows",flows);
         model.addAttribute("search",searchRequest);
         model.addAttribute("receipts", receipts);
         model.addAttribute(ACTIVE, "orders");
