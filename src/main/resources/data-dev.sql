@@ -58,6 +58,11 @@ insert into repair_work_prices (lower_border, upper_border, currency_id, work_id
 insert into repair_work_prices (lower_border, upper_border, currency_id, work_id) values (12.10,12.10,1,3);
 insert into repair_work_prices (lower_border, upper_border, currency_id, work_id) values (10.50,10.50,1,4);
 insert into repair_work_prices (lower_border, upper_border, currency_id, work_id) values (22.40,22.40,1,5);
+insert into repair_work_prices (lower_border, upper_border, currency_id, work_id) values (816.00,816.00,2,1);
+insert into repair_work_prices (lower_border, upper_border, currency_id, work_id) values (2096.00,2096.00,2,2);
+insert into repair_work_prices (lower_border, upper_border, currency_id, work_id) values (484.00,484.00,2,3);
+insert into repair_work_prices (lower_border, upper_border, currency_id, work_id) values (420.00,420.00,2,4);
+insert into repair_work_prices (lower_border, upper_border, currency_id, work_id) values (896.00,896.00,2,5);
 
 
 insert into repair_work_local_parts (name, language_id, work_id) values ('Battery replacement',1,1);
