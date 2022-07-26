@@ -1,16 +1,9 @@
 package com.epam.finalproject.controller;
 
-import com.epam.finalproject.dto.AppCurrencyDTO;
-import com.epam.finalproject.dto.ReceiptDTO;
-import com.epam.finalproject.dto.RepairCategoryDTO;
-import com.epam.finalproject.dto.RepairWorkDTO;
-import com.epam.finalproject.model.entity.Receipt;
+import com.epam.finalproject.dto.*;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptCreateRequest;
 import com.epam.finalproject.payload.request.receipt.update.ReceiptUpdateRequest;
-import com.epam.finalproject.service.AppCurrencyService;
-import com.epam.finalproject.service.ReceiptService;
-import com.epam.finalproject.service.RepairCategoryService;
-import com.epam.finalproject.service.RepairWorkService;
+import com.epam.finalproject.service.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -29,23 +22,37 @@ import java.util.List;
 public class ReceiptController {
     ReceiptService receiptService;
 
+    ReceiptStatusFlowService receiptStatusFlowService;
+
     RepairCategoryService repairCategoryService;
 
     RepairWorkService repairWorkService;
 
     AppCurrencyService appCurrencyService;
 
-    @PatchMapping("/{id}")
+    @GetMapping("/{id}/update")
+    String updatePage(Model model,@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
+        ReceiptDTO receipt = receiptService.findById(id);
+        List<ReceiptStatusFlowDTO> flows = receiptStatusFlowService.listAllAvailableForUser(receipt.getStatus().getId(),userDetails.getUsername());
+        List<AppCurrencyDTO> currencies = appCurrencyService.findAll();
+        model.addAttribute("order",receipt);
+        model.addAttribute("flows",flows);
+        model.addAttribute("currencies",currencies);
+        return "orderUpdate";
+    }
+    @PostMapping("/{id}/update")
     String update(Model model, @RequestBody ReceiptUpdateRequest updateRequest, @RequestParam(required = false) String redirectURL, @PathVariable Long id) {
         updateRequest.setId(id);
         ReceiptDTO receipt = receiptService.update(updateRequest);
-        return "redirect:/"+receipt.getId();
+        return "redirect:/order/"+receipt.getId();
     }
+
     @PostMapping(value = "/{id}/status/change",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String updateStatus(Model model,@AuthenticationPrincipal UserDetails userDetails,@PathVariable Long id,Long statusId) {
         ReceiptDTO receipt = receiptService.updateStatus(id,statusId,userDetails.getUsername());
         return "redirect:/order/"+receipt.getId();
     }
+
     @GetMapping("/{id}")
     String show(Model model, @RequestParam(required = false) String redirectURL, @PathVariable Long id) {
         ReceiptDTO receipt = receiptService.findById(id);
