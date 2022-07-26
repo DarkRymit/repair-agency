@@ -107,7 +107,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
         Set<ReceiptItem> receiptItems = getReceiptItemSet(request, receipt, currency);
 
-        receipt.setMaster(userRepository.findById(request.getMasterId()).orElseThrow());
+        receipt.setMaster(userRepository.findByUsername(request.getMasterUsername()).orElseThrow());
 
         receipt.setStatus(receiptStatusRepository.findByName(request.getReceiptStatus()).orElseThrow());
 

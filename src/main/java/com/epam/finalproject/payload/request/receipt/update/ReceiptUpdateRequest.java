@@ -18,7 +18,7 @@ public class ReceiptUpdateRequest {
 
     ReceiptStatusEnum receiptStatus;
 
-    Long masterId;
+    String masterUsername;
 
     Set<ReceiptItemUpdateRequest> receiptItems;
 
