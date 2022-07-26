@@ -72,4 +72,12 @@ public class ReceiptStatusFlowServiceImpl implements ReceiptStatusFlowService {
         List<ReceiptStatusFlow> flows = receiptStatusFlowRepository.findDistinctByRoleIn(user.getRoles());
         return flows.stream().map(this::constructDTO).collect(Collectors.toList());
     }
+
+    @Override
+    @Loggable
+    public List<ReceiptStatusFlowDTO> listAllAvailableForUser(Long fromId,String username) {
+        User user = userRepository.findByUsername(username).orElseThrow();
+        List<ReceiptStatusFlow> flows = receiptStatusFlowRepository.findDistinctByFromStatus_IdAndRoleIn(fromId,user.getRoles());
+        return flows.stream().map(this::constructDTO).collect(Collectors.toList());
+    }
 }

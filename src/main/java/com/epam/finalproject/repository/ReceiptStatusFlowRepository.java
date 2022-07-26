@@ -17,6 +17,8 @@ public interface ReceiptStatusFlowRepository extends JpaRepository<ReceiptStatus
     List<ReceiptStatusFlow> findAllByFromStatusAndToStatus(ReceiptStatus from, ReceiptStatus to);
 
     List<ReceiptStatusFlow> findDistinctByRoleIn(Set<Role> role);
+    List<ReceiptStatusFlow> findDistinctByFromStatus_IdAndRoleIn(Long fromId,Set<Role> role);
+
     Optional<ReceiptStatusFlow> findByFromStatusAndToStatusAndRole_Name(ReceiptStatus from, ReceiptStatus to, RoleEnum name);
 
     boolean existsByFromStatusAndToStatusAndRoleIn(ReceiptStatus fromStatus, ReceiptStatus toStatus, Collection<Role> role);

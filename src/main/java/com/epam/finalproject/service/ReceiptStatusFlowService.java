@@ -22,4 +22,6 @@ public interface ReceiptStatusFlowService {
 
     List<ReceiptStatusFlowDTO> listAllAvailableForUser(String username);
 
+    List<ReceiptStatusFlowDTO> listAllAvailableForUser(Long fromId,String username);
+
 }
