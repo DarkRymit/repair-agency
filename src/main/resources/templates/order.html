@@ -15,6 +15,7 @@
     <th:block th:insert="fragments/import.html :: font-awesome"></th:block>
     <!-- Custom styles for this template-->
     <link href="/css/animation.css" rel="stylesheet">
+    <link href="/css/rating.css" rel="stylesheet">
 </head>
 
 <body>
@@ -135,22 +136,54 @@
                                         <th:block th:text="${order.note}">14-01-2003</th:block>
                                     </li>
                                 </ul>
-                                <th:block th:if="${response}!=null">
-                                    <strong> Response </strong>
-                                    <ul class="list-group">
-                                        <li class="list-group-item">
-                                            <strong >Text</strong>
-                                            <span>:</span>
-                                            <th:block th:text="${response.getText()}">14-01-2003</th:block>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <strong>Rate</strong>
-                                            <span>:</span>
-                                            <th:block th:each="i: ${#numbers.sequence(1, response.rating)}">
-                                               <i class="fa-solid fa-star"></i>
-                                            </th:block>
-                                        </li>
-                                    </ul>
+                                <th:block th:if="${order.status.name}=='DONE'">
+                                    <th:block th:if="${response}!=null">
+                                        <strong> Response </strong>
+                                        <ul class="list-group">
+                                            <li class="list-group-item">
+                                                <strong >Text</strong>
+                                                <span>:</span>
+                                                <th:block th:text="${response.getText()}">14-01-2003</th:block>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <strong>Rate</strong>
+                                                <span>:</span>
+                                                <th:block th:each="i: ${#numbers.sequence(1, response.rating)}">
+                                                    <i class="fa-solid fa-star"></i>
+                                                </th:block>
+                                            </li>
+                                        </ul>
+                                    </th:block>
+                                    <th:block th:if="${response}==null and ${order.user.username} == ${#authentication.name}">
+                                        <strong> Response </strong>
+                                        <form method="post" id="form" th:action="@{/order/{id}/response/create(id=${order.id})}">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    <div class="input-group">
+                                                        <strong class="input-group-text">Text</strong>
+                                                        <textarea maxlength="255" aria-label="Note" class="form-control" name="text" id="text"></textarea>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <strong>Rate</strong>
+                                                    <span>:</span>
+                                                    <div class="rating">
+                                                        <input class="star star-5" id="star-5" type="radio" value="5" name="rating"/>
+                                                        <label class="star star-5 fa-solid fa-star" for="star-5"></label>
+                                                        <input class="star star-4" id="star-4" type="radio" value="4" name="rating"/>
+                                                        <label class="star star-4 fa-solid fa-star" for="star-4"></label>
+                                                        <input class="star star-3" id="star-3" type="radio" value="3"  name="rating"/>
+                                                        <label class="star star-3 fa-solid fa-star" for="star-3"></label>
+                                                        <input class="star star-2" id="star-2" type="radio" value="2"  name="rating"/>
+                                                        <label class="star star-2 fa-solid fa-star" for="star-2"></label>
+                                                        <input class="star star-1" id="star-1" type="radio" value="1"  name="rating"/>
+                                                        <label class="star star-1 fa-solid fa-star" for="star-1"></label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                                        </form>
+                                    </th:block>
                                 </th:block>
                             </div>
                         </div>

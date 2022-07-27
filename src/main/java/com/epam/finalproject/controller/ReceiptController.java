@@ -50,12 +50,6 @@ public class ReceiptController {
         return "redirect:/order/"+receipt.getId();
     }
 
-    @GetMapping("/{id}/response/create")
-    String responseCreatePage(Model model,@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
-        ReceiptDTO receipt = receiptService.findById(id);
-        model.addAttribute("order",receipt);
-        return "orderResponseCreate";
-    }
     @PostMapping(value ="/{id}/response/create",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String responseCreate(Model model, ReceiptResponseCreateRequest createRequest, @AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
         createRequest.setReceiptId(id);
