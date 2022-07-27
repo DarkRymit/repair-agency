@@ -107,4 +107,31 @@
             </div>
         </div>
     </div>
+    <th:block xmlns:th="http://www.thymeleaf.org" th:fragment="response(responses)">
+        <div class="container ms-0">
+            <div class="row">
+                <div class="col-10">
+                    <th:block th:insert="fragments/table.html :: simple(~{::#receiptHead1},~{::#receiptBody1})">
+                        <tr class="head" id="receiptHead1">
+                            <th scope="col">ID</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Master</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Rate</th>
+                        </tr>
+                        <tr class="body table-light" id="receiptBody1" th:each="response:${responses}">
+                            <th:block th:insert="fragments/table-data :: response-id(${response})"></th:block>
+                            <th:block th:insert="fragments/table-data :: receipt-user(${response.receipt})"></th:block>
+                            <th:block th:insert="fragments/table-data :: receipt-master(${response.receipt})"></th:block>
+                            <th:block th:insert="fragments/table-data :: receipt-category(${response.receipt})"></th:block>
+                            <th:block th:insert="fragments/table-data :: receipt-price(${response.receipt})"></th:block>
+                            <th:block th:insert="fragments/table-data ::response-rating(${response})"></th:block>
+                        </tr>
+                    </th:block>
+                    <th:block th:insert="~{fragments/pagination.html :: pagination(${responses})}"></th:block>
+                </div>
+            </div>
+        </div>
+    </th:block>
 </th:block>

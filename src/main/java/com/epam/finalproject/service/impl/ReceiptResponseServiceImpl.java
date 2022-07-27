@@ -1,5 +1,6 @@
 package com.epam.finalproject.service.impl;
 
+import com.epam.finalproject.aop.logging.Loggable;
 import com.epam.finalproject.dto.ReceiptResponseDTO;
 import com.epam.finalproject.model.entity.Receipt;
 import com.epam.finalproject.model.entity.ReceiptResponse;
@@ -12,6 +13,8 @@ import com.epam.finalproject.service.ReceiptResponseService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +37,11 @@ public class ReceiptResponseServiceImpl implements ReceiptResponseService {
     @Override
     public List<ReceiptResponseDTO> findAll() {
         return receiptResponseRepository.findAll().stream().map(this::constructDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<ReceiptResponseDTO> findAll(Pageable pageable) {
+        return  receiptResponseRepository.findAll(pageable).map(this::constructDTO);
     }
 
     @Override
@@ -80,5 +88,16 @@ public class ReceiptResponseServiceImpl implements ReceiptResponseService {
     @Override
     public boolean existByReceiptId(Long id) {
         return receiptResponseRepository.existsByReceipt_Id(id);
+    }
+
+    @Override
+    @Loggable
+    public Page<ReceiptResponseDTO> findByCustomerUsername(String username, Pageable pageable) {
+        return receiptResponseRepository.findAllFetchReceiptByReceipt_User_Username(username,pageable).map(this::constructDTO);
+    }
+
+    @Override
+    public Page<ReceiptResponseDTO> findByMasterUsername(String username, Pageable pageable) {
+        return receiptResponseRepository.findAllFetchReceiptByReceipt_Master_Username(username,pageable).map(this::constructDTO);
     }
 }

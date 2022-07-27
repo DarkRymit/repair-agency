@@ -1,5 +1,14 @@
 <th:block xmlns:th="http://www.thymeleaf.org">
-
+    <td th:fragment="response-rating(response)">
+        <th:block th:each="i: ${#numbers.sequence(1, response.rating)}">
+            <i class="fa-solid fa-star"></i>
+        </th:block>
+    </td>
+    <td th:fragment="response-id(response)">
+        <a class=" text-dark text-decoration-none"
+           th:href="'/order/'+${response.receipt.id}"
+           th:text="${response.receipt.id}"></a>
+    </td>
     <td th:fragment="receipt-id(receipt)">
         <a class=" text-dark text-decoration-none"
            th:href="'/order/'+${receipt.id}"

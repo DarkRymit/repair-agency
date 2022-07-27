@@ -1,19 +1,23 @@
 package com.epam.finalproject.controller;
 
 import com.epam.finalproject.dto.ReceiptDTO;
+import com.epam.finalproject.dto.ReceiptResponseDTO;
 import com.epam.finalproject.payload.request.search.ReceiptWithMasterSearchRequest;
-import com.epam.finalproject.service.ReceiptService;
+import com.epam.finalproject.service.ReceiptResponseService;
 import com.epam.finalproject.service.SearchService;
-import com.epam.finalproject.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/master")
@@ -29,10 +33,7 @@ public class MasterController {
 
     SearchService searchService;
 
-    ReceiptService receiptService;
-
-    UserService userService;
-
+    ReceiptResponseService receiptResponseService;
 
     @GetMapping("/home")
     String homePage(Model model) {
@@ -52,7 +53,10 @@ public class MasterController {
     }
 
     @GetMapping("/responses")
-    String responsesPage(Model model) {
+    String responsesPage(Model model, @AuthenticationPrincipal UserDetails userDetails,@RequestParam(required = false) Integer page) {
+        int actualPage = Optional.ofNullable(page).orElse(0);
+        Page<ReceiptResponseDTO> responses = receiptResponseService.findByMasterUsername(userDetails.getUsername(), PageRequest.of(actualPage,10));
+        model.addAttribute("responses", responses);
         model.addAttribute(ACTIVE, "responses");
         model.addAttribute(TYPE, MASTER);
         return MASTER_VIEW;
