@@ -1,6 +1,7 @@
 package com.epam.finalproject.controller;
 
 import com.epam.finalproject.dto.*;
+import com.epam.finalproject.payload.request.ReceiptResponseCreateRequest;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptCreateRequest;
 import com.epam.finalproject.payload.request.receipt.update.ReceiptUpdateRequest;
 import com.epam.finalproject.service.*;
@@ -23,6 +24,8 @@ public class ReceiptController {
     ReceiptService receiptService;
 
     ReceiptStatusFlowService receiptStatusFlowService;
+
+    ReceiptResponseService receiptResponseService;
 
     RepairCategoryService repairCategoryService;
 
@@ -47,6 +50,20 @@ public class ReceiptController {
         return "redirect:/order/"+receipt.getId();
     }
 
+    @GetMapping("/{id}/response/create")
+    String responseCreatePage(Model model,@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
+        ReceiptDTO receipt = receiptService.findById(id);
+        model.addAttribute("order",receipt);
+        return "orderResponseCreate";
+    }
+    @PostMapping(value ="/{id}/response/create",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    String responseCreate(Model model, ReceiptResponseCreateRequest createRequest, @AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
+        createRequest.setReceiptId(id);
+        log.info(createRequest.toString());
+        receiptResponseService.createNew(createRequest,userDetails.getUsername());
+        return "redirect:/order/"+id;
+    }
+
     @PostMapping(value = "/{id}/status/change",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String updateStatus(Model model,@AuthenticationPrincipal UserDetails userDetails,@PathVariable Long id,Long statusId) {
         ReceiptDTO receipt = receiptService.updateStatus(id,statusId,userDetails.getUsername());
@@ -56,6 +73,10 @@ public class ReceiptController {
     @GetMapping("/{id}")
     String show(Model model, @RequestParam(required = false) String redirectURL, @PathVariable Long id) {
         ReceiptDTO receipt = receiptService.findById(id);
+        if (receiptResponseService.existByReceiptId(id)){
+            ReceiptResponseDTO response = receiptResponseService.findByReceiptId(id);
+            model.addAttribute("response",response);
+        }
         model.addAttribute("order",receipt);
         return "order";
     }

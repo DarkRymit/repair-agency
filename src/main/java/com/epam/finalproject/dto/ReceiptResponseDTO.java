@@ -1,0 +1,20 @@
+package com.epam.finalproject.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ReceiptResponseDTO {
+
+    private Long id;
+
+    private ReceiptDTO receipt;
+
+    private String text;
+
+    private Integer rating;
+
+}
