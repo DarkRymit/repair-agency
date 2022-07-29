@@ -7,6 +7,7 @@ import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptCreateRequest;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptDeliveryCreateRequest;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptItemCreateRequest;
+import com.epam.finalproject.payload.request.receipt.pay.ReceiptPayRequest;
 import com.epam.finalproject.payload.request.receipt.update.ReceiptDeliveryUpdateRequest;
 import com.epam.finalproject.payload.request.receipt.update.ReceiptItemUpdateRequest;
 import com.epam.finalproject.payload.request.receipt.update.ReceiptUpdateRequest;
@@ -14,6 +15,7 @@ import com.epam.finalproject.repository.*;
 import com.epam.finalproject.service.ReceiptService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.javamoney.moneta.Money;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,11 +23,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.money.CurrencyUnit;
+import javax.money.Monetary;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static javax.money.Monetary.getCurrency;
 
 @Service
 @AllArgsConstructor
@@ -44,6 +50,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     AppCurrencyRepository appCurrencyRepository;
 
+    WalletRepository walletRepository;
     UserRepository userRepository;
 
     ModelMapper modelMapper;
@@ -150,6 +157,42 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     public ReceiptDTO findById(Long id) {
         return constructDTO(receiptRepository.findById(id).orElseThrow());
+    }
+
+    @Override
+    public ReceiptDTO pay(ReceiptPayRequest payRequest, String username) {
+
+        Receipt receipt = receiptRepository.findById(payRequest.getId()).orElseThrow();
+        if(!receipt.getStatus().getName().equals(ReceiptStatusEnum.WAIT_FOR_PAYMENT)){
+            throw new IllegalStateException("Receipt not wait for payment");
+        }
+        Wallet wallet = walletRepository.findById(payRequest.getWalletId()).orElseThrow();
+        if (!wallet.getUser().getUsername().equals(username)){
+            throw new IllegalArgumentException("Wallet username and username not match");
+        }
+        if (!receipt.getUser().getUsername().equals(username)){
+            throw new IllegalArgumentException("Receipt username and username not match");
+        }
+        Money receiptMoney = Money.of(receipt.getTotalPrice(), receipt.getPriceCurrency().getCode());
+        Money walletMoney = Money.of(wallet.getMoneyAmount(), wallet.getMoneyCurrency().getCode());
+
+
+        if (!receiptMoney.getCurrency().equals(walletMoney.getCurrency())){
+            throw new IllegalArgumentException("Not Match Currency");
+        }
+        Money walletRemainder = walletMoney.subtract(receiptMoney);
+        if(walletRemainder.isNegative()){
+            throw new IllegalStateException("Negative money on wallet remain");
+        }
+        wallet.setMoneyAmount(walletRemainder.getNumberStripped());
+        walletRepository.save(wallet);
+
+        ReceiptStatus paid = receiptStatusRepository.findByName(ReceiptStatusEnum.PAID).orElseThrow();
+        receipt.setStatus(paid);
+        receipt = receiptRepository.save(receipt);
+
+        return constructDTO(receipt);
+
     }
 
     private void mergeDeliveryInto(Receipt receipt, ReceiptDelivery delivery) {

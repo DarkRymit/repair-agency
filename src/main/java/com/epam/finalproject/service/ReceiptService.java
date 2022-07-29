@@ -3,6 +3,7 @@ package com.epam.finalproject.service;
 import com.epam.finalproject.dto.ReceiptDTO;
 import com.epam.finalproject.model.entity.Receipt;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptCreateRequest;
+import com.epam.finalproject.payload.request.receipt.pay.ReceiptPayRequest;
 import com.epam.finalproject.payload.request.receipt.update.ReceiptUpdateRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,4 +24,6 @@ public interface ReceiptService {
     ReceiptDTO constructDTO(Receipt receipt);
 
     ReceiptDTO findById(Long id);
+
+    ReceiptDTO pay(ReceiptPayRequest payRequest, String username);
 }

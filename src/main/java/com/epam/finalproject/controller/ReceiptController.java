@@ -3,6 +3,7 @@ package com.epam.finalproject.controller;
 import com.epam.finalproject.dto.*;
 import com.epam.finalproject.payload.request.ReceiptResponseCreateRequest;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptCreateRequest;
+import com.epam.finalproject.payload.request.receipt.pay.ReceiptPayRequest;
 import com.epam.finalproject.payload.request.receipt.update.ReceiptUpdateRequest;
 import com.epam.finalproject.service.*;
 import lombok.AllArgsConstructor;
@@ -61,6 +62,13 @@ public class ReceiptController {
     @PostMapping(value = "/{id}/status/change",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String updateStatus(Model model,@AuthenticationPrincipal UserDetails userDetails,@PathVariable Long id,Long statusId) {
         ReceiptDTO receipt = receiptService.updateStatus(id,statusId,userDetails.getUsername());
+        return "redirect:/order/"+receipt.getId();
+    }
+
+    @PostMapping(value ="/{id}/pay",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    String pay(Model model, @AuthenticationPrincipal UserDetails userDetails, ReceiptPayRequest payRequest, @PathVariable Long id) {
+        payRequest.setId(id);
+        ReceiptDTO receipt = receiptService.pay(payRequest,userDetails.getUsername());
         return "redirect:/order/"+receipt.getId();
     }
 
