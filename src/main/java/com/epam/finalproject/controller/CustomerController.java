@@ -3,10 +3,12 @@ package com.epam.finalproject.controller;
 import com.epam.finalproject.dto.ReceiptDTO;
 import com.epam.finalproject.dto.ReceiptResponseDTO;
 import com.epam.finalproject.dto.ReceiptStatusFlowDTO;
+import com.epam.finalproject.dto.WalletDTO;
 import com.epam.finalproject.payload.request.search.ReceiptWithCustomerSearchRequest;
 import com.epam.finalproject.service.ReceiptResponseService;
 import com.epam.finalproject.service.ReceiptStatusFlowService;
 import com.epam.finalproject.service.SearchService;
+import com.epam.finalproject.service.WalletService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -41,6 +43,8 @@ public class CustomerController {
 
     ReceiptStatusFlowService receiptStatusFlowService;
 
+    WalletService walletService;
+
     @GetMapping("/home")
     String homePage(Model model) {
         model.addAttribute(ACTIVE, "home");
@@ -59,7 +63,15 @@ public class CustomerController {
         model.addAttribute(TYPE, CUSTOMER);
         return MASTER_VIEW;
     }
-
+    @GetMapping("/wallets")
+    String walletsPage(Model model, @AuthenticationPrincipal UserDetails userDetails,@RequestParam(required = false) Integer page) {
+        int actualPage = Optional.ofNullable(page).orElse(0);
+        Page<WalletDTO> wallets = walletService.findAllByUsername(PageRequest.of(actualPage,10),userDetails.getUsername());
+        model.addAttribute("wallets", wallets);
+        model.addAttribute(ACTIVE, "wallets");
+        model.addAttribute(TYPE, CUSTOMER);
+        return MASTER_VIEW;
+    }
     @GetMapping("/responses")
     String responsesPage(Model model, @AuthenticationPrincipal UserDetails userDetails,@RequestParam(required = false) Integer page) {
         int actualPage = Optional.ofNullable(page).orElse(0);

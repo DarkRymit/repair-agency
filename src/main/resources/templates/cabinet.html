@@ -35,6 +35,7 @@
                 <th:block th:include="${active == 'home'} ? ~{fragments/customer :: home} : ~{}"></th:block>
                 <th:block th:include="${active == 'orders'} ? ~{fragments/customer :: receipt(${search},${receipts},${flows})} :  ~{}"></th:block>
                 <th:block th:include="${active == 'responses'} ? ~{fragments/customer :: response(${responses}) } : ~{}"></th:block>
+                <th:block th:include="${active == 'wallets'} ? ~{fragments/customer :: wallet(${wallets}) } : ~{}"></th:block>
             </th:block>
         </div>
 

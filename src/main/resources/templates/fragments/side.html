@@ -186,7 +186,7 @@
                     </ul>
                 </div>
             </li>
-            <li>
+            <li class="nav-item">
                 <button aria-expanded="false"
                         class="nav-link text-white align-items-center rounded collapsed"
                         data-bs-target="#responses-collapse"
@@ -203,6 +203,14 @@
                         <li><a class="link-light rounded" href="#">Verified</a></li>
                     </ul>
                 </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white align-items-center rounded collapsed" href="wallets" th:classappend="${#strings.equals(active,'wallets')} ? active">
+                    <svg class="bi me-2" height="16" width="16">
+                        <use xlink:href="#grid"/>
+                    </svg>
+                    Wallets
+                </a>
             </li>
         </ul>
     </div>
