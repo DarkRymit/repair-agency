@@ -1,4 +1,4 @@
-<th:block xmlns:th="http://www.thymeleaf.org">
+<th:block xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <td th:fragment="response-rating(response)">
         <th:block th:each="i: ${#numbers.sequence(1, response.rating)}">
             <i class="fa-solid fa-star"></i>
@@ -58,6 +58,9 @@
     <td th:fragment="receipt-action(receipt,flows)">
         <a class="btn btn-outline-primary" role="button" th:href="'/order/'+${receipt.id}">
             View
+        </a>
+        <a class="btn btn-outline-primary" role="button" th:if="${receipt.status.name} == 'WAIT_FOR_PAYMENT' " sec:authorize="hasRole('CUSTOMER')" th:href="'/order/'+${receipt.id}+'/pay'">
+            Pay
         </a>
         <div class="dropdown">
             <a aria-expanded="false" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"

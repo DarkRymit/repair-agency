@@ -17,6 +17,7 @@ insert into wallets (money_amount, currency_id, name, user_id) values (100.0,1,'
 insert into wallets (money_amount, currency_id, name, user_id) values (100.0,1,'Special',1);
 insert into wallets (money_amount, currency_id, name, user_id) values (120.0,1,'Default',4);
 insert into wallets (money_amount, currency_id, name, user_id) values (20.0,1,'Default',5);
+insert into wallets (money_amount, currency_id, name, user_id) values (200.0,1,'Second',5);
 
 insert into roles (name) values ('UNVERIFIED');
 insert into roles (name) values ('BLOCKED');

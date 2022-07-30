@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class WalletDTO {
 
+    private Long id;
+
     private String name;
 
     private BigDecimal moneyAmount;

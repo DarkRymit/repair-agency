@@ -32,6 +32,7 @@ public class ReceiptController {
 
     RepairWorkService repairWorkService;
 
+    WalletService walletService;
     AppCurrencyService appCurrencyService;
 
     @GetMapping("/{id}/update")
@@ -63,6 +64,15 @@ public class ReceiptController {
     String updateStatus(Model model,@AuthenticationPrincipal UserDetails userDetails,@PathVariable Long id,Long statusId) {
         ReceiptDTO receipt = receiptService.updateStatus(id,statusId,userDetails.getUsername());
         return "redirect:/order/"+receipt.getId();
+    }
+
+    @GetMapping(value ="/{id}/pay")
+    String pay(Model model, @AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
+        ReceiptDTO receipt = receiptService.findById(id);
+        List<WalletDTO> wallets = walletService.findAllByUsername(userDetails.getUsername());
+        model.addAttribute("order",receipt);
+        model.addAttribute("wallets",wallets);
+        return "orderPay";
     }
 
     @PostMapping(value ="/{id}/pay",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
