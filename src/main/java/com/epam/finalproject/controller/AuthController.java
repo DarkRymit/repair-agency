@@ -42,12 +42,9 @@ public class AuthController {
     ApplicationEventPublisher eventPublisher;
 
     @GetMapping("/signup")
-    String signUpPage(@RequestParam Optional<String> usernameError,@RequestParam Optional<String> emailError, Model model) {
-        usernameError.ifPresent( e -> model.addAttribute("usernameError", e));
-        emailError.ifPresent( e -> model.addAttribute("emailError", e));
+    String signUpPage(Model model) {
         return "signup";
     }
-
     @ModelAttribute("singUpForm")
     public SignUpRequest signUpForm() {
         return new SignUpRequest();
@@ -58,11 +55,11 @@ public class AuthController {
         boolean isErrorsExists = false;
         if (userService.existsByUsername(form.getUsername())) {
             isErrorsExists = true;
-            redirectedAttributes.addAttribute("usernameError", "true");
+            redirectedAttributes.addFlashAttribute("usernameError", "true");
         }
         if (userService.existsByEmail(form.getEmail())) {
             isErrorsExists = true;
-            redirectedAttributes.addAttribute("emailError", "true");
+            redirectedAttributes.addFlashAttribute("emailError", "true");
         }
         if (isErrorsExists) {
             return "redirect:/auth/signup";
