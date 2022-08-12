@@ -1,7 +1,6 @@
 package com.epam.finalproject.config;
 
 import com.epam.finalproject.currency.context.CurrencyUnitContextHolder;
-import com.epam.finalproject.dto.AppCurrencyDTO;
 import com.epam.finalproject.dto.ReceiptDTO;
 import com.epam.finalproject.dto.RepairCategoryDTO;
 import com.epam.finalproject.dto.RepairWorkDTO;
@@ -72,7 +71,7 @@ public class ModelMapperConfig {
                     .orElseThrow();
             result.setLowerBorder(price.getLowerBorder());
             result.setUpperBorder(price.getUpperBorder());
-            result.setCurrency(new AppCurrencyDTO(price.getCurrency().getCode()));
+            result.setCurrency(price.getCurrency());
             return result;
         };
     }

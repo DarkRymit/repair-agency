@@ -1,5 +1,6 @@
 package com.epam.finalproject.dto;
 
+import com.epam.finalproject.model.entity.AppCurrency;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,6 @@ public class ReceiptItemDTO {
 
     private BigDecimal priceAmount;
 
-    private AppCurrencyDTO priceCurrency;
+    private AppCurrency priceCurrency;
 
 }

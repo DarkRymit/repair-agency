@@ -1,6 +1,7 @@
 package com.epam.finalproject.controller;
 
 import com.epam.finalproject.dto.*;
+import com.epam.finalproject.model.entity.AppCurrency;
 import com.epam.finalproject.payload.request.ReceiptResponseCreateRequest;
 import com.epam.finalproject.payload.request.receipt.create.ReceiptCreateRequest;
 import com.epam.finalproject.payload.request.receipt.pay.ReceiptPayRequest;
@@ -39,7 +40,7 @@ public class ReceiptController {
     String updatePage(Model model,@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long id) {
         ReceiptDTO receipt = receiptService.findById(id);
         List<ReceiptStatusFlowDTO> flows = receiptStatusFlowService.listAllAvailableForUser(receipt.getStatus().getId(),userDetails.getUsername());
-        List<AppCurrencyDTO> currencies = appCurrencyService.findAll();
+        List<AppCurrency> currencies = appCurrencyService.findAll();
         model.addAttribute("order",receipt);
         model.addAttribute("flows",flows);
         model.addAttribute("currencies",currencies);
@@ -102,7 +103,7 @@ public class ReceiptController {
     String create(Model model, @RequestParam(required=false) String redirectURL, @RequestParam String category, @RequestParam String currency) {
         RepairCategoryDTO repairCategory = repairCategoryService.findByKeyName(category);
         List<RepairWorkDTO> repairWorks = repairWorkService.findByCategoryKey(category);
-        AppCurrencyDTO appCurrency = appCurrencyService.findByCode(currency);
+        AppCurrency appCurrency = appCurrencyService.findByCode(currency);
         model.addAttribute("works",repairWorks);
         model.addAttribute("category",repairCategory);
         model.addAttribute("currency",appCurrency);

@@ -17,8 +17,6 @@ public class RepairCategoryDTO {
 
     private String name;
 
-    private AppLocaleDTO language;
-
     private Set<RepairWorkDTO> works;
 
 }

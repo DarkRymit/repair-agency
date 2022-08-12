@@ -1,5 +1,6 @@
 package com.epam.finalproject.dto;
 
+import com.epam.finalproject.model.entity.AppCurrency;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,12 +21,10 @@ public class RepairWorkDTO {
 
     private String name;
 
-    private AppLocaleDTO language;
-
     private BigDecimal lowerBorder;
 
     private BigDecimal upperBorder;
 
-    private AppCurrencyDTO currency;
+    private AppCurrency currency;
 
 }

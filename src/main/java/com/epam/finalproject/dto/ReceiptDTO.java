@@ -1,5 +1,6 @@
 package com.epam.finalproject.dto;
 
+import com.epam.finalproject.model.entity.AppCurrency;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,7 +31,7 @@ public class ReceiptDTO {
 
     private BigDecimal totalPrice;
 
-    private AppCurrencyDTO priceCurrency;
+    private AppCurrency priceCurrency;
 
     private String note;
 
