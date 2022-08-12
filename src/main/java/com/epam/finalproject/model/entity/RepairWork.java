@@ -1,6 +1,5 @@
 package com.epam.finalproject.model.entity;
 
-import com.epam.finalproject.model.entity.enums.RepairWorkStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,11 +24,6 @@ public class RepairWork {
     private RepairCategory category;
 
     private String keyName;
-
-    @ElementCollection(targetClass = RepairWorkStatus.class,fetch = FetchType.EAGER)
-    @CollectionTable(name = "repair_work_has_status",joinColumns = @JoinColumn(name = "repair_work_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<RepairWorkStatus> statuses;
 
     @OneToMany(mappedBy = "work",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RepairWorkLocalPart> localParts;

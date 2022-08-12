@@ -35,8 +35,6 @@ insert into user_has_role (user_id, role_id) values (4,3);
 insert into user_has_role (user_id, role_id) values (5,3);
 insert into user_has_role (user_id, role_id) values (6,4);
 
-insert into user_addresses (user_id, city, country, local_address) values (1,'Kyiv','Ukraine','some street');
-
 insert into repair_categories (key_name) values ('notebook');
 insert into repair_categories (key_name) values ('pc');
 insert into repair_categories (key_name) values ('mobile');
@@ -76,10 +74,6 @@ insert into repair_work_local_parts (name, language_id, work_id) values ('Data r
 insert into repair_work_local_parts (name, language_id, work_id) values ('Відновлення данних',2,4);
 insert into repair_work_local_parts (name, language_id, work_id) values ('Battery replacement',1,5);
 insert into repair_work_local_parts (name, language_id, work_id) values ('Заміна батареї',2,5);
-
-insert into repair_work_has_status (repair_work_id, statuses) values (1,'VIP');
-insert into repair_work_has_status (repair_work_id, statuses) values (2,'VIP');
-insert into repair_work_has_status (repair_work_id, statuses) values (2,'SUSPENDED');
 
 insert into receipt_statuses (name) values ('CREATED');
 insert into receipt_statuses (name) values ('WAIT_FOR_PAYMENT');

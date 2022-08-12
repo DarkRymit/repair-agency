@@ -55,10 +55,6 @@ public class User implements Serializable {
     @Builder.Default
     private Set<Wallet> wallets = new HashSet<>();
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn()
-    private UserAddress address;
-
     @CreatedDate
     @Column(nullable = false)
     private Instant creationDate;

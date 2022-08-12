@@ -1,6 +1,5 @@
 package com.epam.finalproject.dto;
 
-import com.epam.finalproject.model.entity.UserAddress;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,8 +28,6 @@ public class UserDTO {
     private Set<RoleDTO> roles = new HashSet<>();
 
     private Set<WalletDTO> wallets = new HashSet<>();
-
-    private UserAddress address;
 
     private ZonedDateTime creationDate;
 

@@ -2,8 +2,8 @@
 insert into app_currencies (code) values ('USD');
 insert into app_currencies (code) values ('UAH');
 
-insert into app_locales(lang) values('ENG');
-insert into app_locales(lang) values('UKR');
+insert into app_locales(lang) values('en');
+insert into app_locales(lang) values('uk');
 
 insert into users (email, first_name, last_name, password, phone, username,creation_date,last_modified_by,last_modified_date) values ('redstrike@gmail.com','Red','Strike','$2a$10$jn4vz7Xh1u358Vi1K6.r5u7ipxbRP4Kj5sGw0Nl02NQ.IGRxRz/Ha','+380 63 108 7165','RedStriker','2021-01-10T14:23:22Z','test','2021-02-10T14:23:22Z');
 insert into users (email, first_name, last_name, password, phone, username,creation_date,last_modified_by,last_modified_date) values ('darkstrike@gmail.com','Dark','Strike','$2a$10$JAYo8LApXbfu/93omHQ8Cu82AWzf7agoTkaLbazkqSpsFXwEGmGzm','+380 63 108 7165','DarkStriker','2021-01-10T14:23:22Z','test','2021-02-10T14:23:22Z');
@@ -34,8 +34,6 @@ insert into user_has_role (user_id, role_id) values (4,3);
 insert into user_has_role (user_id, role_id) values (5,3);
 insert into user_has_role (user_id, role_id) values (6,4);
 
-insert into user_addresses (user_id, city, country, local_address) values (1,'Kyiv','Ukraine','some street');
-
 insert into repair_categories (key_name) values ('notebook');
 insert into repair_categories (key_name) values ('pc');
 insert into repair_categories (key_name) values ('mobile');
@@ -53,10 +51,7 @@ insert into repair_work_prices (lower_border, upper_border, currency_id, work_id
 insert into repair_work_prices (lower_border, upper_border, currency_id, work_id) values (22.40,22.40,1,5);
 
 insert into repair_work_local_parts (name, language_id, work_id) values ('Battery replacement',1,1);
-
-insert into repair_work_has_status (repair_work_id, statuses) values (1,'VIP');
-insert into repair_work_has_status (repair_work_id, statuses) values (2,'VIP');
-insert into repair_work_has_status (repair_work_id, statuses) values (2,'SUSPENDED');
+insert into repair_work_local_parts (name, language_id, work_id) values ('Заміна батареї',2,1);
 
 insert into receipt_statuses (name) values ('CREATED');
 insert into receipt_statuses (name) values ('WAIT_FOR_PAYMENT');
