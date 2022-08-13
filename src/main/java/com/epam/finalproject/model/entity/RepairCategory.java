@@ -26,8 +26,7 @@ public class RepairCategory {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RepairWork> works = new HashSet<>();
 
-    @OneToMany
-    @JoinColumn(name = "repair_categories_id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RepairCategoryLocalPart> localParts;
 
 }

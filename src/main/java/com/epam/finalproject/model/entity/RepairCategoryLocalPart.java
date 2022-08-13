@@ -1,8 +1,6 @@
 package com.epam.finalproject.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -19,6 +17,9 @@ public class RepairCategoryLocalPart {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "category_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private RepairCategory category;
 
     @Column(nullable = false)
