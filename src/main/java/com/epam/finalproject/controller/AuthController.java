@@ -103,14 +103,7 @@ public class AuthController {
         if (optionalVerificationToken.isEmpty()){
             return "redirect:/auth/confirmRegister?errorNoFound";
         }
-        VerificationToken verificationToken = optionalVerificationToken.get();
-        if (verificationTokenService.isExpired(verificationToken)){
-            return "redirect:/auth/confirmRegister?errorExp";
-        }
-        if(!userService.isUserNotVerified(verificationToken.getUser())){
-            return "redirect:/auth/confirmRegister?errorVerify";
-        }
-        verificationTokenService.verifyByToken(verificationToken);
+        verificationTokenService.verifyByToken(optionalVerificationToken.orElseThrow());
         return "redirect:/auth/signin";
     }
 

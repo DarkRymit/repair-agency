@@ -2,7 +2,6 @@ package com.epam.finalproject.service.impl;
 
 import com.epam.finalproject.aop.logging.Loggable;
 import com.epam.finalproject.exceptions.SingUpException;
-import com.epam.finalproject.model.entity.Role;
 import com.epam.finalproject.model.entity.User;
 import com.epam.finalproject.model.entity.enums.RoleEnum;
 import com.epam.finalproject.payload.request.SignUpRequest;
@@ -55,16 +54,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
-    }
-
-    @Override
-    public boolean isUserHaveRoleWithName(User user, RoleEnum roleName) {
-        return user.getRoles().stream().map(Role::getName).anyMatch(eRole -> eRole.equals(roleName));
-    }
-
-    @Override
-    public boolean isUserNotVerified(User user) {
-        return isUserHaveRoleWithName(user,RoleEnum.UNVERIFIED);
     }
 
     @Override

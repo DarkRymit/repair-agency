@@ -76,8 +76,11 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     @Transactional
     @Loggable
     public void verifyByToken(VerificationToken token) {
-        Role role = roleRepository.findByName(RoleEnum.UNVERIFIED).orElseThrow();
+        if (isExpired(token)){
+            throw new IllegalArgumentException("Token expired");
+        }
         User user = token.getUser();
+        Role role = roleRepository.findByName(RoleEnum.UNVERIFIED).orElseThrow();
         user.deleteRole(role);
         userRepository.save(user);
         verificationTokenRepository.delete(token);
