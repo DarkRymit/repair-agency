@@ -14,7 +14,6 @@ import java.util.Set;
 
 @Repository
 public interface ReceiptStatusFlowRepository extends JpaRepository<ReceiptStatusFlow, Long> {
-    List<ReceiptStatusFlow> findAllByFromStatusAndToStatus(ReceiptStatus from, ReceiptStatus to);
 
     List<ReceiptStatusFlow> findDistinctByRoleIn(Set<Role> role);
     List<ReceiptStatusFlow> findDistinctByFromStatus_IdAndRoleIn(Long fromId,Set<Role> role);
