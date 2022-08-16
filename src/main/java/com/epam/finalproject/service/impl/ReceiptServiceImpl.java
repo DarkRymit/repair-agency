@@ -82,7 +82,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
         ReceiptDelivery delivery = buildBy(createRequest.getReceiptDelivery(), receipt);
 
-        Set<ReceiptItem> receiptItems = getReceiptItemSet(createRequest, receipt, currency);
+        Set<ReceiptItem> receiptItems = getReceiptItemSet(createRequest, receipt);
 
 
         receipt.setUser(customer);
@@ -112,7 +112,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
         AppCurrency currency = appCurrencyRepository.findByCode(request.getPriceCurrency()).orElseThrow();
 
-        Set<ReceiptItem> receiptItems = getReceiptItemSet(request, receipt, currency);
+        Set<ReceiptItem> receiptItems = getReceiptItemSet(request, receipt);
 
         receipt.setMaster(userRepository.findByUsername(request.getMasterUsername()).orElseThrow());
 
@@ -206,17 +206,17 @@ public class ReceiptServiceImpl implements ReceiptService {
         }
     }
 
-    private Set<ReceiptItem> getReceiptItemSet(ReceiptUpdateRequest updateRequest, Receipt receipt, AppCurrency currency) {
+    private Set<ReceiptItem> getReceiptItemSet(ReceiptUpdateRequest updateRequest, Receipt receipt) {
         return updateRequest.getReceiptItems()
                 .stream()
-                .map(e -> buildBy(e, receipt, currency))
+                .map(e -> buildBy(e, receipt))
                 .collect(Collectors.toSet());
     }
 
-    private Set<ReceiptItem> getReceiptItemSet(ReceiptCreateRequest createRequest, Receipt receipt, AppCurrency currency) {
+    private Set<ReceiptItem> getReceiptItemSet(ReceiptCreateRequest createRequest, Receipt receipt) {
         return createRequest.getReceiptItems()
                 .stream()
-                .map(e -> buildBy(e, receipt, currency))
+                .map(e -> buildBy(e, receipt))
                 .collect(Collectors.toSet());
     }
 
@@ -242,18 +242,17 @@ public class ReceiptServiceImpl implements ReceiptService {
                 .build();
     }
 
-    private ReceiptItem buildBy(ReceiptItemCreateRequest request, Receipt receipt, AppCurrency currency) {
+    private ReceiptItem buildBy(ReceiptItemCreateRequest request, Receipt receipt) {
         RepairWork repairWork = repairWorkRepository.findById(request.getRepairWorkID()).orElseThrow();
-        return ReceiptItem.builder().receipt(receipt).repairWork(repairWork).priceCurrency(currency).build();
+        return ReceiptItem.builder().receipt(receipt).repairWork(repairWork).build();
     }
 
-    private ReceiptItem buildBy(ReceiptItemUpdateRequest request, Receipt receipt, AppCurrency currency) {
+    private ReceiptItem buildBy(ReceiptItemUpdateRequest request, Receipt receipt) {
         RepairWork repairWork = repairWorkRepository.findById(request.getRepairWorkID()).orElseThrow();
         return ReceiptItem.builder()
                 .receipt(receipt)
                 .repairWork(repairWork)
                 .priceAmount(request.getPriceAmount())
-                .priceCurrency(currency)
                 .build();
     }
 

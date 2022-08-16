@@ -29,8 +29,4 @@ public class ReceiptItem {
     @Column(precision=19, scale=4)
     private BigDecimal priceAmount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false,name = "currency_id")
-    private AppCurrency priceCurrency;
-
 }
