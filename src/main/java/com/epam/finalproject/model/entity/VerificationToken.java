@@ -22,7 +22,7 @@ public class VerificationToken {
 
     private String token;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 

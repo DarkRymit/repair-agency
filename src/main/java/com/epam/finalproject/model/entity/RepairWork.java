@@ -17,7 +17,7 @@ public class RepairWork {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
@@ -25,10 +25,10 @@ public class RepairWork {
 
     private String keyName;
 
-    @OneToMany(mappedBy = "work",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "work",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RepairWorkLocalPart> localParts;
 
-    @OneToMany(mappedBy = "work",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "work",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RepairWorkPrice> prices;
 
 

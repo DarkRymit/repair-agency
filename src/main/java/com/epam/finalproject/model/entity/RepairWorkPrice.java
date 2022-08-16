@@ -18,7 +18,7 @@ public class RepairWorkPrice {
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private RepairWork work;
 
     @Column(nullable = false, precision=19, scale=4)
@@ -27,7 +27,7 @@ public class RepairWorkPrice {
     @Column(nullable = false, precision=19, scale=4)
     private BigDecimal upperBorder;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false,name = "currency_id")
     private AppCurrency currency;
 

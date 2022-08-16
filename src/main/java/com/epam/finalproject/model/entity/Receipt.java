@@ -28,33 +28,33 @@ public class Receipt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "receipt_status_id")
     private ReceiptStatus status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "master_id")
     private User master;
 
-    @OneToMany(mappedBy = "receipt",fetch = FetchType.EAGER,cascade = CascadeType.ALL ,orphanRemoval=true)
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "receipt",cascade = CascadeType.ALL ,orphanRemoval=true)
     private Set<ReceiptItem> items;
 
     @OneToOne(mappedBy = "receipt", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn()
     private ReceiptDelivery delivery;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private RepairCategory category;
 
     @Column(precision=19, scale=4)
     private BigDecimal totalPrice;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false,name = "currency_id")
     private AppCurrency priceCurrency;
 

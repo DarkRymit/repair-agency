@@ -17,13 +17,13 @@ public class RepairWorkLocalPart {
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private RepairWork work;
 
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false,name = "language_id")
     private AppLocale language;
 }

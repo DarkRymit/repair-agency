@@ -16,7 +16,7 @@ public class RepairCategoryLocalPart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
@@ -25,6 +25,6 @@ public class RepairCategoryLocalPart {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private AppLocale language;
 }
