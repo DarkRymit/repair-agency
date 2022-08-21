@@ -75,8 +75,8 @@
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text" id="basic-addon1">@</span>
                                                     <input class="form-control" id="masterInput"
-                                                           th:placeholder="${order.master.username}"
-                                                           th:value="${order.master.username}"
+                                                           th:placeholder="${order?.master?.username}"
+                                                           th:value="${order?.master?.username}"
                                                            type="text">
                                                 </div>
                                             </div>
@@ -116,7 +116,7 @@
                                                                th:value="${item.priceAmount}"
                                                                type="number">
                                                         <span class="input-group-text" id="basic-addon2"><strong
-                                                                th:text="${item.priceCurrency.code}">
+                                                                th:text="${order.priceCurrency.code}">
                                                         </strong></span>
                                                     </div>
                                                 </li>
