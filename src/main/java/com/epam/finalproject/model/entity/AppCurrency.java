@@ -18,5 +18,6 @@ public class AppCurrency implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 3)
     private String code;
 }

@@ -18,5 +18,6 @@ public class AppLocale  implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 10)
     private String lang;
 }

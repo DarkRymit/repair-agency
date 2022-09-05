@@ -64,11 +64,11 @@ public class Receipt {
     @Column(nullable = false)
     private Instant creationDate;
 
-    @Column
+    @Column(nullable = false , length = 20)
     @CreatedBy
     private String createdBy;
 
-    @Column
+    @Column(nullable = false , length = 20)
     @LastModifiedBy
     private String lastModifiedBy;
 

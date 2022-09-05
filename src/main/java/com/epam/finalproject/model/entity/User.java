@@ -30,20 +30,22 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true,  length = 20)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, length = 60)
+    @Column(nullable = false, length = 256)
     private String password;
 
+    @Column(nullable = false,  length = 20)
     private String firstName;
 
+    @Column(nullable = false,  length = 20)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = false,  length = 32)
     private String phone;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -59,12 +61,12 @@ public class User implements Serializable {
     @Column(nullable = false)
     private Instant creationDate;
 
-    @Column
+    @Column(length = 20)
     @LastModifiedBy
     private String lastModifiedBy;
 
     @LastModifiedDate
-    @Column
+    @Column(nullable = false)
     private Instant lastModifiedDate;
 
     public void addRole(Role role) {

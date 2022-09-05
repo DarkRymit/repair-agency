@@ -21,10 +21,10 @@ public class RepairWorkPrice {
     @ManyToOne(fetch = FetchType.LAZY)
     private RepairWork work;
 
-    @Column(nullable = false, precision=19, scale=4)
+    @Column(nullable = true, precision=19, scale=4)
     private BigDecimal lowerBorder;
 
-    @Column(nullable = false, precision=19, scale=4)
+    @Column(nullable = true, precision=19, scale=4)
     private BigDecimal upperBorder;
 
     @ManyToOne(fetch = FetchType.LAZY)

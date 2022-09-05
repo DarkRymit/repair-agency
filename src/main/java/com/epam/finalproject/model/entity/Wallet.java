@@ -22,7 +22,7 @@ public class Wallet implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 20)
     private String name;
 
     @Column(nullable = false, precision = 19, scale = 4)
