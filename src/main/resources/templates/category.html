@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -10,10 +9,9 @@
     <meta content="" name="description">
     <meta content="" name="author">
 
-    <title>Receipt</title>
-    <th:block th:insert="fragments/import.html :: bootstrap"></th:block>
-    <!-- Custom styles for this template-->
-    <link href="/css/animation.css" rel="stylesheet">
+    <title th:text="${category.name}"></title>
+    <th:block th:insert="fragments/import::bootstrap"></th:block>
+    <th:block th:insert="fragments/import::animation"></th:block>
 </head>
 
 <body>
@@ -40,27 +38,29 @@
                                                                 data-bs-toggle="collapse"
                                                                 th:data-bs-target="'#collapse'+${category.keyName}"
                                                                 type="button">
-                                                            List all works
+                                                            <th:block th:text="#{categories.listWorks}"/>
                                                         </button>
                                                     </h2>
                                                     <div class="accordion-collapse collapse show"
                                                          th:data-bs-parent="'#accordion'+${category.keyName}"
                                                          th:id="'collapse'+${category.keyName}">
-                                                        <ul class="list-group" th:each="work:${category.works}">
-                                                            <li class="list-group-item">
-                                                                <th:block th:text="${work.name}"></th:block>
-                                                                <br>
-                                                                <th:block th:text="${work.lowerBorder}"></th:block>
-                                                                <th:block th:text="${work.upperBorder}"></th:block>
-                                                                <strong th:text="${currency.code}"></strong>
-                                                            </li>
-                                                        </ul>
+                                                        <th:block th:each="work:${category.works}">
+
+                                                            <ul class="list-group">
+                                                                <li class="list-group-item">
+                                                                    <th:block th:text="${work.name}"/>
+                                                                    <br>
+                                                                    <th:block th:replace="fragments/workPricing::price(${work.lowerBorder},${work.upperBorder})"/>
+                                                                    <strong th:text="${currency.code}"> </strong>
+                                                                </li>
+                                                            </ul>
+                                                        </th:block>
                                                     </div>
                                                 </div>
                                             </li>
                                             <li class=" list-group-item">
-                                                <a class="btn btn-outline-primary" th:href="'/order/create?category='+${category.keyName} + '&' +'currency=USD'" role="button">
-                                                    Make order with this category
+                                                <a class="btn btn-outline-primary" th:href="@{/order/create(category=${category.keyName})}" role="button">
+                                                <th:block th:text="#{categories.makeOrder}"/>
                                                 </a>
                                             </li>
                                         </ul>

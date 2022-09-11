@@ -3,18 +3,16 @@
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title th:text="'Error'+' '+${status}">404</title>
-    <th:block th:insert="fragments/import.html :: bootstrap"></th:block>
-    <!-- Custom styles for this template-->
-    <link href="/css/errornoise.css" rel="stylesheet">
-    <link href="/css/animation.css" rel="stylesheet">
+    <title th:text="'Error'+' '+${status}"></title>
+    <th:block th:insert="fragments/import::bootstrap"></th:block>
+    <th:block th:insert="fragments/import::animation"></th:block>
+    <th:block th:insert="fragments/import::errorNoise"></th:block>
 </head>
 
 <body>
@@ -26,10 +24,9 @@
                     <div class="card-body p-0">
                         <div class="row">
                             <div class="col-lg-12 p-5 text-center">
-                                <div class="mx-auto error" th:data-text="${status}" th:text="${status}">404</div>
-                                <p class="lead mb-5" th:text="${error}">Not Found</p>
-<!--                                <p class="mb-0">Access to this resource is denied.</p>-->
-                                <a href="/">Home</a>
+                                <div class="mx-auto error" th:data-text="${status}" th:text="${status}"></div>
+                                <p class="lead mb-5" th:text="${error}"></p>
+                                <a href="/" > Home</a>
                             </div>
                         </div>
                     </div>

@@ -1,28 +1,29 @@
 <th:block xmlns:th="http://www.thymeleaf.org">
     <ul class="list-group text-center">
         <li class="list-group-item" th:fragment="apply">
-            <input class="btn btn-primary btn-user btn-block search-submit" type="submit"
-                   value="Apply">
+            <input class="btn btn-primary btn-user btn-block search-submit" th:value="#{search.apply}"
+                   type="submit">
         </li>
 
         <li class="list-group-item" th:fragment="sort(search)">
-            <label for="sort_select"> Sort by </label>
+            <label for="sort_select" th:text="#{sort.by}"></label>
             <select class="form-select" id="sort_select" name="sort">
-                <option th:selected="${search.sort=='create-time'&&search.sort==''}" value="create-time">creation time</option>
-                <option th:selected="${search.sort=='status'}" value="status">status</option>
-                <option th:selected="${search.sort=='price'}" value="price">price</option>
+                <option th:selected="${search.sort=='create-time'&&search.sort==''}" th:text="#{sort.by.createTime}"
+                        value="create-time"></option>
+                <option th:selected="${search.sort=='status'}" th:text="#{sort.by.status}" value="status"></option>
+                <option th:selected="${search.sort=='price'}" th:text="#{sort.by.price}" value="price"></option>
             </select>
         </li>
 
         <li class="list-group-item list-group-item-secondary" th:fragment="filter">
-            Filter by
+            <th:block th:text="#{filter.by}"/>
         </li>
 
         <li class="list-group-item" th:fragment="status(search)">
             <button class="btn btn-primary" data-bs-target="#collapseStatus"
                     data-bs-toggle="collapse"
                     type="button">
-                Status
+                <th:block th:text="#{search.by.status}"/>
             </button>
             <div class="collapse px-auto" id="collapseStatus"
                  th:classappend="${search?.status!= null && !search.status.isEmpty()} ? show">
@@ -34,7 +35,17 @@
                                type="checkbox"
                                value="wait">
                         <label class="form-check-label" for="flexCheckWaitForPayment">
-                            Wait for payment
+                            <th:block th:text="#{status.waitForPayment}"/>
+                        </label>
+                    </div>
+                    <div class="form-check list-group-item list-group-item-action">
+                        <input class="form-check-input" id="flexCheckCreated"
+                               name="status"
+                               th:checked="${search?.status?.contains('created')}"
+                               type="checkbox"
+                               value="created">
+                        <label class="form-check-label" for="flexCheckCreated">
+                            <th:block th:text="#{status.created}"/>
                         </label>
                     </div>
                     <div class="form-check list-group-item list-group-item-action">
@@ -43,7 +54,7 @@
                                type="checkbox"
                                value="paid">
                         <label class="form-check-label" for="flexCheckPaid">
-                            Paid
+                            <th:block th:text="#{status.paid}"/>
                         </label>
                     </div>
                     <div class="form-check list-group-item list-group-item-action">
@@ -52,7 +63,7 @@
                                type="checkbox"
                                value="work">
                         <label class="form-check-label" for="flexCheckInWork">
-                            In work
+                            <th:block th:text="#{status.inWork}"/>
                         </label>
                     </div>
                     <div class="form-check list-group-item list-group-item-action">
@@ -61,7 +72,7 @@
                                type="checkbox"
                                value="done">
                         <label class="form-check-label" for="flexCheckDone">
-                            Done
+                            <th:block th:text="#{status.done}"/>
                         </label>
                     </div>
                     <div class="form-check list-group-item list-group-item-action">
@@ -70,7 +81,7 @@
                                type="checkbox"
                                value="cancel">
                         <label class="form-check-label" for="flexCheckCanceled">
-                            Canceled
+                            <th:block th:text="#{status.canceled}"/>
                         </label>
                     </div>
                 </div>
@@ -81,14 +92,14 @@
             <button class="btn btn-primary" data-bs-target="#collapseMaster"
                     data-bs-toggle="collapse"
                     type="button">
-                Master
+                <th:block th:text="#{search.by.master}"/>
             </button>
             <div class="collapse px-auto" id="collapseMaster"
                  th:classappend="${search?.master!= null && !search.master.isBlank()} ? show">
                 <div class="list-group">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">@</span>
-                        <input class="form-control" name="master" placeholder="Username"
+                        <input class="form-control" name="master" th:placeholder="#{user.username}"
                                th:value="${search?.master}"
                                type="text">
                     </div>
@@ -99,14 +110,14 @@
             <button class="btn btn-primary" data-bs-target="#collapseCustomer"
                     data-bs-toggle="collapse"
                     type="button">
-                Customer
+                <th:block th:text="#{search.by.customer}"/>
             </button>
             <div class="collapse px-auto" id="collapseCustomer"
                  th:classappend="${search?.customer!= null && !search.customer.isBlank()} ? show">
                 <div class="list-group">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon2">@</span>
-                        <input class="form-control" name="customer" placeholder="Username"
+                        <input class="form-control" name="customer" th:placeholder="#{user.username}"
                                th:value="${search?.customer}"
                                type="text">
                     </div>

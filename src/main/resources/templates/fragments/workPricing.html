@@ -1,0 +1,15 @@
+<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="price(lower,upper)">
+    <th:block th:if="${lower != null && upper == null }">
+        <th:block th:text="#{work.price.from}"/> <th:block th:text="${@thymeleafUtil.formatNumber(lower,4)}"/>
+    </th:block>
+    <th:block th:if="${lower == null && upper != null }">
+        <th:block th:text="#{work.price.up}"/> <th:block th:text="${@thymeleafUtil.formatNumber(upper,4)}"/>
+    </th:block>
+    <th:block th:if="${lower != null && upper != null && lower.compareTo(upper)==0}">
+        <th:block th:text="${@thymeleafUtil.formatNumber(lower,0)}"/>
+    </th:block>
+    <th:block th:if="${lower != null && upper != null && lower.compareTo(upper)!=0}">
+        <th:block th:text="#{work.price.fromUp.from}"/> <th:block th:text="${@thymeleafUtil.formatNumber(lower,4)}"/>
+        <th:block th:text="#{work.price.fromUp.to}"/> <th:block th:text="${@thymeleafUtil.formatNumber(upper,4)}"/>
+    </th:block>
+</th:block>

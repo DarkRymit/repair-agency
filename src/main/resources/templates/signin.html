@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -9,14 +9,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Sign In</title>
+    <title th:text="#{signIn}"></title>
 
-    <!-- CSS only -->
-    <th:block th:insert="fragments/import.html :: bootstrap"></th:block>
-    <link href="/css/animation.css" rel="stylesheet">
+    <th:block th:insert="fragments/import::bootstrap"></th:block>
+    <th:block th:insert="fragments/import::animation"></th:block>
 </head>
 
 <body class="bg-gradient-primary">
+    <th:block th:include="fragments/header.html :: main"></th:block>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6 fadeIn">
@@ -27,13 +27,11 @@
                             <div class="col-lg-12">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 mb-4" th:text="#{signIn}"></h1>
                                     </div>
-                                    <th:block th:if="${error}">
-                                        <div class="alert alert-danger fadeIn" id="myAlert" role="alert">
-                                            Username or Password not match
+                                        <div th:if="${error}" class="alert alert-danger fadeIn" id="myAlert" role="alert">
+                                            <th:block th:text="#{signIn.error}"/>
                                         </div>
-                                    </th:block>
                                     <script>
                                         document.addEventListener('DOMContentLoaded', () => {
                                             setTimeout(() => {
@@ -44,27 +42,27 @@
                                     </script>
 
                                     <form method="post" th:action="@{/auth/signin}"
-                                          class="user text-center">
-                                        <div class="form-group">
-                                            <div class="form-floating mb-2">
-                                                <input type="text" id="username" name="username"
-                                                       class="form-control mb-2" required placeholder="Username">
-                                                <label for="username">Username</label>
-                                            </div>
-                                            <div class="form-floating mb-2">
-                                                <input type="password" id="password" name="password"
-                                                       class="form-control" required placeholder="Password">
-                                                <label for="password">Password</label>
-                                            </div>
+                                    class="user text-center">
+                                    <div class="form-group">
+                                        <div class="form-floating mb-2">
+                                            <input type="text" id="username" name="username"
+                                                   class="form-control mb-2" required placeholder="Username">
+                                            <label for="username" th:text="#{signIn.username}"></label>
                                         </div>
-                                        <input type="submit" class="btn btn-primary btn-user btn-block" value="Sign In">
+                                        <div class="form-floating mb-2">
+                                            <input type="password" id="password" name="password"
+                                                   class="form-control" required placeholder="Password">
+                                            <label for="password" th:text="#{signIn.password}"></label>
+                                        </div>
+                                    </div>
+                                    <input type="submit" class="btn btn-primary btn-user btn-block" th:value="#{signIn}">
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" th:href="'/auth/resetpassword'">Forgot Password?</a>
+                                        <a class="small" th:href ="@{/auth/resetpassword}" th:text="#{password.reset.title}"></a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" th:href="'/auth/signup'">Create an Account!</a>
+                                        <a class="small" th:href ="@{/auth/signup}" th:text="#{create}"></a>
                                     </div>
                                 </div>
                             </div>
@@ -77,8 +75,7 @@
         </div>
 
     </div>
-
-    <th:block th:replace="fragments/import.html :: bootstrapScript"></th:block>
+    <th:block th:insert="fragments/import::bootstrapScript"></th:block>
 </body>
 
 </html>

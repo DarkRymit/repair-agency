@@ -15,14 +15,14 @@
             <div class="col-10">
                 <th:block th:insert="fragments/table.html :: simple(~{::#receiptHead},~{::#receiptBody})">
                     <tr class="head" id="receiptHead">
-                        <th scope="col">ID</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Master</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Creation time</th>
-                        <th scope="col">Delivery</th>
-                        <th scope="col">Action</th>
+                        <th scope="col" th:text="#{order.id.name}"></th>
+                        <th scope="col" th:text="#{order.status.name}"></th>
+                        <th scope="col" th:text="#{order.master.name}"></th>
+                        <th scope="col" th:text="#{order.category.name}"></th>
+                        <th scope="col" th:text="#{order.totalPrice.name}"></th>
+                        <th scope="col" th:text="#{order.creationDate.name}"></th>
+                        <th scope="col" th:text="#{order.delivery.title}"></th>
+                        <th scope="col" th:text="#{order.action}"></th>
                     </tr>
                     <tr class="body table-light" id="receiptBody" th:each="receipt:${receipts.getContent()}">
                         <th:block th:insert="fragments/table-data :: receipt-id(${receipt})"></th:block>
@@ -46,11 +46,11 @@
             <div class="col-10">
                 <th:block th:insert="fragments/table.html :: simple(~{::#receiptHead1},~{::#receiptBody1})">
                     <tr class="head" id="receiptHead1">
-                        <th scope="col">ID</th>
-                        <th scope="col">Master</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Rate</th>
+                        <th scope="col" th:text="#{order.id.name}"></th>
+                        <th scope="col" th:text="#{order.master.name}"></th>
+                        <th scope="col" th:text="#{order.category.name}"></th>
+                        <th scope="col" th:text="#{order.totalPrice.name}"></th>
+                        <th scope="col" th:text="#{order.response.rating.name}"></th>
                     </tr>
                     <tr class="body table-light" id="receiptBody1" th:each="response:${responses}">
                         <th:block th:insert="fragments/table-data :: response-id(${response})"></th:block>
@@ -78,15 +78,42 @@
                     <div class="col-6" th:each="wallet:${wallets}">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Wallet</h5>
+                                <h5 class="card-title" th:text="#{wallet.name}"></h5>
                                 <h6 class="card-subtitle" th:text="${wallet.name}"></h6>
-                                <i  class="card-text" th:text="${wallet.moneyAmount}"></i>
+                                <i  class="card-text" th:text="${@thymeleafUtil.formatNumber(wallet.moneyAmount,4)}"></i>
                                 <i  class="card-text" th:text="${wallet.moneyCurrency.code}"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row mx-auto">
+        <div class="col-6 mx-auto">
+            <form method="post"
+            th:action="@{/wallet/create}" class="text-center">
+            <input hidden name="redirectUrl" th:value="${#request.getRequestURL()}">
+            <div class="form-group">
+                <label for="name" th:text="#{wallet.create.name}">
+                </label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="currency" th:text="#{wallet.create.currency}">
+                </label>
+                <select class="form-control" id="currency" name="currency">
+                    <th:block th:each="currency:${currencies}">
+                        <option th:value="${currency.code}">
+                            <strong th:text="${currency.code}"></strong>
+                        </option>
+                    </th:block>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" id="submit" th:text="#{wallet.create}">
+            </button>
+            </form>
         </div>
     </div>
 </th:block>

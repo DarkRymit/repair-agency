@@ -1,19 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
     <meta content="" name="description">
     <meta content="" name="author">
-
-    <title>Receipt</title>
-    <th:block th:insert="fragments/import.html :: bootstrap"></th:block>
-    <!-- Custom styles for this template-->
-    <link href="/css/animation.css" rel="stylesheet">
+    <title th:text="#{categories.title}"></title>
+    <th:block th:insert="fragments/import::bootstrap"></th:block>
+    <th:block th:insert="fragments/import::animation"></th:block>
 </head>
 
 <body>
@@ -25,52 +21,55 @@
                     <div class="card-body p-0">
                         <div class="row">
                             <div class="col-lg-12 p-5 text-center">
-                                <ul class="list-group" th:each="category:${categories}">
-                                    <li class="list-group-item">
-                                        <ul class="list-group">
-                                            <li class=" list-group-item">
-                                                <i th:text="${category.name}"></i>
-                                            </li>
-                                            <li class=" list-group-item accordion accordion-flush"
-                                                th:id="'accordion'+${category.keyName}">
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header" th:id="'heading'+${category.keyName}">
-                                                        <button aria-expanded="false"
-                                                                class="accordion-button collapsed text-center"
-                                                                data-bs-toggle="collapse"
-                                                                th:data-bs-target="'#collapse'+${category.keyName}"
-                                                                type="button">
-                                                            List all works
-                                                        </button>
-                                                    </h2>
-                                                    <div class="accordion-collapse collapse"
-                                                         th:data-bs-parent="'#accordion'+${category.keyName}"
-                                                         th:id="'collapse'+${category.keyName}">
-                                                        <ul class="list-group" th:each="work:${category.works}">
-                                                            <li class="list-group-item">
-                                                                <th:block th:text="${work.name}"></th:block>
-                                                                <br>
-                                                                <th:block th:text="${work.lowerBorder}"></th:block>
-                                                                <th:block th:text="${work.upperBorder}"></th:block>
-                                                                <strong th:text="${currency.code}"></strong>
-                                                            </li>
-                                                        </ul>
+                                <th:block th:each="category:${categories}">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <ul class="list-group">
+                                                <li class=" list-group-item">
+                                                    <i th:text="${category.name}"></i>
+                                                </li>
+                                                <li class=" list-group-item accordion accordion-flush"
+                                                    th:id="'accordion'+${category.keyName}">
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header" th:id="'heading'+${category.keyName}">
+                                                            <button aria-expanded="false"
+                                                                    class="accordion-button collapsed text-center"
+                                                                    data-bs-toggle="collapse"
+                                                                    th:data-bs-target="'#collapse'+${category.keyName}"
+                                                                    type="button">
+                                                                <th:block th:text="#{categories.listWorks}"/>
+                                                            </button>
+                                                        </h2>
+                                                        <div class="accordion-collapse collapse"
+                                                             th:data-bs-parent="'#accordion'+${category.keyName}"
+                                                             th:id="'collapse'+${category.keyName}">
+                                                            <th:block th:each="work:${category.works}">
+                                                                <ul class="list-group">
+                                                                    <li class="list-group-item">
+                                                                        <th:block th:text="${work.name}"/>
+                                                                        <br>
+                                                                        <th:block th:replace="fragments/workPricing::price(${work.lowerBorder},${work.upperBorder})"/>
+                                                                        <strong th:text="${currency.code}"></strong>
+                                                                    </li>
+                                                                </ul>
+                                                            </th:block>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </li>
-                                            <li class=" list-group-item">
-                                                <a class="btn btn-outline-primary" th:href="'/category/'+${category.keyName}" role="button">
-                                                    More about
-                                                </a>
-                                            </li>
-                                            <li class=" list-group-item">
-                                                <a class="btn btn-outline-primary" th:href="'/order/create?category='+${category.keyName} + '&' +'currency=USD'" role="button">
-                                                    Make order with this category
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                                                </li>
+                                                <li class=" list-group-item">
+                                                    <a class="btn btn-outline-primary" th:href="@{/category/{category}(category = ${category.keyName})}" role="button">
+                                                    <th:block th:text="#{categories.moreAbout}"/>
+                                                    </a>
+                                                </li>
+                                                <li class=" list-group-item">
+                                                    <a class="btn btn-outline-primary" th:href="@{/order/create(category=${category.keyName})}" role="button">
+                                                    <th:block th:text="#{categories.makeOrder}"/>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </th:block>
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -10,14 +9,14 @@
     <meta content="" name="description">
     <meta content="" name="author">
 
-    <title>Receipt</title>
-    <th:block th:insert="fragments/import.html :: bootstrap"></th:block>
-    <th:block th:insert="fragments/import.html :: font-awesome"></th:block>
-    <!-- Custom styles for this template-->
-    <link href="/css/animation.css" rel="stylesheet">
+    <title th:text="#{order.title}"></title>
+    <th:block th:insert="fragments/import::bootstrap"></th:block>
+    <th:block th:insert="fragments/import::animation"></th:block>
+    <th:block th:insert="fragments/import::font-awesome"></th:block>
 </head>
 
 <body>
+    <th:block th:include="fragments/header.html :: main"></th:block>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-4 fadeIn">
@@ -25,50 +24,52 @@
                     <div class="card-body p-0">
                         <div class="row">
                             <div class="col-lg-12 p-5 text-center">
-                                <strong> Order </strong>
+                                <strong  th:text="#{order.title}"> </strong>
                                 <ul class="list-group">
                                     <li class="list-group-item">
-                                        <strong>ID</strong>
+                                        <strong th:text="#{order.id.name}"></strong>
                                         <span>:</span>
-                                        <strong th:text="${order.id}"></strong>
+                                        <strong th:text=" ${order.id}"> </strong>
                                     </li>
                                     <li class="list-group-item">
-                                        <strong>Customer</strong>
+                                        <strong th:text="#{order.user.name}"></strong>
                                         <span>:</span>
                                         <a class=" text-dark text-decoration-none"
-                                           th:href="'/user/'+${order.user.id}+'/profile'"
-                                           th:text="'@'+${order.user.username}"></a>
+                                        th:href="@{/user/{id}/profile(id = ${order.user.id})}"
+                                           th:text="'@'+${order.user.username}"
+                                        >
+                                        </a>
                                     </li>
                                     <li class="list-group-item">
-                                        <strong>Category</strong>
+                                        <strong th:text="#{order.category.name}"></strong>
                                         <span>:</span>
-                                        <th:block th:text="${order.category.name}"></th:block>
+                                        <th:block th:text="${order.category.name}"/>
                                     </li>
                                     <li class="list-group-item">
-                                        <strong>Total price</strong>
+                                        <strong th:text="#{order.totalPrice.name}"></strong>
                                         <span>:</span>
-                                        <th:block th:text="${order.totalPrice}"></th:block>
-                                        <strong th:text="${order.priceCurrency.code}"></strong>
+                                        <th:block th:text="${@thymeleafUtil.formatNumber(order.totalPrice,4)}"/>
+                                        <strong th:text="${order.priceCurrency.code}" ></strong>
                                     </li>
                                 </ul>
-                                <strong> Pick a wallet </strong>
+                                <strong th:text="#{order.pay.pickWallet}"> </strong>
                                 <form id="form" method="post"
-                                      th:action="@{/order/{id}/pay(id=${order.id})}">
-                                    <ul class="list-group">
-                                        <li class="list-group-item">
-                                            <select class="form-select text-center" name="walletId"
-                                                    id="walletId">
-                                                <th:block th:each="wallet:${wallets}">
-                                                    <option th:value="${wallet.id}">
-                                                        <strong  th:text="${wallet.name}"></strong>
-                                                        <strong  th:text="${wallet.moneyAmount}"></strong>
-                                                        <strong  th:text="${wallet.moneyCurrency.code}"></strong>
-                                                    </option>
-                                                </th:block>
-                                            </select>
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-primary" id="submit" type="submit">Pay</button>
+                                th:action="@{/order/{id}/pay(id=${order.id})}">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <select class="form-select text-center" name="walletId"
+                                                id="walletId">
+                                            <th:block th:each="wallet:${wallets}">
+                                                <option th:value="${wallet.id}">
+                                                    <strong th:text="${wallet.name}"></strong>
+                                                    <strong th:text="${@thymeleafUtil.formatNumber(wallet.moneyAmount,4)}"></strong>
+                                                    <strong th:text="${wallet.moneyCurrency.code}"> </strong>
+                                                </option>
+                                            </th:block>
+                                        </select>
+                                    </li>
+                                </ul>
+                                <button class="btn btn-primary" id="submit" type="submit" th:text="#{order.pay.button}"></button>
                                 </form>
                             </div>
                         </div>
@@ -78,8 +79,6 @@
         </div>
     </div>
 
-
-    <!-- JavaScript -->
     <th:block th:replace="fragments/import.html :: bootstrapScript"></th:block>
 </body>
 

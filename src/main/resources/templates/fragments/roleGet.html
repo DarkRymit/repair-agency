@@ -1,0 +1,8 @@
+<th:block th:switch="${role}" xmlns:th="http://www.thymeleaf.org" th:fragment="role(role)">
+    <strong th:case="'UNVERIFIED'" th:text="#{role.unverified}"></strong>
+    <strong th:case="'BLOCKED'" th:text="#{role.blocked}"></strong>
+    <strong th:case="'CUSTOMER'" th:text="#{role.customer}"></strong>
+    <strong th:case="'MASTER'" th:text="#{role.master}"></strong>
+    <strong th:case="'MANAGER'" th:text="#{role.manager}"></strong>
+    <strong th:case="'ADMIN'" th:text="#{role.admin}"></strong>
+</th:block>

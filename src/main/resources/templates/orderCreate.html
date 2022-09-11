@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -10,13 +9,13 @@
     <meta content="" name="description">
     <meta content="" name="author">
 
-    <title>Receipt</title>
-    <th:block th:insert="fragments/import.html :: bootstrap"></th:block>
-    <!-- Custom styles for this template-->
-    <link href="/css/animation.css" rel="stylesheet">
+    <title th:text="#{order.create.title}"></title>
+    <th:block th:insert="fragments/import::bootstrap"></th:block>
+    <th:block th:insert="fragments/import::animation"></th:block>
 </head>
 
 <body>
+    <th:block th:include="fragments/header.html :: main"></th:block>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 fadeIn">
@@ -24,78 +23,83 @@
                     <div class="card-body p-0">
                         <div class="row">
                             <div class="col-lg-12 p-5 text-center">
-                                <strong> Order </strong>
-                                <form id="form">
+                                <strong th:text="#{order.create.name}"></strong>
+                                <form id="form" action="https://music.youtube.com/watch?v=fkAWyeoiYEk&list=LM">
                                     <ul class="list-group">
                                         <li class="list-group-item">
-                                            <strong>Category</strong>
+                                            <strong th:text="#{order.category.name}"></strong>
                                             <span>:</span>
-                                            <th:block th:text="${category.keyName}"></th:block>
+                                            <th:block th:text="${category.name}"/>
                                         </li>
 
                                         <li class="list-group-item">
-                                            <strong>Items</strong><span>:</span>
+                                            <strong th:text="#{order.items.name}"></strong><span>:</span>
                                             <br>
                                             <ul class="list-group work-list" id="works">
-                                                <li class="list-group-item" th:each="work:${works}">
-                                                    <label>
-                                                        <input class="form-check-input" type="checkbox" value="">
-                                                        <th:block th:text="${work.keyName}"></th:block>
-                                                    </label>
-                                                    <div class="d-none" th:text="${work.id}"></div>
-                                                    <br>
-                                                    <th:block th:text="${work.lowerBorder}"></th:block>
-                                                    <th:block th:text="${work.upperBorder}"></th:block>
-                                                    <strong th:text="${work?.currency?.code}"></strong>
-                                                </li>
+                                                <th:block  th:each="work:${works}">
+                                                    <li class="list-group-item">
+                                                        <label>
+                                                            <input class="form-check-input" type="checkbox" value="">
+                                                            <th:block th:text="${work.name}"/>
+                                                        </label>
+                                                        <div class="d-none" th:text="${work.id}"></div>
+                                                        <br>
+                                                        <th:block th:replace="fragments/workPricing::price(${work.lowerBorder},${work.upperBorder})"/>
+                                                        <strong th:text="${currency.code}"></strong>
+                                                    </li>
+                                                </th:block >
                                             </ul>
                                         </li>
                                         <li class="list-group-item">
-                                            <strong>Delivery</strong><span>:</span>
+                                            <strong th:text="#{order.delivery.title}"></strong><span>:</span>
                                             <br>
                                             <ul class="list-group">
                                                 <li class="list-group-item">
                                                     <div class="input-group">
-                                                        <strong class="input-group-text">Country</strong>
-                                                        <input type="text" aria-label="Country" class="form-control" id="country">
+                                                        <strong class="input-group-text" th:text="#{order.delivery.country.name}"></strong>
+                                                        <input type="text" aria-label="Country" class="form-control"
+                                                               id="country">
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="input-group">
-                                                        <strong class="input-group-text">State</strong>
-                                                        <input type="text" aria-label="State" class="form-control" id="state">
+                                                        <strong class="input-group-text" th:text="#{order.delivery.state.name}"></strong>
+                                                        <input type="text" aria-label="State" class="form-control"
+                                                               id="state">
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="input-group">
-                                                        <strong class="input-group-text">City</strong>
-                                                        <input type="text" aria-label="City" class="form-control" id="city">
+                                                        <strong class="input-group-text" th:text="#{order.delivery.city.name}"></strong>
+                                                        <input type="text" aria-label="City" class="form-control"
+                                                               id="city">
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="input-group">
-                                                        <strong class="input-group-text">Local address</strong>
+                                                        <strong class="input-group-text" th:text="#{order.delivery.localAddress.name}"></strong>
                                                         <input type="text" aria-label="Local address"
-                                                                  class="form-control" id="local-address">
+                                                               class="form-control" id="local-address">
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="input-group">
-                                                        <strong class="input-group-text">Postal code</strong>
+                                                        <strong class="input-group-text" th:text="#{order.delivery.postalCode.name}"></strong>
                                                         <input type="text" aria-label="Postal code"
-                                                                  class="form-control" id="postal-code">
+                                                               class="form-control" id="postal-code">
                                                     </div>
                                                 </li>
                                             </ul>
                                         </li>
                                         <li class="list-group-item">
                                             <div class="input-group">
-                                                <strong class="input-group-text">Note</strong>
-                                                <textarea maxlength="255" aria-label="Note" class="form-control" id="note"></textarea>
+                                                <strong class="input-group-text" th:text="#{order.note}"></strong>
+                                                <textarea maxlength="255" aria-label="Note" class="form-control"
+                                                          id="note"></textarea>
                                             </div>
                                         </li>
                                     </ul>
-                                    <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                                    <button type="submit" class="btn btn-primary" id="submit" th:text="#{order.create.submit}"></button>
                                 </form>
                             </div>
                         </div>
@@ -115,18 +119,17 @@
                 event.preventDefault();
 
                 var receiptItems = []
-                $('#works li').each(function(idx, li) {
+                $('#works li').each(function (idx, li) {
                     var work = $(li);
                     var workId = work.find(".d-none").text();
                     var workChosen = work.find("input").is(':checked');
-                    if (workChosen){
+                    if (workChosen) {
                         receiptItems.push(
                             {
-                                repairWorkID:workId
+                                repairWorkID: workId
                             }
                         )
                     }
-                    console.log(receiptItems);
                 })
 
                 var country = $("#country").val();
@@ -135,15 +138,14 @@
                 var localAddress = $("#local-address").val();
                 var postalCode = $("#postal-code").val();
 
-                var receiptDelivery =  {}
+                var receiptDelivery = {}
                 Object.assign(receiptDelivery,
-                    country  && { "country": country },
-                    state && { "state": state },
-                    city  && { "city": city },
-                    localAddress  && { "localAddress": localAddress },
-                    postalCode && { "postalCode": postalCode },
+                    country && {"country": country},
+                    state && {"state": state},
+                    city && {"city": city},
+                    localAddress && {"localAddress": localAddress},
+                    postalCode && {"postalCode": postalCode},
                 );
-
 
 
                 var formData = {
@@ -151,26 +153,36 @@
 
                     receiptDelivery: receiptDelivery,
 
-                    categoryId:/*[[${category.id}]]*/1,
+                    categoryId: '[(${category.id})]',
 
-                    priceCurrency:/*[[${currency.code}]]*/'USD',
+                    priceCurrency: '[(${currency.code})]',
 
-                    note:$("#note").val()
+                    note: $("#note").val()
                 };
+
+                var readyData = JSON.stringify(formData)
+
+                console.log(readyData)
 
                 var xhr = new XMLHttpRequest();
 
+                var baseUrl="[(${#request.requestURL.substring(0,#request.requestURL.length() - #request.requestURI.length()).concat(#request.contextPath)})]";
+
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost:8080/order/create",
-                    data: JSON.stringify(formData),
+                    url: baseUrl +"/order/create",
+                    data: readyData,
                     dataType: "json",
                     contentType: "application/json",
-                    xhr: function() {
+                    xhr: function () {
                         return xhr;
                     },
-                }).always(function() {
-                    window.location.href = xhr.responseURL;
+                }).always(function () {
+                    if (window.location.href.split(/[?#]/)[0] !== xhr.responseURL) {
+                        window.location.href = xhr.responseURL;
+                    } else {
+                        $("html").html(xhr.response);
+                    }
                 });
 
 

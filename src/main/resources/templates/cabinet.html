@@ -4,9 +4,10 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <tn:block th:insert="fragments/import.html :: bootstrap"></tn:block>
+    <tn:block th:insert="fragments/import.html :: animation"></tn:block>
     <tn:block th:insert="fragments/import.html :: font-awesome"></tn:block>
-    <link href="/css/cabinet.css" rel="stylesheet">
-    <title>Title</title>
+    <link th:href="@{/css/cabinet.css}" rel="stylesheet">
+    <title th:text="#{header.cabinet}"></title>
 </head>
 <body>
     <th:block th:include="fragments/svg.html :: svg"></th:block>
@@ -20,19 +21,16 @@
 
         <div class="flex-shrink-0 flex-grow-1 customContent p-3 bg-white">
             <th:block th:if="${type == 'manager'}">
-                <th:block th:include="${active == 'home'} ? ~{fragments/manager :: home} : ~{}"></th:block>
                 <th:block th:include="${active == 'orders'} ? ~{fragments/manager :: receipt(${search},${receipts},${flows})} :  ~{}"></th:block>
                 <th:block th:include="${active == 'users'} ? ~{fragments/manager :: user(${search},${users}) } : ~{}"></th:block>
                 <th:block th:include="${active == 'masters'} ? ~{fragments/manager :: master(${search},${masters}) } : ~{}"></th:block>
                 <th:block th:include="${active == 'responses'} ? ~{fragments/manager :: response(${responses}) } : ~{}"></th:block>
             </th:block>
             <th:block th:if="${type == 'master'}">
-                <th:block th:include="${active == 'home'} ? ~{fragments/master :: home} : ~{}"></th:block>
                 <th:block th:include="${active == 'orders'} ? ~{fragments/master :: receipt(${search},${receipts},${flows})} :  ~{}"></th:block>
                 <th:block th:include="${active == 'responses'} ? ~{fragments/master :: response(${responses}) } : ~{}"></th:block>
             </th:block>
             <th:block th:if="${type == 'customer'}">
-                <th:block th:include="${active == 'home'} ? ~{fragments/customer :: home} : ~{}"></th:block>
                 <th:block th:include="${active == 'orders'} ? ~{fragments/customer :: receipt(${search},${receipts},${flows})} :  ~{}"></th:block>
                 <th:block th:include="${active == 'responses'} ? ~{fragments/customer :: response(${responses}) } : ~{}"></th:block>
                 <th:block th:include="${active == 'wallets'} ? ~{fragments/customer :: wallet(${wallets}) } : ~{}"></th:block>

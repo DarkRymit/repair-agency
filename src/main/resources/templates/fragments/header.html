@@ -1,62 +1,8 @@
-<th:block th:fragment="manager" xmlns:th="http://www.thymeleaf.org">
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
-        <div class="container-fluid ">
-            <a class="navbar-brand" href="#">Navbar w/ text</a>
-            <button aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation"
-                    class="navbar-toggler"
-                    data-bs-target="#navbarText" data-bs-toggle="collapse" type="button">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto nav-justified">
-                    <li class="nav-item">
-                        <a class="nav-link " href="#">Main</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Cabinet</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto nav-justified">
-                    <li class="nav-item  dropdown py-lg-0 pb-1">
-                        <a aria-expanded="false" class="nav-link " data-bs-toggle="dropdown" href="#"
-                           id="navbarDropdownMenu1Link" role="button">
-                            Lang
-                        </a>
-                        <ul aria-labelledby="navbarDropdownMenu1Link"
-                            class="dropdown-menu dropdown-menu-lg-end bg-secondary text-center">
-                            <li><a class="dropdown-item" href="#">Lang 1</a></li>
-                            <li><a class="dropdown-item" href="#">Lang 2</a></li>
-                            <li><a class="dropdown-item" href="#">Lang 3</a></li>
-                        </ul>
-                    </li>
-                    <div class="nav-item dropdown">
-                        <a aria-expanded="false" class="nav-link d-lg-flex text-white " data-bs-toggle="dropdown"
-                           href="#" id="dropdownUser1" role="button">
-                            <img alt="" class="rounded-circle me-2" height="32" src="https://github.com/mdo.png"
-                                 width="32">
-                            <strong>mdo</strong>
-                        </a>
-                        <ul aria-labelledby="dropdownUser1"
-                            class="dropdown-menu dropdown-menu-lg-end dropdown-menu-dark text-small shadow">
-                            <li><a class="dropdown-item" href="#">New project...</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Sign out</a></li>
-                        </ul>
-                    </div>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</th:block>
 <th:block th:fragment="main" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
           xmlns:th="http://www.thymeleaf.org">
     <nav class="navbar fadeInDown navbar-expand-lg navbar-dark fixed-top bg-dark">
         <div class="container-fluid ">
-            <a class="navbar-brand" href="#">Navbar w/ text</a>
+            <a class="navbar-brand" href="#" th:text="#{main.title}"></a>
             <button aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
                     data-bs-target="#navbarText" data-bs-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
@@ -64,50 +10,62 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto text-center">
                     <li class="nav-item">
-                        <a class="nav-link " href="#">Home</a>
+                        <a class="nav-link " th:href="@{/}" th:text="#{header.main}"></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="'/category'">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" th:href="@{/category}" th:text="#{header.services}"></a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto text-center">
                     <li class="nav-item dropdown py-lg-0 pb-1">
                         <a aria-expanded="false" class="nav-link" data-bs-toggle="dropdown" data-bs-trigger="hover focus"
                            href="#" id="navbarDropdownMenu1Link" role="button">
-                            Lang
+                            <th:block th:text="#{header.lang}"/>
                         </a>
                         <ul aria-labelledby="navbarDropdownMenu1Link"
                             class="dropdown-menu  dropdown-menu-lg-end bg-secondary text-center">
-                            <li><a class="dropdown-item" th:href="${@thymeleafUtil.replaceOrAddParam('lang', 'uk')}">Українська</a></li>
-                            <li><a class="dropdown-item" th:href="${@thymeleafUtil.replaceOrAddParam('lang', 'en')}">English</a></li>
+                            <li><a class="dropdown-item" th:href="${@thymeleafUtil.replaceOrAddParam('lang', 'uk-UA')}" th:text="#{header.lang.uk}"></a>
+                            </li>
+                            <li><a class="dropdown-item" th:href="${@thymeleafUtil.replaceOrAddParam('lang', 'en-US')}" th:text="#{header.lang.en}"></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown py-lg-0 pb-1">
+                        <a aria-expanded="false" class="nav-link" data-bs-toggle="dropdown" data-bs-trigger="hover focus"
+                           href="#" id="navbarDropdownMenu2Link" role="button">
+                            <th:block th:text="#{header.currency}"/>
+                        </a>
+                        <ul aria-labelledby="navbarDropdownMenu2Link"
+                            class="dropdown-menu  dropdown-menu-lg-end bg-secondary text-center">
+                            <li><a class="dropdown-item" th:href="${@thymeleafUtil.replaceOrAddParam('currency', 'UAH')}" th:text="#{header.currency.uah}"></a>
+                            </li>
+                            <li><a class="dropdown-item" th:href="${@thymeleafUtil.replaceOrAddParam('currency', 'USD')}" th:text="#{header.currency.usd}"></a></li>
                         </ul>
                     </li>
                     <li class="nav-item px-lg-1 py-lg-0 py-1">
                         <th:block sec:authorize="isAuthenticated()">
-                            <a aria-expanded="false" class="nav-link" data-bs-toggle="dropdown" data-bs-trigger="hover focus" href="#"
+                            <a aria-expanded="false" class="nav-link" data-bs-toggle="dropdown"
+                               data-bs-trigger="hover focus" href="#"
                                id="mainUserBar" role="button" sec:authentication="name">
                             </a>
                             <ul aria-labelledby="navbarDropdownMenu1Link"
                                 class="dropdown-menu  dropdown-menu-lg-end bg-secondary text-center">
-                                <li><a class="dropdown-item btn nav-link" sec:authorize="hasRole('CUSTOMER')"
-                                       th:href="'/customer/orders'">Cabinet</a></li>
-                                <li><a class="dropdown-item btn nav-link" sec:authorize="hasRole('MASTER')"
-                                       th:href="'/master/orders'">Cabinet</a></li>
-                                <li><a class="dropdown-item btn nav-link" sec:authorize="hasRole('MANAGER')"
-                                       th:href="'/manager/orders'">Cabinet</a></li>
+                                    <li sec:authorize="hasRole('CUSTOMER')|| hasRole('ADMIN')">
+                                        <a class="dropdown-item btn nav-link"
+                                        th:href ="@{/customer/orders}" th:text="#{header.cabinet}"></a></li>
+                                    <li sec:authorize="hasRole('MASTER')|| hasRole('ADMIN')"><a class="dropdown-item btn nav-link"
+                                        th:href ="@{/master/orders}" th:text="#{header.cabinet}"></a></li>
+                                    <li sec:authorize="hasRole('MANAGER')|| hasRole('ADMIN')"><a class="dropdown-item btn nav-link"
+                                        th:href="@{/manager/orders}" th:text="#{header.cabinet}"></a></li>
                                 <li><a class="dropdown-item btn btn-outline-primary nav-link"
-                                       th:href="'/auth/signout'">Sign out</a></li>
+                                    th:href="@{/auth/signout}" th:text="#{header.signOut}"></a></li>
                             </ul>
                         </th:block>
-                        <a class="btn btn-outline-primary nav-link" href="/auth/signin" sec:authorize="isAnonymous()">Login</a>
+                        <th:block sec:authorize="isAnonymous()">
+                            <a class="btn btn-outline-primary nav-link" th:href="@{/auth/signin}">
+                            <th:block th:text="#{header.signIn}"/></a>
+                        </th:block>
                     </li>
-
                 </ul>
             </div>
         </div>

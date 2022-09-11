@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="author">
+    <title th:text="${user.username}"></title>
+    <th:block th:insert="fragments/import::bootstrap"></th:block>
+    <th:block th:insert="fragments/import::animation"></th:block>
+</head>
+
+<body>
+    <th:block th:include="fragments/header.html :: main"></th:block>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 fadeIn">
+                <div class="card shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-12 p-5 text-center">
+                                <strong th:text="${user.username}"></strong>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <strong th:text="#{user.email}"></strong>
+                                        <span>:</span>
+                                        <th:block th:text="${user.email}"/>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong th:text="#{user.name}"></strong>
+                                        <span>:</span>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <th:block th:text="${user.firstName}"/>
+                                            </div>
+                                            <div class="col-6">
+                                                <th:block th:text="${user.lastName}"/>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong th:text="#{user.creationDate}"></strong>
+                                        <span>:</span>
+                                        <th:block th:text="${@thymeleafUtil.format(user.creationDate)}"/>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong th:text="#{user.roles}"></strong>
+                                        <span>:</span>
+                                        <br>
+                                        <ul class="list-group">
+                                            <th:block th:each="role:${user.roles}">
+                                                <li class="list-group-item">
+                                                    <th:block th:replace="fragments/roleGet::role(${role.name})"/>
+                                                </li>
+                                            </th:block>
+                                        </ul>
+                                    </li>
+                                    <th:block sec:authorize="hasRole('MANAGER') || hasRole('ADMIN')" th:if="${@thymeleafUtil.hasRole(user,'CUSTOMER')}">
+                                            <li class="list-group-item">
+                                                <strong th:text="#{user.wallets}"></strong>
+                                                <span>:</span>
+                                                <br>
+                                                <ul class="list-group">
+                                                    <th:block th:each="wallet:${user.wallets}">
+                                                        <li class="list-group-item">
+                                                            <strong th:text="${wallet.name}"></strong>
+                                                            <strong th:text="${@thymeleafUtil.formatNumber(wallet.moneyAmount,4)}"></strong>
+                                                            <strong th:text="${wallet.moneyCurrency.code}"></strong>
+                                                        </li>
+                                                    </th:block>
+                                                </ul>
+                                            </li>
+
+                                            <li class="list-group-item">
+                                                <form method="post" th:action="@{/wallet/addMoney}" >
+                                                    <input hidden name="redirectUrl" th:value="'/user/' + ${user.id} +'/profile'">
+                                                    <label for="walletId" th:text="#{wallet.price.change.pickUp}"> </label>
+                                                    <select
+                                                            class="form-select" id="walletId" name="id">
+                                                        <th:block th:each="wallet:${user.wallets}">
+                                                            <option th:value="${wallet.id}">
+                                                                <strong th:text="${wallet.name}"></strong>
+                                                                <strong th:text="${@thymeleafUtil.formatNumber(wallet.moneyAmount,4)}"></strong>
+                                                                <strong th:text="${wallet.moneyCurrency.code}"></strong>
+                                                            </option>
+                                                        </th:block>
+                                                    </select>
+                                                    <div class="form-floating  mb-2">
+                                                        <input class="form-control price"
+                                                               id="moneyToAdd"
+                                                               name="moneyToAdd"
+                                                               required
+                                                               type="number">
+                                                        <label for="moneyToAdd">
+                                                            <th:block th:text="#{wallet.price.change.add.name}"/>
+                                                        </label>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary" id="submit">
+                                                        <th:block th:text="#{wallet.price.change.add.submit}"/></button>
+                                                </form>
+                                            </li>
+                                    </th:block>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:insert="fragments/import::bootstrapScript"></th:block>
+</body>
+
+</html>

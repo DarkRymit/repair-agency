@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -10,13 +9,13 @@
     <meta content="" name="description">
     <meta content="" name="author">
 
-    <title>Receipt</title>
-    <th:block th:insert="fragments/import.html :: bootstrap"></th:block>
-    <!-- Custom styles for this template-->
-    <link href="/css/animation.css" rel="stylesheet">
+    <title th:text="#{order.title}"></title>
+    <th:block th:insert="fragments/import::bootstrap"></th:block>
+    <th:block th:insert="fragments/import::animation"></th:block>
 </head>
 
 <body>
+    <th:block th:include="fragments/header.html :: main"></th:block>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-4 fadeIn">
@@ -24,53 +23,40 @@
                     <div class="card-body p-0">
                         <div class="row">
                             <div class="col-lg-12 p-5 text-center">
-                                <strong> Order </strong>
+                                <strong th:text="#{order.title}"> </strong>
                                 <form  id="form">
                                     <ul class="list-group">
                                         <li class="list-group-item">
-                                            <strong>ID</strong>
+                                            <strong th:text="#{order.id.name}"></strong>
                                             <span>:</span>
                                             <strong id="id" th:text="${order.id}"></strong>
                                         </li>
                                         <li class="list-group-item">
-                                            <strong>Customer</strong>
+                                            <strong th:text="#{order.user.name}"></strong>
                                             <span>:</span>
                                             <a class=" text-dark text-decoration-none"
-                                               th:href="'/user/'+${order.user.id}+'/profile'"
-                                               th:text="'@'+${order.user.username}"></a>
+                                            th:href="@{/user/{id}/profile(id = ${order.user.id})}"
+                                            th:text="'@'+${order.user.username}"
+                                            >
+                                            </a>
                                         </li>
                                         <li class="list-group-item">
-                                            <strong>Status</strong>
+                                            <strong th:text="#{order.status.name}"> </strong>
                                             <span>:</span>
                                             <select aria-label="Default select example" class="form-select text-center"
                                                     id="status">
                                                 <option selected th:value="${order.status.name}">
-                                                    <th:block th:switch="${order.status.name}">
-                                                        <strong th:case="'CREATED'">Created</strong>
-                                                        <strong th:case="'WAIT_FOR_PAYMENT'">Wait for payment</strong>
-                                                        <strong th:case="'PAID'">Paid</strong>
-                                                        <strong th:case="'IN_WORK'">In work</strong>
-                                                        <strong th:case="'DONE'">Done</strong>
-                                                        <strong th:case="'CANCELED'">Canceled</strong>
-                                                    </th:block>
+                                                    <th:block th:replace="fragments/statusGet::status(${order.status.name})"/>
                                                 </option>
                                                 <th:block th:each="flow:${flows}">
                                                     <option th:value="${flow.toStatus.name}">
-                                                        <th:block th:switch="${flow.toStatus.name}">
-                                                            <strong th:case="'CREATED'">Created</strong>
-                                                            <strong th:case="'WAIT_FOR_PAYMENT'">Wait for
-                                                                payment</strong>
-                                                            <strong th:case="'PAID'">Paid</strong>
-                                                            <strong th:case="'IN_WORK'">In work</strong>
-                                                            <strong th:case="'DONE'">Done</strong>
-                                                            <strong th:case="'CANCELED'">Canceled</strong>
-                                                        </th:block>
+                                                        <th:block th:replace="fragments/statusGet::status(${flow.toStatus.name})"/>
                                                     </option>
                                                 </th:block>
                                             </select>
                                         </li>
                                         <li class="list-group-item">
-                                            <label class="form-label" for="masterInput"><strong>Master</strong></label>
+                                            <label class="form-label" for="masterInput"><strong th:text="#{order.master.name}"> </strong></label>
                                             <div>
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text" id="basic-addon1">@</span>
@@ -82,53 +68,55 @@
                                             </div>
                                         </li>
                                         <li class="list-group-item">
-                                            <strong>Category</strong>
+                                            <strong th:text="#{order.category.name}"> </strong>
                                             <span>:</span>
-                                            <th:block th:text="${order.category.keyName}"></th:block>
+                                            <th:block th:text="${order.category.name}"/>
                                         </li>
                                         <li class="list-group-item">
-                                            <strong>Total price</strong>
+                                            <strong th:text="#{order.totalPrice.name}"> </strong>
                                             <span>:</span>
-                                            <th:block th:text="${order.totalPrice}"></th:block>
+                                            <th:block th:text="${@thymeleafUtil.formatNumber(order.totalPrice,4)}"/>
                                             <strong th:text="${order.priceCurrency.code}"></strong>
                                             <div class="input-group mb-3">
                                                 <label class="input-group-text"
-                                                       for="currency">Currency</label>
+                                                       for="currency" th:text="#{order.currency.name}"></label>
                                                 <select class="form-select" id="currency">
-                                                    <option th:each="currency:${currencies}"
-                                                            th:selected="${order.priceCurrency.code == currency.code}">
+                                                    <th:block th:each="currency:${currencies}">
+                                                        <option th:selected = "${order.priceCurrency.code == currency.code}" >
                                                         <strong th:text="${currency.code}"></strong>
-                                                    </option>
+                                                        </option>
+                                                    </th:block>
                                                 </select>
                                             </div>
                                         </li>
                                         <li class="list-group-item">
-                                            <strong>Items</strong><span>:</span>
+                                            <strong th:text="#{order.items.name}"></strong><span>:</span>
                                             <br>
-                                            <ul class="list-group" id="works" th:each="item:${order.items}">
-                                                <li class="list-group-item">
-                                                    <th:block th:text="${item.repairWork.keyName}"></th:block>
-                                                    <br>
-                                                    <div class="d-none" th:text="${item.repairWork.id}"></div>
-                                                    <div class="input-group mb-3">
-                                                        <input class="form-control price"
-                                                               th:placeholder="${item.priceAmount}"
-                                                               th:value="${item.priceAmount}"
-                                                               type="number">
-                                                        <span class="input-group-text" id="basic-addon2"><strong
-                                                                th:text="${order.priceCurrency.code}">
+                                            <th:block th:each="item:${order.items}">
+                                                <ul class="list-group" id="works">
+                                                    <li class="list-group-item">
+                                                        <th:block th:text="${item.repairWork.name}"/>
+                                                        <br>
+                                                        <div class="d-none" th:text="${item.repairWork.id}"></div>
+                                                        <div class="input-group mb-3">
+                                                            <input class="form-control price"
+                                                                   th:value="${item.priceAmount}"
+                                                                   th:placeholder="${@thymeleafUtil.formatNumber(item.priceAmount,4)}"
+                                                                   type="number">
+                                                            <span class="input-group-text" id="basic-addon2"><strong th:text="${order.priceCurrency.code}">
                                                         </strong></span>
-                                                    </div>
-                                                </li>
-                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </th:block>
                                         </li>
                                         <li class="list-group-item">
-                                            <strong>Delivery</strong><span>:</span>
+                                            <strong th:text="#{order.delivery.title}"> </strong><span>:</span>
                                             <br>
                                             <ul class="list-group">
                                                 <li class="list-group-item">
                                                     <div class="input-group mb-3">
-                                                        <label class="input-group-text" for="country">Country</label>
+                                                        <label class="input-group-text" for="country" th:text="#{order.delivery.country.name}"></label>
                                                         <input class="form-control" id="country"
                                                                th:placeholder="${order.delivery.country}"
                                                                th:value="${order.delivery.country}"
@@ -137,7 +125,7 @@
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="input-group mb-3">
-                                                        <label class="input-group-text" for="state">State</label>
+                                                        <label class="input-group-text" for="state" th:text="#{order.delivery.state.name}"></label>
                                                         <input class="form-control" id="state"
                                                                th:placeholder="${order.delivery.state}"
                                                                th:value="${order.delivery.state}"
@@ -146,7 +134,7 @@
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="input-group mb-3">
-                                                        <label class="input-group-text" for="city">City</label>
+                                                        <label class="input-group-text" for="city" th:text="#{order.delivery.city.name}"></label>
                                                         <input class="form-control" id="city"
                                                                th:placeholder="${order.delivery.city}"
                                                                th:value="${order.delivery.city}"
@@ -155,8 +143,7 @@
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="input-group mb-3">
-                                                        <label class="input-group-text" for="local-address">Local
-                                                            address</label>
+                                                        <label class="input-group-text" for="local-address" th:text="#{order.delivery.localAddress.name}"></label>
                                                         <input class="form-control" id="local-address"
                                                                th:placeholder="${order.delivery.localAddress}"
                                                                th:value="${order.delivery.localAddress}"
@@ -165,8 +152,7 @@
                                                 </li>
                                                 <li class="list-group-item">
                                                     <div class="input-group mb-3">
-                                                        <label class="input-group-text" for="postal-code">Postal
-                                                            code</label>
+                                                        <label class="input-group-text" for="postal-code" th:text="#{order.delivery.postalCode.name}"></label>
                                                         <input class="form-control" id="postal-code"
                                                                th:placeholder="${order.delivery.postalCode}"
                                                                th:value="${order.delivery.postalCode}"
@@ -176,24 +162,24 @@
                                             </ul>
                                         </li>
                                         <li class="list-group-item">
-                                            <strong>Created</strong>
+                                            <strong th:text="#{order.creationDate.name}"></strong>
                                             <span>:</span>
-                                            <strong th:text="${@thymeleafUtil.format(order.creationDate)}">14-01-2003</strong>
+                                            <strong th:text="${@thymeleafUtil.format(order.creationDate)}"></strong>
                                         </li>
                                         <li class="list-group-item">
-                                            <strong>Modified</strong>
+                                            <strong th:text="#{order.modifiedDate.name}"></strong>
                                             <span>:</span>
-                                            <strong th:text="${@thymeleafUtil.format(order.lastModifiedDate)}">14-01-2003</strong>
+                                            <strong th:text="${@thymeleafUtil.format(order.lastModifiedDate)}"></strong>
                                         </li>
                                         <li class="list-group-item">
                                             <div class="input-group">
-                                                <strong class="input-group-text">Note</strong>
+                                                <strong class="input-group-text" th:text="#{order.note}"></strong>
                                                 <textarea aria-label="Note" class="form-control" id="note"
-                                                          maxlength="255" th:text="${order.note}"></textarea>
+                                                          maxlength="255"  th:text="${order.note}"></textarea>
                                             </div>
                                         </li>
                                     </ul>
-                                    <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                                    <button type="submit" class="btn btn-primary" id="submit" th:text="#{order.create.submit}"> </button>
                                 </form>
                             </div>
                         </div>
@@ -207,6 +193,7 @@
     <!-- JavaScript -->
     <th:block th:replace="fragments/import.html :: ajax"></th:block>
     <th:block th:replace="fragments/import.html :: bootstrapScript"></th:block>
+
     <script th:inline="javascript">
         $(document).ready(function () {
             console.log('hi');
@@ -256,19 +243,30 @@
                     note: $("#note").val()
                 };
                 var id = $("#id").text();
+
+                var readyData = JSON.stringify(formData)
+
+                console.log(readyData)
+
                 var xhr = new XMLHttpRequest();
+
+                var baseUrl="[(${#request.requestURL.substring(0,#request.requestURL.length() - #request.requestURI.length()).concat(#request.contextPath)})]";
 
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost:8080/order/"+id+"/update",
-                    data: JSON.stringify(formData),
+                    url: baseUrl + "/order/"+id+"/update",
+                    data: readyData,
                     dataType: "json",
                     contentType: "application/json",
                     xhr: function () {
                         return xhr;
                     },
                 }).always(function () {
-                    window.location.href = xhr.responseURL;
+                    if (window.location.href.split(/[?#]/)[0] !== xhr.responseURL){
+                        window.location.href = xhr.responseURL;
+                    }else {
+                        $("html").html(xhr.response);
+                    }
                 });
 
 

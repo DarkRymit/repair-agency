@@ -1,0 +1,8 @@
+<th:block th:switch="${status}" xmlns:th="http://www.thymeleaf.org" th:fragment="status(status)">
+    <strong th:case="'CREATED'" th:text="#{status.created}"></strong>
+    <strong th:case="'WAIT_FOR_PAYMENT'" th:text="#{status.waitForPayment}"></strong>
+    <strong th:case="'PAID'" th:text="#{status.paid}"></strong>
+    <strong th:case="'IN_WORK'" th:text="#{status.inWork}"></strong>
+    <strong th:case="'DONE'" th:text="#{status.done}"></strong>
+    <strong th:case="'CANCELED'" th:text="#{status.canceled}"></strong>
+</th:block>

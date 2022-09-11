@@ -6,99 +6,84 @@
     </td>
     <td th:fragment="response-id(response)">
         <a class=" text-dark text-decoration-none"
-           th:href="'/order/'+${response.receipt.id}"
+           th:href="@{'/order/'+${response.receipt.id}}"
            th:text="${response.receipt.id}"></a>
     </td>
     <td th:fragment="receipt-id(receipt)">
         <a class=" text-dark text-decoration-none"
-           th:href="'/order/'+${receipt.id}"
+           th:href="@{'/order/'+${receipt.id}}"
            th:text="${receipt.id}"></a>
     </td>
     <td th:fragment="receipt-user(receipt)">
         <a class=" text-dark text-decoration-none"
-           th:href="'/user/'+${receipt.user.id}+'/profile'"
+           th:href="@{'/user/'+${receipt.user.id}+'/profile'}"
            th:text="'@'+${receipt.user.username}"></a>
     </td>
     <td th:fragment="receipt-status(receipt)">
         <th:block th:switch="${receipt.status.name}">
-            <span th:case="'CREATED'">Created</span>
-            <span th:case="'WAIT_FOR_PAYMENT'">Wait for payment</span>
-            <span th:case="'PAID'">Paid</span>
-            <span th:case="'IN_WORK'">In work</span>
-            <span th:case="'DONE'">Done</span>
-            <span th:case="'CANCELED'">Canceled</span>
+            <span th:case="'CREATED'" th:text="#{status.created}"></span>
+            <span th:case="'WAIT_FOR_PAYMENT'" th:text="#{status.waitForPayment}"></span>
+            <span th:case="'PAID'" th:text="#{status.paid}"></span>
+            <span th:case="'IN_WORK'" th:text="#{status.inWork}"></span>
+            <span th:case="'DONE'" th:text="#{status.done}"></span>
+            <span th:case="'CANCELED'" th:text="#{status.canceled}"></span>
         </th:block>
     </td>
     <td th:fragment="receipt-master(receipt)" th:switch="${receipt.master} == null">
         <i class=" text-dark text-decoration-none"
-           th:case="true">
-            Not assigned
+           th:case="true" th:text="#{order.master.notAssigned}">
         </i>
         <a class=" text-dark text-decoration-none"
            th:case="*"
-           th:href="'/user/'+${receipt.master.id}+'/profile'"
+           th:href="@{'/user/'+${receipt.master.id}+'/profile'}"
            th:text="'@'+${receipt.master.username}"></a>
     </td>
-    <td th:fragment="receipt-category(receipt)" th:text="${receipt.category.name}">notebook</td>
+    <td th:fragment="receipt-category(receipt)" th:text="${receipt.category.name}"></td>
 
-    <td th:fragment="receipt-price(receipt)">
-        <i th:text="${receipt.totalPrice}"></i>
-        <i th:text="${receipt.priceCurrency.code}"></i>
+    <td th:fragment="receipt-price(receipt)" th:switch="${receipt.totalPrice} == null">
+        <th:block th:case="true" >
+            <i th:text="#{order.totalPrice.notAssigned}"></i>
+        </th:block>
+        <th:block th:case="*">
+            <i th:text="${@thymeleafUtil.formatNumber(receipt.totalPrice,4)}"></i>
+            <i th:text="${receipt.priceCurrency.code}"></i>
+        </th:block>
     </td>
 
     <td th:fragment="receipt-creationDate(receipt)" th:text="${@thymeleafUtil.format(receipt.creationDate)}">
-        14-01-2003
     </td>
     <td th:fragment="receipt-delivery(receipt)">
         <ul class="list-group">
-            <li class="list-group-item" th:text="${receipt.delivery.country}">Ukraine</li>
-            <li class="list-group-item" th:text="${receipt.delivery.city}">Kyiv</li>
+            <li class="list-group-item" th:text="${receipt.delivery.country}"></li>
+            <li class="list-group-item" th:text="${receipt.delivery.city}"></li>
         </ul>
     </td>
     <td th:fragment="receipt-action(receipt,flows)">
-        <a class="btn btn-outline-primary" role="button" th:href="'/order/'+${receipt.id}">
-            View
+        <a class="btn btn-outline-primary" role="button" th:href="@{'/order/'+${receipt.id}}">
+            <th:block th:text="#{order.action.view}"/>
         </a>
-        <a class="btn btn-outline-primary" role="button" th:if="${receipt.status.name} == 'WAIT_FOR_PAYMENT' " sec:authorize="hasRole('CUSTOMER')" th:href="'/order/'+${receipt.id}+'/pay'">
-            Pay
+
+        <a class="btn btn-outline-primary" role="button" sec:authorize="hasRole('MANAGER') || hasRole('ADMIN')" th:href="@{'/order/'+${receipt.id}+'/update'}">
+            <th:block th:text="#{order.action.update}"/>
+        </a>
+        <a class="btn btn-outline-primary" role="button" th:if="${receipt.status.name} == 'WAIT_FOR_PAYMENT' " sec:authorize="hasRole('CUSTOMER')" th:href="@{'/order/'+${receipt.id}+'/pay'}">
+            <th:block th:text="#{order.action.pay}"/>
         </a>
         <div class="dropdown">
             <a aria-expanded="false" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
                id="dropdownMenuLink"
-               role="button">
-                Status
+               role="button" th:text="#{order.action.status}">
             </a>
             <ul aria-labelledby="dropdownMenuLink" class="dropdown-menu">
                 <th:block th:each="flow:${flows}">
                     <li th:if="${flow.fromStatus.id} == ${receipt.status.id}">
                         <form id="status-form" method="post" th:action="@{/order/{id}/status/change(id=${receipt.id})}">
-                            <th:block th:switch="${flow.toStatus.name}">
-                                <input name="statusId" th:value="${flow.toStatus.id}" type="hidden"/>
-                                <button class="btn dropdown-item btn-outline-primary"
-                                        role="button" th:case="'CREATED'"
-                                        type="submit">Created
-                                </button>
-                                <button class="btn dropdown-item btn-outline-primary"
-                                        role="button" th:case="'WAIT_FOR_PAYMENT'"
-                                        type="submit">Wait for payment
-                                </button>
-                                <button class="btn dropdown-item btn-outline-primary"
-                                        role="button" th:case="'PAID'"
-                                        type="submit">Paid
-                                </button>
-                                <button class="btn dropdown-item btn-outline-primary"
-                                        role="button" th:case="'IN_WORK'"
-                                        type="submit">In work
-                                </button>
-                                <button class="btn dropdown-item btn-outline-primary"
-                                        role="button" th:case="'DONE'"
-                                        type="submit">Done
-                                </button>
-                                <button class="btn dropdown-item btn-outline-primary"
-                                        role="button" th:case="'CANCELED'"
-                                        type="submit">Canceled
-                                </button>
-                            </th:block>
+                            <input name="statusId" th:value="${flow.toStatus.id}" type="hidden"/>
+                            <button class="btn dropdown-item btn-outline-primary"
+                                    role="button"
+                                    type="submit">
+                            <th:block th:replace="fragments/statusGet::status(${flow.toStatus.name})"/>
+                            </button>
                         </form>
                     </li>
                 </th:block>

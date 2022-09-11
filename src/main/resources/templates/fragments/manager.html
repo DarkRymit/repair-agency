@@ -16,15 +16,15 @@
             <div class="col-10">
                 <th:block th:insert="fragments/table.html :: simple(~{::#receiptHead},~{::#receiptBody})">
                     <tr class="head" id="receiptHead">
-                        <th scope="col">ID</th>
-                        <th scope="col">User</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Master</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Creation time</th>
-                        <th scope="col">Delivery</th>
-                        <th scope="col">Action</th>
+                        <th scope="col" th:text="#{order.id.name}"></th>
+                        <th scope="col" th:text="#{order.user.name}"></th>
+                        <th scope="col" th:text="#{order.status.name}"></th>
+                        <th scope="col" th:text="#{order.master.name}"></th>
+                        <th scope="col" th:text="#{order.category.name}"></th>
+                        <th scope="col" th:text="#{order.totalPrice.name}"></th>
+                        <th scope="col" th:text="#{order.creationDate.name}"></th>
+                        <th scope="col" th:text="#{order.delivery.title}"></th>
+                        <th scope="col" th:text="#{order.action}"></th>
                     </tr>
                     <tr class="body table-light" th:each="receipt:${receipts.getContent()}" id="receiptBody">
                         <th:block th:insert="fragments/table-data :: receipt-id(${receipt})"></th:block>
@@ -36,7 +36,6 @@
                         <th:block th:insert="fragments/table-data :: receipt-creationDate(${receipt})"></th:block>
                         <th:block th:insert="fragments/table-data :: receipt-delivery(${receipt})"></th:block>
                         <th:block th:insert="fragments/table-data :: receipt-action(${receipt},${flows})"></th:block>
-
                     </tr>
                 </th:block>
                 <th:block th:insert="~{fragments/pagination.html :: pagination(${receipts})}"></th:block>
@@ -49,16 +48,16 @@
             <div class="col-10">
                 <th:block th:insert="fragments/table.html :: simple(~{::#userHead},~{::#userBody})">
                     <tr class="head" id="userHead">
-                        <th scope="col">Username</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Roles</th>
+                        <th scope="col" th:text="#{table.username}"></th>
+                        <th scope="col" th:text="#{table.firstName}"></th>
+                        <th scope="col" th:text="#{table.lastName}"></th>
+                        <th scope="col" th:text="#{table.phone}"></th>
+                        <th scope="col" th:text="#{table.roles}"></th>
                     </tr>
                     <tr class="body table-light" th:each="user:${users.getContent()}" id="userBody">
                         <td>
                             <a class=" text-dark text-decoration-none"
-                               th:href="'/user/'+${user.id}+'/profile'"
+                               th:href="@{'/user/'+${user.id}+'/profile'}"
                                th:text="'@'+${user.username}"></a>
                         </td>
                         <td th:text="${user.firstName}"></td>
@@ -66,7 +65,7 @@
                         <td th:text="${user.phone}"></td>
                         <td>
                             <ul class="list-group" th:each="role:${user.roles}">
-                                <li class="list-group-item" th:text="${role.name}"></li>
+                                <li class="list-group-item"><th:block th:replace="fragments/roleGet::role(${role.name})"/></li>
                             </ul>
                         </td>
                     </tr>
@@ -81,16 +80,16 @@
             <div class="col-10">
                 <th:block th:insert="fragments/table.html :: simple(~{::#masterHead},~{::#masterBody})">
                     <tr class="head" id="masterHead">
-                        <th scope="col">Username</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Roles</th>
+                        <th scope="col" th:text="#{table.username}"></th>
+                        <th scope="col" th:text="#{table.firstName}"></th>
+                        <th scope="col" th:text="#{table.lastName}"></th>
+                        <th scope="col" th:text="#{table.phone}"></th>
+                        <th scope="col" th:text="#{table.roles}"></th>
                     </tr>
                     <tr class="body table-light" th:each="master:${masters.getContent()}" id="masterBody">
                         <td>
                             <a class=" text-dark text-decoration-none"
-                               th:href="'/user/'+${master.id}+'/profile'"
+                               th:href="@{'/user/'+${master.id}+'/profile'}"
                                th:text="'@'+${master.username}"></a>
                         </td>
                         <td th:text="${master.firstName}"></td>
@@ -98,7 +97,7 @@
                         <td th:text="${master.phone}"></td>
                         <td>
                             <ul class="list-group" th:each="role:${master.roles}">
-                                <li class="list-group-item" th:text="${role.name}"></li>
+                                <li class="list-group-item"><th:block th:replace="fragments/roleGet::role(${role.name})"/></li>
                             </ul>
                         </td>
                     </tr>
@@ -113,12 +112,12 @@
                 <div class="col-10">
                     <th:block th:insert="fragments/table.html :: simple(~{::#receiptHead1},~{::#receiptBody1})">
                         <tr class="head" id="receiptHead1">
-                            <th scope="col">ID</th>
-                            <th scope="col">User</th>
-                            <th scope="col">Master</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Rate</th>
+                            <th scope="col" th:text="#{order.id.name}"></th>
+                            <th scope="col" th:text="#{order.user.name}"></th>
+                            <th scope="col" th:text="#{order.master.name}"></th>
+                            <th scope="col" th:text="#{order.category.name}"></th>
+                            <th scope="col" th:text="#{order.totalPrice.name}"></th>
+                            <th scope="col" th:text="#{order.response.rating.name}"></th>
                         </tr>
                         <tr class="body table-light" id="receiptBody1" th:each="response:${responses}">
                             <th:block th:insert="fragments/table-data :: response-id(${response})"></th:block>

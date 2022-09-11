@@ -2,37 +2,37 @@
 
     <form id="search-form" method="get" th:action="@{/manager/users}" th:fragment="userSearch(search)">
         <ul class="list-group text-center">
-            <li class="list-group-item">
+            <li class="list-group-item" th:fragment="apply">
                 <input class="btn btn-primary btn-user btn-block search-submit" type="submit"
-                       value="Apply">
+                       th:value="#{search.apply}">
             </li>
             <li class="list-group-item">
-                <label for="sort_select"> Sort by </label>
+                <label for="sort_select" th:text="#{sort.by}"> </label>
                 <select class="form-select" id="sort_select" name="sort">
                     <option th:selected="${search.sort=='username'&&search.sort==''}"
                             value="username">
-                        username
+                        <th:block th:text="#{sort.by.username}"/>
                     </option>
                     <option th:selected="${search.sort=='name'}" value="name">
-                        name
+                        <th:block th:text="#{sort.by.name}"/>
                     </option>
                 </select>
             </li>
             <li class="list-group-item list-group-item-secondary">
-                Filter by
+                <th:block th:text="#{filter.by}"/>
             </li>
             <li class="list-group-item">
                 <button class="btn btn-primary" data-bs-target="#collapseUsername"
                         data-bs-toggle="collapse"
                         type="button">
-                    username
+                    <th:block th:text="#{search.by.username}"/>
                 </button>
                 <div class="collapse px-auto" id="collapseUsername"
                      th:classappend="${search?.username!= null && !search.username.isBlank()} ? show">
                     <div class="list-group">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">@</span>
-                            <input class="form-control" name="username" placeholder="Username"
+                            <input class="form-control" name="username" th:placeholder="#{user.username}"
                                    th:value="${search?.username}"
                                    type="text">
                         </div>
@@ -43,37 +43,37 @@
     </form>
     <form id="search-form" method="get" th:action="@{/manager/masters}" th:fragment="masterSearch(search)">
         <ul class="list-group text-center">
-            <li class="list-group-item">
+            <li class="list-group-item" th:fragment="apply">
                 <input class="btn btn-primary btn-user btn-block search-submit" type="submit"
-                       value="Apply">
+                       th:value="#{search.apply}">
             </li>
             <li class="list-group-item">
-                <label for="sort_select"> Sort by </label>
+                <label for="sort_select" th:text="#{sort.by}"> </label>
                 <select class="form-select" id="sort_select" name="sort">
                     <option th:selected="${search.sort=='username'&&search.sort==''}"
                             value="username">
-                        username
+                        <th:block th:text="#{sort.by.username}"/>
                     </option>
                     <option th:selected="${search.sort=='name'}" value="name">
-                        name
+                        <th:block th:text="#{sort.by.name}"/>
                     </option>
                 </select>
             </li>
             <li class="list-group-item list-group-item-secondary">
-                Filter by
+                <th:block th:text="#{filter.by}"/>
             </li>
             <li class="list-group-item">
                 <button class="btn btn-primary" data-bs-target="#collapseUsername"
                         data-bs-toggle="collapse"
                         type="button">
-                    username
+                    <th:block th:text="#{search.by.username}"/>
                 </button>
                 <div class="collapse px-auto" id="collapseUsername"
                      th:classappend="${search?.username!= null && !search.username.isBlank()} ? show">
                     <div class="list-group">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">@</span>
-                            <input class="form-control" name="username" placeholder="Username"
+                            <input class="form-control" name="username" th:placeholder="#{user.username}"
                                    th:value="${search?.username}"
                                    type="text">
                         </div>

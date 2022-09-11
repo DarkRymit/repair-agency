@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -9,15 +9,16 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Sign Up</title>
+    <title th:text="#{create}"></title>
 
 
     <!-- CSS only -->
-    <th:block th:insert="fragments/import.html :: bootstrap"></th:block>
-    <link href="/css/animation.css" rel="stylesheet">
+    <th:block th:insert="fragments/import::bootstrap"></th:block>
+    <th:block th:insert="fragments/import::animation"></th:block>
 </head>
 
 <body class="bg-gradient-primary">
+    <th:block th:include="fragments/header.html :: main"></th:block>
     <div class="container">
         <div class="card fadeIn shadow-lg my-5">
             <div class="card-body p-0">
@@ -26,84 +27,74 @@
                     <div class="col-lg-12">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 mb-4">Create an Account!</h1>
+                                <h1 class="h4 mb-4" th:text="#{create}"></h1>
                             </div>
-                            <form name="signup" method="post" th:action="@{/auth/signup}" th:object="${singUpForm}"
-                                  class="user text-center">
-                                <div class="form-floating mb-2">
-                                    <input type="text" th:field="*{username}" id="username" name="username"
-                                           class="form-control form-control-user mb-2" required placeholder="Username">
-                                    <label for="phone">Username</label>
+                            <form name="signup" method="post" th:action="@{/auth/signup}"
+                            class="user text-center">
+                            <div class="form-floating mb-2">
+                                <input type="text" id="username" name="username"
+                                       class="form-control form-control-user mb-2" required placeholder="Username">
+                                <label for="username" th:text="#{user.username}"></label>
+                            </div>
+                                <div th:if="${usernameError}" class="alert alert-danger fadeIn" id="usernameError" role="alert" >
+                                    <th:block  th:text="#{create.error.username}"/>
                                 </div>
-                                <th:block th:if="${usernameError}">
-                                    <div class="alert alert-danger fadeIn" id="usernameError" role="alert">
-                                        Username already registered
-                                    </div>
-                                </th:block>
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', () => {
-                                        setTimeout(() => {
-                                            const bsAlert = bootstrap.Alert.getOrCreateInstance('#usernameError');
-                                            bsAlert.close();
-                                        }, 3000);
-                                    });
-                                </script>
-                                <div class="row row-cols-2 gx-2 mb-2">
-                                    <div class="form-floating">
-                                        <input type="text" th:field="*{firstName}" id="firstName" name="firstName"
-                                               class="form-control form-control-user" required placeholder="First Name">
-                                        <label for="firstName">First Name</label>
-                                    </div>
-                                    <div class="form-floating">
-                                        <input type="text" th:field="*{lastName}" id="lastName" name="lastName"
-                                               class="form-control form-control-user" required placeholder="Last Name">
-                                        <label for="lastName">Last Name</label>
-                                    </div>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', () => {
+                                    setTimeout(() => {
+                                        const bsAlert = bootstrap.Alert.getOrCreateInstance('#usernameError');
+                                        bsAlert.close();
+                                    }, 3000);
+                                });
+                            </script>
+                            <div class="row row-cols-2 gx-2 mb-2">
+                                <div class="form-floating">
+                                    <input type="text"  id="firstName" name="firstName"
+                                           class="form-control form-control-user" required placeholder="First Name">
+                                    <label for="firstName"  th:text="#{user.firstName}"></label>
                                 </div>
-                                <div class="form-floating  mb-2">
-                                    <input type="email" th:field="*{email}" id="email" name="email"
-                                           class="form-control form-control-user mb-2" required placeholder="Email">
-                                    <label for="email">Email</label>
+                                <div class="form-floating">
+                                    <input type="text"  id="lastName" name="lastName"
+                                           class="form-control form-control-user" required placeholder="Last Name">
+                                    <label for="lastName"  th:text="#{user.lastName}"></label>
                                 </div>
-                                <th:block th:if="${emailError}">
-                                    <div class="alert alert-danger fadeIn" id="emailAlert" role="alert">
-                                        Email already registered
-                                    </div>
-                                </th:block>
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', () => {
-                                        setTimeout(() => {
-                                            const bsAlert = bootstrap.Alert.getOrCreateInstance('#emailAlert');
-                                            bsAlert.close();
-                                        }, 3000);
-                                    });
-                                </script>
-                                <div class="form-floating mb-2">
-                                    <input type="tel" th:field="*{phone}" id="phone" name="phone"
-                                           class="form-control form-control-user mb-2" required placeholder="Phone">
-                                    <label for="phone">Phone</label>
+                            </div>
+                            <div class="form-floating  mb-2">
+                                <input type="email"  id="email" name="email"
+                                       class="form-control form-control-user mb-2" required placeholder="Email">
+                                <label for="email"  th:text="#{user.email}"></label>
+                            </div>
+                                <div th:if="${emailError}" class="alert alert-danger fadeIn" id="emailAlert" role="alert">
+                                    <th:block  th:text="#{create.error.email}"/>
                                 </div>
-                                <div class="row row-cols-2 gx-2 mb-2">
-                                    <div class="form-floating">
-                                        <input type="password" th:field="*{password}" id="password" name="password"
-                                               class="form-control form-control-user" required placeholder="Password">
-                                        <label for="password">Password</label>
-                                    </div>
-                                    <div class="form-floating">
-                                        <input type="password" id="repassword" name="repassword"
-                                               class="form-control form-control-user" required
-                                               placeholder="Repead Password">
-                                        <label for="repassword">Repead Password</label>
-                                    </div>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', () => {
+                                    setTimeout(() => {
+                                        const bsAlert = bootstrap.Alert.getOrCreateInstance('#emailAlert');
+                                        bsAlert.close();
+                                    }, 3000);
+                                });
+                            </script>
+                            <div class="form-floating mb-2">
+                                <input type="tel"  id="phone" name="phone"
+                                       class="form-control form-control-user mb-2" required placeholder="Phone">
+                                <label for="phone"  th:text="#{user.phone}"></label>
+                            </div>
+                            <div class="form-floating  mb-2">
+                                <div class="form-floating">
+                                    <input type="password"  id="password" name="password"
+                                           class="form-control form-control-user" required placeholder="Password">
+                                    <label for="password" th:text="#{user.password}"></label>
                                 </div>
-                                <input type="submit" class="btn btn-primary btn-user btn-block" value="Sign Up">
+                            </div>
+                            <input type="submit" class="btn btn-primary btn-user btn-block" th:value="#{create}">
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" th:href="'/auth/resetpassword'">Forgot Password?</a>
+                                <a class="small" th:href ="@{/auth/resetpassword}" th:text="#{password.reset.title}"></a>
                             </div>
                             <div class="text-center">
-                                <a class="small" th:href="'/auth/signin'">Already have an account?</a>
+                                <a class="small" th:href ="@{/auth/signin}" th:text="#{signIn}"></a>
                             </div>
                         </div>
                     </div>
@@ -111,8 +102,7 @@
             </div>
         </div>
     </div>
-
-    <th:block th:replace="fragments/import.html :: bootstrapScript"></th:block>
+    <th:block th:insert="fragments/import::bootstrapScript"></th:block>
 </body>
 
 </html>
