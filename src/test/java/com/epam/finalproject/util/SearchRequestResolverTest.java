@@ -1,5 +1,6 @@
 package com.epam.finalproject.util;
 
+import com.epam.finalproject.config.SearchParameters;
 import com.epam.finalproject.model.entity.enums.ReceiptStatusEnum;
 import com.epam.finalproject.model.search.ReceiptSearch;
 import com.epam.finalproject.model.search.UserSearch;
@@ -56,7 +57,7 @@ class SearchRequestResolverTest {
 
     @BeforeEach
     void setUp() {
-        searchRequestResolver=new SearchRequestResolver(receiptSort,userSort,receiptStatus);
+        searchRequestResolver=new SearchRequestResolver(new SearchParameters(receiptSort,userSort,receiptStatus));
     }
 
     @Test

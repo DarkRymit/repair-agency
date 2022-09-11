@@ -1,7 +1,6 @@
 package com.epam.finalproject.repository;
 
 import com.epam.finalproject.model.entity.RepairWork;
-import com.epam.finalproject.model.entity.enums.RepairWorkStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,7 +30,6 @@ class RepairWorkRepositoryTest {
                 .orElseThrow();
         assertEquals("battery-replace", repairWork.getKeyName());
         assertEquals("notebook", repairWork.getCategory().getKeyName());
-        assertTrue(repairWork.getStatuses().contains(RepairWorkStatus.VIP));
     }
 
     @Test

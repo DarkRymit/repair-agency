@@ -1,5 +1,7 @@
 package com.epam.finalproject.service.impl;
 
+import com.epam.finalproject.dto.ReceiptDTO;
+import com.epam.finalproject.dto.UserDTO;
 import com.epam.finalproject.model.entity.Receipt;
 import com.epam.finalproject.model.entity.Role;
 import com.epam.finalproject.model.entity.User;
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -46,7 +49,6 @@ class SearchServiceImplTest {
     @Mock
     SearchRequestResolver searchRequestResolver;
 
-    @InjectMocks
     SearchServiceImpl searchService;
 
     Page<User> userPage;
@@ -57,8 +59,11 @@ class SearchServiceImplTest {
 
     UserSearch userSearch;
 
+    static ModelMapper modelMapper;
+
     @BeforeEach
     void setMockOutput() {
+        modelMapper = new ModelMapper();
         User user = User.builder()
                 .id(404L)
                 .username("NotDBStriker")
@@ -79,14 +84,15 @@ class SearchServiceImplTest {
 
         receiptSearch = ReceiptSearch.builder().build();
         userSearch = UserSearch.builder().build();
+        searchService = new SearchServiceImpl(receiptRepository,userRepository,searchRequestResolver,modelMapper);
     }
 
     @Test
     void findBySearchUsers() {
         when(userRepository.findAll((Specification<User>) any(), (Pageable) any())).thenReturn(userPage);
 
-        Page<User> foundPage = searchService.findBySearch(userSearch);
-        assertEquals(userPage,foundPage);
+        Page<UserDTO> foundPage = searchService.findBySearch(userSearch);
+        assertEquals(userPage.map(e->modelMapper.map(e,UserDTO.class)),foundPage);
     }
 
     @Test
@@ -95,16 +101,16 @@ class SearchServiceImplTest {
         when(userRepository.findAll((Specification<User>) any(), (Pageable) any())).thenReturn(userPage);
 
         UserSearchRequest request = new UserSearchRequest("",Set.of(),"",0,1);
-        Page<User> foundPage = searchService.findBySearch(request);
-        assertEquals(userPage,foundPage);
+        Page<UserDTO> foundPage = searchService.findBySearch(request);
+        assertEquals(userPage.map(e->modelMapper.map(e,UserDTO.class)),foundPage);
     }
 
     @Test
     void findBySearchReceipts() {
         when(receiptRepository.findAll((Specification<Receipt>) any(), (Pageable) any())).thenReturn(receiptPage);
 
-        Page<Receipt> foundPage = searchService.findBySearch(receiptSearch);
-        assertEquals(receiptPage,foundPage);
+        Page<ReceiptDTO> foundPage = searchService.findBySearch(receiptSearch);
+        assertEquals(receiptPage.map(e->modelMapper.map(e,ReceiptDTO.class)),foundPage);
     }
 
     @Test
@@ -113,8 +119,8 @@ class SearchServiceImplTest {
         when(receiptRepository.findAll((Specification<Receipt>) any(), (Pageable) any())).thenReturn(receiptPage);
 
         ReceiptSearchRequest request = new ReceiptSearchRequest("",Set.of(),"","",0,1);
-        Page<Receipt> foundPage = searchService.findBySearch(request);
-        assertEquals(receiptPage,foundPage);
+        Page<ReceiptDTO> foundPage = searchService.findBySearch(request);
+        assertEquals(receiptPage.map(e->modelMapper.map(e,ReceiptDTO.class)),foundPage);
 
     }
 }

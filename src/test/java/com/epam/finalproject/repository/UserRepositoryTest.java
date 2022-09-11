@@ -91,9 +91,4 @@ class UserRepositoryTest {
         assertFalse(userRepository.existsByEmail("notexist@gmail.com"));
     }
 
-    @Test
-    void findALLByRoles_Name() {
-        List<User> users = userRepository.findALLByRoles_Name(RoleEnum.UNVERIFIED);
-        assertFalse(users.isEmpty());
-    }
 }
