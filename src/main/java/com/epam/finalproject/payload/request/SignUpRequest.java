@@ -1,6 +1,7 @@
 package com.epam.finalproject.payload.request;
 
 
+import com.epam.finalproject.validators.PhoneNumber;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,24 +16,25 @@ import javax.validation.constraints.Size;
 public class SignUpRequest {
 
     @NotBlank
-    @Size(min = 3, max = 20)
+    @Size(min = 8, max = 14)
     private String username;
 
-    @NotBlank
-    @Size(max = 50)
     @Email
     private String email;
 
     @NotBlank
-    @Size(min = 6, max = 40)
+    @Size(min = 8, max = 14)
     private String password;
 
-    @Size(min = 2, max = 40)
+    @NotBlank
+    @Size(min = 1, max = 20)
     private String firstName;
 
-    @Size(min = 2, max = 40)
+    @NotBlank
+    @Size(min = 1, max = 20)
     private String lastName;
 
-    @Size(min = 6, max = 40)
+    @NotBlank
+    @PhoneNumber
     private String phone;
 }

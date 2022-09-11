@@ -1,6 +1,8 @@
 package com.epam.finalproject.service;
 
 import com.epam.finalproject.dto.WalletDTO;
+import com.epam.finalproject.payload.request.AddMoneyRequest;
+import com.epam.finalproject.payload.request.CreateWalletRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,4 +19,8 @@ public interface WalletService {
     Page<WalletDTO> findAll(Pageable pageable);
 
     WalletDTO findById(Long id);
+
+    WalletDTO addMoney(AddMoneyRequest request);
+
+    WalletDTO create(CreateWalletRequest request,String username);
 }

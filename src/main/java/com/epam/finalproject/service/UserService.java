@@ -1,5 +1,6 @@
 package com.epam.finalproject.service;
 
+import com.epam.finalproject.dto.UserDTO;
 import com.epam.finalproject.model.entity.User;
 import com.epam.finalproject.payload.request.SignUpRequest;
 
@@ -13,4 +14,6 @@ public interface UserService {
     boolean existsByEmail(String email);
 
     Optional<User> findByEmail(String email);
+
+    UserDTO findById(Long id);
 }

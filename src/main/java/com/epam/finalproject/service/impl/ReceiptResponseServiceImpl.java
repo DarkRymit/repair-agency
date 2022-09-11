@@ -17,9 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -34,10 +31,6 @@ public class ReceiptResponseServiceImpl implements ReceiptResponseService {
     ModelMapper modelMapper;
 
 
-    @Override
-    public List<ReceiptResponseDTO> findAll() {
-        return receiptResponseRepository.findAll().stream().map(this::constructDTO).collect(Collectors.toList());
-    }
 
     @Override
     public Page<ReceiptResponseDTO> findAll(Pageable pageable) {
@@ -75,10 +68,6 @@ public class ReceiptResponseServiceImpl implements ReceiptResponseService {
         return modelMapper.map(receiptResponse,ReceiptResponseDTO.class);
     }
 
-    @Override
-    public ReceiptResponseDTO findById(Long id) {
-        return constructDTO(receiptResponseRepository.findById(id).orElseThrow());
-    }
 
     @Override
     public ReceiptResponseDTO findByReceiptId(Long id) {

@@ -14,12 +14,17 @@ import java.util.Map;
 public class SearchConfig {
 
     @Bean
+    SearchParameters searchParameters(){
+        return new SearchParameters(receiptSort(),userSort(),receiptStatus());
+    }
+
+
     Map<String, Sort> receiptSort() {
         HashMap<String, Sort> hashMap = new HashMap<>();
 
         Sort sortByTime = Sort.by("creationDate");
 
-        hashMap.put("price", Sort.by("totalPrice").and(Sort.by("priceCurrency.code").and(sortByTime)));
+        hashMap.put("price", Sort.by("totalPrice").and(Sort.by("priceCurrency").and(sortByTime)));
         hashMap.put("create-time", sortByTime);
         hashMap.put("status", Sort.by("status").and(sortByTime));
         hashMap.put("", sortByTime);
@@ -27,10 +32,10 @@ public class SearchConfig {
         return Map.copyOf(hashMap);
     }
 
-    @Bean
     Map<String, ReceiptStatusEnum> receiptStatus() {
         HashMap<String, ReceiptStatusEnum> hashMap = new HashMap<>();
 
+        hashMap.put("created", ReceiptStatusEnum.CREATED);
         hashMap.put("done", ReceiptStatusEnum.DONE);
         hashMap.put("paid", ReceiptStatusEnum.PAID);
         hashMap.put("cancel", ReceiptStatusEnum.CANCELED);
@@ -40,7 +45,7 @@ public class SearchConfig {
         return Map.copyOf(hashMap);
     }
 
-    @Bean
+
     Map<String, Sort> userSort() {
         HashMap<String, Sort> hashMap = new HashMap<>();
 

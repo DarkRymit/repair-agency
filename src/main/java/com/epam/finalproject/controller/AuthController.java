@@ -4,7 +4,6 @@ import com.epam.finalproject.model.entity.PasswordResetToken;
 import com.epam.finalproject.model.entity.User;
 import com.epam.finalproject.model.entity.VerificationToken;
 import com.epam.finalproject.model.event.OnPasswordResetEvent;
-import com.epam.finalproject.model.event.OnRegistrationCompleteEvent;
 import com.epam.finalproject.payload.request.NewPasswordRequest;
 import com.epam.finalproject.payload.request.PasswordResetRequest;
 import com.epam.finalproject.payload.request.SignUpRequest;
@@ -14,16 +13,13 @@ import com.epam.finalproject.service.VerificationTokenService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -42,16 +38,15 @@ public class AuthController {
     ApplicationEventPublisher eventPublisher;
 
     @GetMapping("/signup")
-    String signUpPage(Model model) {
+    @PreAuthorize("isAnonymous()")
+    String signUpPage() {
         return "signup";
     }
-    @ModelAttribute("singUpForm")
-    public SignUpRequest signUpForm() {
-        return new SignUpRequest();
-    }
+
 
     @PostMapping("/signup")
-    String signUp(@ModelAttribute("singUpForm") @Valid SignUpRequest form, Model model, RedirectAttributes redirectedAttributes, HttpServletRequest request) {
+    @PreAuthorize("isAnonymous()")
+    String signUp(@Valid SignUpRequest form, RedirectAttributes redirectedAttributes) {
         boolean isErrorsExists = false;
         if (userService.existsByUsername(form.getUsername())) {
             isErrorsExists = true;
@@ -65,40 +60,34 @@ public class AuthController {
             return "redirect:/auth/signup";
         }
         User user = userService.signUpNewUserAccount(form);
-        log.info("Created user:" + user.toString());
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), getAppUrl(request)));
+        log.info("Created user: {}",user);
         return "redirect:/auth/confirmRegister";
     }
 
     @GetMapping("/signin")
+    @PreAuthorize("isAnonymous()")
     String signInPage(@RequestParam(value = "error", required = false) String error, Model model) {
         if(error!=null)
             model.addAttribute("error","true");
         return "signin";
     }
 
-    @GetMapping("/signout")
-    String signOut(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "redirect:/";
-    }
-
     @GetMapping("/confirmRegister")
+    @PreAuthorize("isAnonymous()")
     String confirmRegisterPage(){
         return "confirmRegister";
     }
 
     @GetMapping("/confirmRegister/{token}")
-    String confirmRegisterTokenPage(@PathVariable String token,Model model){
+    @PreAuthorize("isAnonymous()")
+    String confirmRegisterTokenPage(@PathVariable("token") String token, Model model){
         model.addAttribute("token",token);
         return "confirmRegisterToken";
     }
 
     @PostMapping("/confirmRegister/{token}")
-    String confirmRegisterToken(@PathVariable String token){
+    @PreAuthorize("isAnonymous()")
+    String confirmRegisterToken(@PathVariable("token") String token){
         Optional<VerificationToken> optionalVerificationToken = verificationTokenService.findByToken(token);
         if (optionalVerificationToken.isEmpty()){
             return "redirect:/auth/confirmRegister?errorNoFound";
@@ -108,40 +97,42 @@ public class AuthController {
     }
 
     @GetMapping("/resetpassword")
+    @PreAuthorize("isAnonymous()")
     String resetPasswordPage(){
         return "resetPassword";
     }
     @PostMapping("/resetpassword")
-    String resetPassword(HttpServletRequest request, PasswordResetRequest resetRequest){
+    @PreAuthorize("isAnonymous()")
+    String resetPassword(HttpServletRequest request, @Valid PasswordResetRequest resetRequest){
         User user = userService.findByEmail(resetRequest.getEmail()).orElseThrow();
-        eventPublisher.publishEvent(new OnPasswordResetEvent(user, request.getLocale(), getAppUrl(request)));
+        eventPublisher.publishEvent(new OnPasswordResetEvent(user, request.getLocale()));
         return "redirect:/auth/resetpassword/confirm";
     }
 
     @GetMapping("/resetpassword/confirm")
+    @PreAuthorize("isAnonymous()")
     String resetPasswordConfirmPage(){
         return "resetPasswordConfirm";
     }
 
     @GetMapping("/resetpassword/confirm/{token}")
-    String resetPasswordConfirmTokenPage(@PathVariable String token){
+    @PreAuthorize("isAnonymous()")
+    String resetPasswordConfirmTokenPage(Model model,@PathVariable("token") String token){
+        model.addAttribute("token",token);
         return "resetPasswordConfirmToken";
     }
     @PostMapping("/resetpassword/confirm/{token}")
-    String resetPasswordConfirmToken(@PathVariable String token, NewPasswordRequest newPasswordRequest){
-        Optional<PasswordResetToken> optionalPasswordResetRequest = passwordResetTokenService.findByToken(token);
-        if (optionalPasswordResetRequest.isEmpty()){
+    @PreAuthorize("isAnonymous()")
+    String resetPasswordConfirmToken(@PathVariable("token") String token, @Valid NewPasswordRequest newPasswordRequest){
+        Optional<PasswordResetToken> optionalPasswordResetToken = passwordResetTokenService.findByToken(token);
+        if (optionalPasswordResetToken.isEmpty()){
             return "redirect:/auth/resetpassword/confirm?errorNoFound";
         }
-        PasswordResetToken passwordResetToken = optionalPasswordResetRequest.get();
+        PasswordResetToken passwordResetToken = optionalPasswordResetToken.get();
         if (passwordResetTokenService.isExpired(passwordResetToken)){
             return "redirect:/auth/resetpassword/confirm?errorExp";
         }
         passwordResetTokenService.newPassword(passwordResetToken,newPasswordRequest);
         return "redirect:/auth/signin";
-    }
-
-    private String getAppUrl(HttpServletRequest request) {
-        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
 }

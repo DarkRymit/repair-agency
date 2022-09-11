@@ -60,12 +60,6 @@ public class ReceiptStatusFlowServiceImpl implements ReceiptStatusFlowService {
     }
 
     @Override
-    public ReceiptStatusFlowDTO findByStatusesFromToAndRoleEnum(ReceiptStatus from, ReceiptStatus to, RoleEnum name) {
-        return constructDTO(receiptStatusFlowRepository.findByFromStatusAndToStatusAndRole_Name(from, to, name)
-                .orElseThrow());
-    }
-
-    @Override
     @Loggable
     public List<ReceiptStatusFlowDTO> listAllAvailableForUser(String username) {
         User user = userRepository.findByUsername(username).orElseThrow();

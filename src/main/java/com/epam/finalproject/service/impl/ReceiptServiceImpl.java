@@ -55,18 +55,8 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     ModelMapper modelMapper;
 
-    @Override
-    public List<ReceiptDTO> findAll() {
-        return receiptRepository.findAll(Sort.by("creationTime"))
-                .stream()
-                .map(this::constructDTO)
-                .collect(Collectors.toList());
-    }
 
-    @Override
-    public Page<ReceiptDTO> findAll(Pageable pageable) {
-        return receiptRepository.findAll(pageable).map(this::constructDTO);
-    }
+
 
     @Override
     @Transactional
@@ -257,6 +247,10 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     private BigDecimal getReceiptTotalPriceAmount(Set<ReceiptItem> receiptItems) {
-        return receiptItems.stream().map(ReceiptItem::getPriceAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
+        List<BigDecimal> prices = receiptItems.stream().map(ReceiptItem::getPriceAmount).collect(Collectors.toList());
+        if (prices.contains(null)) {
+            return null;
+        }
+        return prices.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

@@ -3,6 +3,7 @@ package com.epam.finalproject.repository;
 import com.epam.finalproject.model.entity.RepairWork;
 import com.epam.finalproject.model.entity.RepairWorkLocalPart;
 import com.epam.finalproject.model.entity.RepairWorkPrice;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +16,8 @@ import java.util.Optional;
 public interface RepairWorkRepository extends JpaRepository<RepairWork, Long> {
     List<RepairWork> findByKeyName(String key);
     List<RepairWork> findByCategoryKeyName(String key);
+
+    @EntityGraph(attributePaths = {"category"})
     Optional<RepairWork> findByKeyNameAndCategory_KeyName(String workKey, String categoryKey);
 
     @Query("SELECT l FROM RepairWork r join r.localParts l where r.id = :workId and l.language.lang = :lang")

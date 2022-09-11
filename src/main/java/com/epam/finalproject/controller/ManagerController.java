@@ -7,11 +7,14 @@ import com.epam.finalproject.dto.UserDTO;
 import com.epam.finalproject.payload.request.search.MasterSearchRequest;
 import com.epam.finalproject.payload.request.search.ReceiptSearchRequest;
 import com.epam.finalproject.payload.request.search.UserSearchRequest;
-import com.epam.finalproject.service.*;
+import com.epam.finalproject.service.ReceiptResponseService;
+import com.epam.finalproject.service.ReceiptStatusFlowService;
+import com.epam.finalproject.service.SearchService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +31,7 @@ import java.util.Optional;
 @RequestMapping("/manager")
 @AllArgsConstructor
 @Slf4j
+@PreAuthorize("hasRole('MANAGER') || hasRole('ADMIN')")
 public class ManagerController {
 
     public static final String ACTIVE = "active";
@@ -41,16 +46,9 @@ public class ManagerController {
     ReceiptResponseService receiptResponseService;
     ReceiptStatusFlowService receiptStatusFlowService;
 
-
-    @GetMapping("/home")
-    String homePage(Model model) {
-        model.addAttribute(ACTIVE, "home");
-        model.addAttribute(TYPE, MANAGER);
-        return MANAGER_VIEW;
-    }
-
     @GetMapping("/orders")
-    String ordersPage(Model model, @AuthenticationPrincipal UserDetails userDetails, ReceiptSearchRequest receiptSearchRequest) {
+    String ordersPage(Model model,@AuthenticationPrincipal UserDetails userDetails, @Valid
+    ReceiptSearchRequest receiptSearchRequest) {
         Page<ReceiptDTO> receipts = searchService.findBySearch(receiptSearchRequest);
         List<ReceiptStatusFlowDTO> flows = receiptStatusFlowService.listAllAvailableForUser(userDetails.getUsername());
         model.addAttribute("flows",flows);
@@ -62,7 +60,7 @@ public class ManagerController {
     }
 
     @GetMapping("/users")
-    String usersPage(Model model, UserSearchRequest userSearchRequest) {
+    String usersPage(Model model,@Valid  UserSearchRequest userSearchRequest) {
         Page<UserDTO> users = searchService.findBySearch(userSearchRequest);
         model.addAttribute(SEARCH,userSearchRequest);
         model.addAttribute("users", users);
@@ -72,7 +70,7 @@ public class ManagerController {
     }
 
     @GetMapping("/masters")
-    String mastersPage(Model model, MasterSearchRequest masterSearchRequest) {
+    String mastersPage(Model model, @Valid  MasterSearchRequest masterSearchRequest) {
         Page<UserDTO> masters = searchService.findBySearch(masterSearchRequest);
         model.addAttribute(SEARCH,masterSearchRequest);
         model.addAttribute("masters", masters);
@@ -81,9 +79,9 @@ public class ManagerController {
         return MANAGER_VIEW;
     }
     @GetMapping("/responses")
-    String responsesPage(Model model,@RequestParam(required = false) Integer page) {
+    String responsesPage(Model model,@RequestParam(value = "page",required = false) Integer page) {
         int actualPage = Optional.ofNullable(page).orElse(0);
-        Page<ReceiptResponseDTO> responses = receiptResponseService.findAll(PageRequest.of(actualPage,10));
+        Page<ReceiptResponseDTO> responses = receiptResponseService.findAll(PageRequest.of(actualPage,5));
         model.addAttribute("responses", responses);
         model.addAttribute(ACTIVE, "responses");
         model.addAttribute(TYPE, MANAGER);
