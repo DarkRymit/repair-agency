@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Loggable {
 
-    Level level() default Level.INFO;
+    Level level() default Level.DEBUG;
 
     String log() default "";
 
