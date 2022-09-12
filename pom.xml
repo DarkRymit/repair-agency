@@ -124,11 +124,6 @@
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
-        </dependency>
-        <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
             <version>3.1.0</version>
@@ -139,29 +134,7 @@
             <version>8.12.49</version>
         </dependency>
     </dependencies>
-    <repositories>
-        <repository>
-            <id>invesdwin-oss</id>
-            <url>https://invesdwin.de/repo/invesdwin-oss-remote</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>invesdwin-oss</id>
-            <url>https://invesdwin.de/repo/invesdwin-oss-remote</url>
-        </pluginRepository>
-    </pluginRepositories>
-    <profiles>
-        <profile>
-            <id>HAL_EXPLORER</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.springframework.data</groupId>
-                    <artifactId>spring-data-rest-hal-explorer</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
+
 
     <build>
         <plugins>
