@@ -63,7 +63,7 @@
                                                     <input class="form-control" id="masterInput"
                                                            th:placeholder="${order?.master?.username}"
                                                            th:value="${order?.master?.username}"
-                                                           type="text">
+                                                           type="text" minlength="8" maxlength="14">
                                                 </div>
                                             </div>
                                         </li>
@@ -102,7 +102,7 @@
                                                             <input class="form-control price"
                                                                    th:value="${item.priceAmount}"
                                                                    th:placeholder="${@thymeleafUtil.formatNumber(item.priceAmount,4)}"
-                                                                   type="number">
+                                                                   type="number" min="0">
                                                             <span class="input-group-text" id="basic-addon2"><strong th:text="${order.priceCurrency.code}">
                                                         </strong></span>
                                                         </div>
@@ -120,7 +120,7 @@
                                                         <input class="form-control" id="country"
                                                                th:placeholder="${order.delivery.country}"
                                                                th:value="${order.delivery.country}"
-                                                               type="text">
+                                                               type="text" required>
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
@@ -138,7 +138,7 @@
                                                         <input class="form-control" id="city"
                                                                th:placeholder="${order.delivery.city}"
                                                                th:value="${order.delivery.city}"
-                                                               type="text">
+                                                               type="text" required>
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
@@ -147,7 +147,7 @@
                                                         <input class="form-control" id="local-address"
                                                                th:placeholder="${order.delivery.localAddress}"
                                                                th:value="${order.delivery.localAddress}"
-                                                               type="text">
+                                                               type="text" required>
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item">
